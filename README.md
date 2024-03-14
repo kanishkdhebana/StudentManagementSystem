@@ -1,2 +1,10 @@
 # StudentManagementSystem
-college project
+
+
+# Templates
+html files
+
+# VirtualEnv
+virtual environment
+
+

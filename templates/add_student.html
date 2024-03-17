@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], select, input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add New Student</h1>
+    <form method="POST" action="/add_student">
+        <label for="student_id">Student ID:</label>
+        <input type="text" id="student_id" name="student_id" required><br>
+
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required><br>
+
+        <label for="middle_name">Middle Name:</label>
+        <input type="text" id="middle_name" name="middle_name" required><br>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required><br>
+
+        <label for="sex">Sex:</label>
+        <select id="sex" name="sex" required>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="degree_name">Degree Name:</label>
+        <input type="text" id="degree_name" name="degree_name" required><br>
+
+        <label for="grad_level">Graduation Level:</label>
+        <select id="grad_level" name="grad_level" required>
+            <option value="B.Tech">B.Tech</option>
+            <option value="M.Tech">M.Tech</option>
+            <option value="PhD">PhD</option>
+        </select><br>
+
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required><br>
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required><br>
+
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state" required><br>
+
+        <label for="address_pin">Address Pin:</label>
+        <input type="text" id="address_pin" name="address_pin" required><br>
+
+        <label for="father_name">Father's Name:</label>
+        <input type="text" id="father_name" name="father_name" required><br>
+
+        <label for="mother_name">Mother's Name:</label>
+        <input type="text" id="mother_name" name="mother_name" required><br>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required><br>
+
+        <label for="bloodgroup">Blood Group:</label>
+        <select id="bloodgroup" name="bloodgroup" required>
+            <option value="" disabled selected>Select Blood Group</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+        </select>
+
+        <label for="doa">Date of Admission:</label>
+        <input type="date" id="doa" name="doa" required><br>
+
+        <label for="father_occ">Father's Occupation:</label>
+        <input type="text" id="father_occ" name="father_occ" required><br>
+
+        <label for="mother_occ">Mother's Occupation:</label>
+        <input type="text" id="mother_occ" name="mother_occ" required><br>
+
+        <label for="student_phoneno">Student Phone Number:</label>
+        <input type="text" id="student_phoneno" name="student_phoneno" required><br>
+
+        <label for="guardian_phoneno">Guardian's Phone Number:</label>
+        <input type="text" id="guardian_phoneno" name="guardian_phoneno" required><br>
+
+        <button type="button" onclick="window.location.href='{{ url_for('index') }}'">Back</button>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

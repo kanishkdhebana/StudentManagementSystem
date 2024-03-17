@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 14, 2024 at 06:57 PM
+-- Generation Time: Mar 17, 2024 at 03:55 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -101,26 +101,33 @@ CREATE TABLE `instructors` (
 CREATE TABLE `students` (
   `student_id` char(11) NOT NULL,
   `first_name` varchar(45) NOT NULL,
-  `middle_name` varchar(45) NOT NULL,
+  `middle_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) NOT NULL,
   `email` varchar(50) NOT NULL,
   `degree_name` varchar(100) NOT NULL,
-  `grad_level` varchar(40) NOT NULL,
+  `grad_level` enum('B_Tech','M_Tech','PHD') NOT NULL,
   `address` text NOT NULL,
   `city` varchar(50) NOT NULL,
   `state` varchar(50) NOT NULL,
   `address_pin` int(6) NOT NULL,
   `father_name` varchar(100) NOT NULL,
   `mother_name` varchar(100) NOT NULL,
-  `dob` date DEFAULT NULL,
-  `bloodgroup` char(4) DEFAULT NULL,
-  `doa` date DEFAULT NULL,
-  `father_occ` varchar(100) DEFAULT NULL,
-  `mother_occ` varchar(100) DEFAULT NULL,
+  `dob` date NOT NULL,
+  `bloodgroup` enum('A_plus','A_minus','B_plus','B_minus','AB_plus','AB_minus','O_plus','O_minus') DEFAULT NULL,
+  `doa` date NOT NULL,
+  `father_occ` varchar(100) NOT NULL,
+  `mother_occ` varchar(100) NOT NULL,
   `student_phoneno` bigint(20) NOT NULL,
-  `father_phoneno` bigint(20) NOT NULL,
-  `sex` varchar(10) NOT NULL
+  `guardian_phoneno` bigint(20) NOT NULL,
+  `sex` enum('Male','Female','Other') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`student_id`, `first_name`, `middle_name`, `last_name`, `email`, `degree_name`, `grad_level`, `address`, `city`, `state`, `address_pin`, `father_name`, `mother_name`, `dob`, `bloodgroup`, `doa`, `father_occ`, `mother_occ`, `student_phoneno`, `guardian_phoneno`, `sex`) VALUES
+('2022ucp1555', 'A', 'B', 'C', 'abc@gmail.com', 'Computer Science and Engineering', 'B_Tech', 'abc city state ', 'city', 'state', 123455, 'fabc', 'mabc', '2003-03-19', 'AB_minus', '2022-11-10', 'fwork', 'mwork', 9876543210, 9876543213, 'Male');
 
 --
 -- Indexes for dumped tables

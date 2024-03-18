@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Courses</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Courses</h1>
+    <table border="1">
+        <tr>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Instructor ID</th>
+            <th>Department ID</th>
+            <th>Description</th>
+            <th>Credit Hours</th>
+        </tr>
+        {% for coruse in courses %}
+        <tr>
+            <td>{{ coruse.course_code }}</td>
+            <td>{{ coruse.course_name }}</td>
+            <td>{{ coruse.instructor_id }}</td>
+            <td>{{ coruse.department_id }}</td>
+            <td>{{ coruse.description }}</td>
+            <td>{{ coruse.credit_hours }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

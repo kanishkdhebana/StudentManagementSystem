@@ -6,18 +6,26 @@
     <title>Index Page</title>
 </head>
 <body>
-    <h1>Welcome to the Index Page</h1>
-    
-    <!-- Link to Add Student Page -->
-    <a href="{{ url_for('students.add_student') }}">Add Student</a><br>
-    
-    <!-- Link to View Students Page -->
-    <a href="{{ url_for('students.view_students') }}">View Students</a><br>
+    <h1>Welcome to the Student Management System</h1>
 
-    <!-- Link to Add Course Page -->
-    <a href="{{ url_for('courses.add_course') }}">Add Course</a><br>
+    {% if current_user.is_authenticated %}
     
-    <!-- Link to View Courses Page -->
-    <a href="{{ url_for('courses.view_courses') }}">View Course</a>
+        <!-- Link to Add Student Page -->
+        <a href="{{ url_for('students.add_student') }}">Add Student</a><br>
+
+        <!-- Link to View Students Page -->
+        <a href="{{ url_for('students.view_students') }}">View Students</a><br>
+
+        <!-- Link to Add Course Page -->
+        <a href="{{ url_for('courses.add_course') }}">Add Course</a><br>
+
+        <!-- Link to View Courses Page -->
+        <a href="{{ url_for('courses.view_courses') }}">View Course</a><br>
+
+        <!-- Link to Logout Page -->
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
+    {% else %}
+        <p> Go to <a href="{{ url_for('auth.login') }}"> Login</a> page.</p>
+    {% endif %}
 </body>
 </html>

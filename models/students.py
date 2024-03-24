@@ -1,8 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy import Enum as EnumSQL
 from sqlalchemy import Date
 from enum import Enum
+from models.users import db
 
 db = SQLAlchemy()
 

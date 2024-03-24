@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <!-- Flash error messages if any -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="post" action="{{ url_for('auth.login') }}">
+        <label for="user_id">User ID:</label>
+        <input type="text" id="user_id" name="user_id" required><br>
+        <label for="user_password">Password:</label>
+        <input type="password" id="user_password" name="user_password" required><br>
+        <input type="submit" value="Login">
+    </form>
+
+    <p>Don't have an account? <a href="{{ url_for('auth.register') }}">Register</a></p>
+</body>
+</html>

@@ -1,14 +1,17 @@
 from flask import Blueprint, render_template, request, redirect, url_for
+from flask_login import login_required
 from models.courses import Course, db
 from sqlalchemy.exc import IntegrityError
 
 courses_blueprint = Blueprint('courses', __name__)
 
 @courses_blueprint.route('/')
+@login_required
 def index():
     return render_template('index.html')
 
 @courses_blueprint.route("/add_course", methods=['GET', 'POST'])
+@login_required
 def add_course():
     if request.method == 'POST':
         course_code   = request.form['course_code']
@@ -44,6 +47,7 @@ def add_course():
 
 # Pass the mapped values to the template
 @courses_blueprint.route('/view_courses')
+@login_required
 def view_courses():
     courses = Course.query.all()
     return render_template('view_courses.html', courses = courses)

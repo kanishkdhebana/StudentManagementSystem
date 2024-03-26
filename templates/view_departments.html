@@ -20,24 +20,16 @@
     </style>
 </head>
 <body>
-    <h1>Courses</h1>
+    <h1>Departments</h1>
     <table border="1">
         <tr>
-            <th>Course Code</th>
-            <th>Course Name</th>
-            <th>Instructor ID</th>
             <th>Department ID</th>
-            <th>Description</th>
-            <th>Credit Hours</th>
+            <th>Department Name</th>
         </tr>
-        {% for course in courses %}
+        {% for department in departments %}
         <tr>
-            <td>{{ course.course_code }}</td>
-            <td>{{ course.course_name }}</td>
-            <td>{{ course.instructor_id }}</td>
-            <td>{{ course.department_id }}</td>
-            <td>{{ course.description }}</td>
-            <td>{{ course.credit_hours }}</td>
+            <td>{{ department.department_id }}</td>
+            <td>{{ department.department_name }}</td>
         </tr>
         {% endfor %}
     </table>

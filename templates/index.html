@@ -4,28 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .links {
+            max-width: 600px;
+            margin: auto;
+        }
+        .links a {
+            display: block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .links a:hover {
+            background-color: #45a049;
+        }
+        .logout {
+            background-color: #f44336;
+        }
+        .logout:hover {
+            background-color: #d32f2f;
+        }
+    </style>
 </head>
 <body>
     <h1>Welcome to the Student Management System</h1>
 
-    {% if current_user.is_authenticated %}
-    
-        <!-- Link to Add Student Page -->
-        <a href="{{ url_for('students.add_student') }}">Add Student</a><br>
-
-        <!-- Link to View Students Page -->
-        <a href="{{ url_for('students.view_students') }}">View Students</a><br>
-
-        <!-- Link to Add Course Page -->
-        <a href="{{ url_for('courses.add_course') }}">Add Course</a><br>
-
-        <!-- Link to View Courses Page -->
-        <a href="{{ url_for('courses.view_courses') }}">View Course</a><br>
-
-        <!-- Link to Logout Page -->
-        <a href="{{ url_for('auth.logout') }}">Logout</a>
-    {% else %}
-        <p> Go to <a href="{{ url_for('auth.login') }}"> Login</a> page.</p>
-    {% endif %}
+    <div class="links">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('students.add_student') }}">Add Student</a>
+            <a href="{{ url_for('students.view_students') }}">View Students</a>
+            <a href="{{ url_for('courses.add_course') }}">Add Course</a>
+            <a href="{{ url_for('courses.view_courses') }}">View Courses</a>
+            <a href="{{ url_for('departments.add_department') }}">Add Department</a>
+            <a href="{{ url_for('departments.view_departments') }}">View Departments</a>
+            <a class="logout" href="{{ url_for('auth.logout') }}">Logout</a>
+        {% else %}
+            <p>Go to <a href="{{ url_for('auth.login') }}">Login</a> page.</p>
+        {% endif %}
+    </div>
 </body>
 </html>

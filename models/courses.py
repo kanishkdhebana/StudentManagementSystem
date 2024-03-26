@@ -1,7 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import IntegrityError
-
-db = SQLAlchemy()
+from models.users import db
 
 class Course(db.Model):
     __tablename__  = 'courses'

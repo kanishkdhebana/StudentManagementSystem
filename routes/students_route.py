@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
+from flask_login import login_required
 from models.students import Student, db
 from sqlalchemy.exc import IntegrityError
-from flask_login import login_required
 
 students_blueprint = Blueprint('students', __name__)
 
@@ -104,5 +104,5 @@ def get_enum_display(enum_value):
 @login_required
 def view_students():
     students = Student.query.all()
-    return render_template('view_students.html', students=students, get_enum_display=get_enum_display)
+    return render_template('view_students.html', students = students, get_enum_display = get_enum_display)
 

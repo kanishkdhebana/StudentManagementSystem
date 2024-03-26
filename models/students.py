@@ -4,8 +4,6 @@ from sqlalchemy import Date
 from enum import Enum
 from models.users import db
 
-db = SQLAlchemy()
-
 class Sex(Enum):
     Male = 'Male'
     Female = 'Female'

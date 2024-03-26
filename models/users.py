@@ -23,19 +23,18 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.user_password_hash, password)
     
     def is_authenticated(self):
-        # Implement your authentication logic here
-        return True  # For demonstration, always return True
+        # Implement authentication logic here
+        return True  
 
     def is_active(self):
-        # Implement your active status logic here
-        return True  # For demonstration, always return True
+        # Implement active status logic here
+        return True 
 
     def is_anonymous(self):
-        # Implement your anonymous logic here
-        return False  # For demonstration, always return False
+        # Implement anonymous logic here
+        return False 
 
     def get_id(self):
-        # Implement method to return user ID
         return str(self.user_id)
 
     

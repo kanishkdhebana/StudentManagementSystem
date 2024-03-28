@@ -5,11 +5,6 @@ from sqlalchemy.exc import IntegrityError
 
 courses_blueprint = Blueprint('courses', __name__)
 
-@courses_blueprint.route('/')
-@login_required
-def index():
-    return render_template('index.html')
-
 @courses_blueprint.route("/add_course", methods=['GET', 'POST'])
 @login_required
 def add_course():
@@ -34,7 +29,7 @@ def add_course():
         try:
             db.session.add(new_course)
             db.session.commit()
-            return redirect(url_for("courses.index"))
+            return redirect(url_for("courses.add_course"))
         
         except IntegrityError as e:
             db.session.rollback()

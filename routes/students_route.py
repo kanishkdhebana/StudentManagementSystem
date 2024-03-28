@@ -6,11 +6,6 @@ from sqlalchemy.exc import IntegrityError
 
 students_blueprint = Blueprint('students', __name__)
 
-@students_blueprint.route('/')
-@login_required
-def index():
-    return render_template('index.html')
-
 @students_blueprint.route("/add_student", methods=['GET', 'POST'])
 @login_required
 def add_student():
@@ -82,7 +77,7 @@ def add_student():
             db.session.commit()
             
             flash('Student added successfully.', 'success')
-            return redirect(url_for("students.index"))
+            return redirect(url_for("students.add_student"))
         
         except IntegrityError as e:
             db.session.rollback()

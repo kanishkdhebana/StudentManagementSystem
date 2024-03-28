@@ -6,11 +6,6 @@ from sqlalchemy.exc import IntegrityError
 
 instructors_blueprint = Blueprint('instructors', __name__)
 
-@instructors_blueprint.route('/')
-@login_required
-def index():
-    return render_template('index.html')
-
 @instructors_blueprint.route("/add_instructor", methods=['GET', 'POST'])
 @login_required
 def add_instructor():

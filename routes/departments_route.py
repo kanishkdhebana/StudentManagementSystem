@@ -1,14 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required
 from models.departments import Department, db
 from sqlalchemy.exc import IntegrityError
 
 departments_blueprint = Blueprint('departments', __name__)
-
-@departments_blueprint.route('/')
-@login_required
-def index():
-    return render_template('index.html')
 
 @departments_blueprint.route("/add_department", methods=['GET', 'POST'])
 @login_required
@@ -25,7 +20,9 @@ def add_department():
         try:
             db.session.add(new_department)
             db.session.commit()
-            return redirect(url_for("departments.index"))
+            
+            flash('Student added successfully.', 'success')
+            return redirect(url_for("departments.add_department"))
         
         except IntegrityError as e:
             db.session.rollback()

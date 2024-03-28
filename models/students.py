@@ -1,4 +1,3 @@
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Enum as EnumSQL
 from sqlalchemy import Date
 from enum import Enum

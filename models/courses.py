@@ -1,4 +1,3 @@
-from flask_sqlalchemy import SQLAlchemy
 from models.users import db
 
 class Course(db.Model):

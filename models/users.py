@@ -8,11 +8,12 @@ db = SQLAlchemy()
 
 class UserType(Enum):
     admin = 'admin'
+    instructor = 'instructor'
     student = 'student'
 
 class User(UserMixin, db.Model):
     __tablename__      = 'users'
-    user_id            = db.Column(db.Integer, primary_key = True)
+    user_id            = db.Column(db.String(11), primary_key = True)
     user_type          = db.Column(EnumSQL(UserType), nullable = False)
     user_password_hash = db.Column(db.String(50), nullable = False)
     

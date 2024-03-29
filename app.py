@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_login import LoginManager
 from models.users import User, db as user_db
 from routes.students_route import students_blueprint
@@ -36,6 +36,11 @@ app.register_blueprint(auth_blueprint)
 app.register_blueprint(departments_blueprint)
 app.register_blueprint(dashboard_blueprint)
 app.register_blueprint(instructors_blueprint)
+
+
+@app.route('/')
+def index():
+    return redirect(url_for('auth.login'))
 
 if __name__ == '__main__':
     app.run(debug=True)

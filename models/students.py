@@ -49,3 +49,5 @@ class Student(db.Model):
 
     def __repr__(self) -> str:
         return f"{self.first_name} {self.middle_name} {self.last_name}"
+    
+

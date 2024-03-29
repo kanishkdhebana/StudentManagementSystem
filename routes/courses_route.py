@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required
 from models.courses import Course, db
+from models.departments import Department
 from sqlalchemy.exc import IntegrityError
 
 courses_blueprint = Blueprint('courses', __name__)

@@ -1,7 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from models.instructors import Instructor
-from models.users import User, UserType, db
+from models.instructors import Instructor, db
+from models.users import User, UserType
+from models.students import Student
+from models.enrollments import Enrollment
+from models.courses import Course
 from sqlalchemy.exc import IntegrityError
 
 instructors_blueprint = Blueprint('instructors', __name__)
@@ -69,9 +72,8 @@ def add_instructor():
             error_message = str(e.orig) if e.orig else "An error occurred. Please try again later."
             return render_template("error.html", message = error_message)
 
-
-    # If the request method is not POST, render the form for adding a student
     return render_template("add_instructor.html")
+
 
 # Define a mapping function for enum values
 def get_enum_display(enum_value):
@@ -100,4 +102,53 @@ def get_enum_display(enum_value):
 def view_instructors():
     instructors = Instructor.query.all()
     return render_template('view_instructors.html', instructors = instructors, get_enum_display = get_enum_display)
+
+
+@instructors_blueprint.route("/view_full_instructor_info/<string:instructor_id>")
+@login_required
+def view_full_instructor_info(instructor_id):
+    # Retrieve the instructor object from the database
+    instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
+
+    if not instructor:
+        flash('Instructor not found.', 'error')
+        return redirect(url_for('dashboard.instructor_dashboard'))
+
+    return render_template('view_full_instructor_info.html', instructor = instructor, get_enum_display = get_enum_display)
+
+
+@instructors_blueprint.route("/view_instructor_courses/<string:instructor_id>")
+@login_required
+def view_instructor_courses(instructor_id):
+    instructor_courses = (
+        db.session.query(Course)
+        .filter(Course.instructor_id == instructor_id)
+        .all()
+    )
+
+    return render_template('instructor_dashboard.html', instructor_courses = instructor_courses)
+
+
+@instructors_blueprint.route("/view_enrolled_students/<string:course_code>")
+@login_required
+def view_enrolled_students(course_code):
+    enrolled_students = (
+        db.session.query(Student.student_id, Student.first_name, Student.last_name)
+        .join(Enrollment, Student.student_id == Enrollment.student_id)
+        .filter(Enrollment.course_code == course_code)
+        .all()
+    )
+
+    course = Course.query.filter_by(course_code = course_code).first()
+    
+    if course:
+        course_name = course.course_name
+        
+    else:
+        # Redirect to an error page or handle the situation as needed
+        return render_template('error.html', message = 'Course not found.')
+
+    # Render the template with enrolled students and course name
+    return render_template('enrolled_students.html', enrolled_students = enrolled_students, course_name = course_name, course_code = course_code)
+
 

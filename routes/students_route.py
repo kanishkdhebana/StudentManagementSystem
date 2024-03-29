@@ -1,11 +1,15 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from models.students import Student
-from models.users import User, UserType, db
+from models.students import Student, db
+from models.users import User, UserType
+from models.enrollments import Enrollment
+from models.grades import Grade
+from models.courses import Course
 from sqlalchemy.exc import IntegrityError
 
 students_blueprint = Blueprint('students', __name__)
 
+""" Add Student """
 @students_blueprint.route("/add_student", methods=['GET', 'POST'])
 @login_required
 def add_student():
@@ -84,11 +88,11 @@ def add_student():
             error_message = str(e.orig) if e.orig else "An error occurred. Please try again later."
             flash(error_message, 'error')
 
-
     # If the request method is not POST, render the form for adding a student
     return render_template("add_student.html")
 
 
+""" View Students """
 # Define a mapping function for enum values
 def get_enum_display(enum_value):
     if enum_value is None:
@@ -120,3 +124,69 @@ def get_enum_display(enum_value):
 def view_students():
     students = Student.query.all()
     return render_template('view_students.html', students = students, get_enum_display = get_enum_display)
+
+
+""" Edit Student Information """
+@students_blueprint.route("/edit_student_info/<string:student_id>", methods = ['GET', 'POST'])
+@login_required
+def edit_student(student_id):
+    if request.method == 'POST':
+        # Retrieve the student object from the database
+        student = Student.query.filter_by(student_id = student_id).first()
+
+        # Update student information with form data
+
+        student.email = request.form['email']
+        student.student_phoneno = request.form['student_phoneno']
+        student.guardian_phoneno = request.form['guardian_phoneno']
+        # Update other fields as needed
+
+        # Commit changes to the database
+        db.session.commit()
+
+        flash('Student information updated successfully.', 'success')
+        return redirect(url_for('dashboard.student_dashboard'))
+
+    student = Student.query.filter_by(student_id = student_id).first()
+    return render_template('edit_student_info.html', student=student)
+
+
+""" View Student Information"""
+@students_blueprint.route("/view_full_student_info/<string:student_id>")
+@login_required
+def view_full_student_info(student_id):
+    # Retrieve the student object from the database
+    student = Student.query.filter_by(student_id=student_id).first()
+
+    if not student:
+        flash('Student not found.', 'error')
+        return redirect(url_for('dashboard.student_dashboard'))
+
+    return render_template('view_full_student_info.html', student = student)
+
+
+""" View Student Enrollments"""
+@students_blueprint.route("/view_student_enrollments/<string:student_id>")
+@login_required
+def view_student_enrollments(student_id):
+    student_enrollments = Enrollment.query.filter_by(student_id = student_id).all()
+    
+    return render_template("view_student_enrollments.html", student_enrollments = student_enrollments)
+
+
+""" View Student Grades"""
+@students_blueprint.route("/view_student_grades/<string:student_id>")
+@login_required
+def view_student_grades(student_id):
+    student_grades = (
+        db.session.query(Grade, Course.course_name)
+        .join(Enrollment, Grade.enrollment_id == Enrollment.enrollment_id)
+        .join(Course, Enrollment.course_id == Course.course_id)  
+        .filter(Enrollment.student_id == student_id)
+        .all()
+    )
+
+    return render_template("view_student_grades.html", student_grades = student_grades)
+
+
+

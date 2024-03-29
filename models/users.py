@@ -37,5 +37,8 @@ class User(UserMixin, db.Model):
 
     def get_id(self):
         return str(self.user_id)
+    
+    def __repr__(self) -> str:
+        return f"{self.user_id} {self.user_type}"
 
     

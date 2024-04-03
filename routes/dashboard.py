@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from models.users import UserType
 from models.students import Student
 from models.instructors import Instructor
+from models.courses import Course
 
 dashboard_blueprint = Blueprint('dashboard', __name__)
 
@@ -35,10 +36,11 @@ def instructor_dashboard():
     if current_user.user_type != UserType.instructor:
         return 'Unauthorized', 403
     
-    instructor = Instructor.query.filter_by(instructor_id = current_user.user_id).first()
+    instructor = Instructor.query.filter_by(instructor_id=current_user.user_id).first()
     if instructor:
-        return render_template('instructor_dashboard.html', instructor = instructor)
+        # Fetch courses associated with the instructor
+        instructor_courses = Course.query.filter_by(instructor_id=current_user.user_id).all()
+        return render_template('instructor_dashboard.html', instructor=instructor, instructor_courses=instructor_courses)
     else:
         flash('Instructor data not found', 'error')
         return redirect(url_for('auth.login'))
-    

@@ -1,4 +1,3 @@
-<!-- enrolled_students.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enrolled Students</title>
     <style>
-        /* Your CSS styles here */
+        /* Your CSS styles here */ 
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Enrolled Students</h1>
+    <h1>Enrolled Students</h1>
+    <div class="container">    
         <hr>
-        <h2>Course: {{ course_name }}</h2>
-        <form action="{{ url_for('instructors.update_grade') }}" method="POST">
+        <h2>Course: {{ course_name }} ({{ course_code }})</h2>
+        <form action="{{ url_for('instructors.update_grades') }}" method="POST">
             <input type="hidden" name="course_code" value="{{ course_code }}">
             <ul>
                 {% for student in enrolled_students %}
                 <li>
-                    {{ student.student_id }} - {{ student.student_name }} 
-                    <select name="grade_{{ student.student_id }}">
+                    {{ student.student_id }} - {{ student.first_name }} {{ student.last_name }}
+                    <select name="grades[{{ student.student_id }}]">
                         <option value="A">A</option>
                         <option value="B">B</option>
                         <option value="C">C</option>

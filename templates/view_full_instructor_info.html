@@ -4,71 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Student Information</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/view_full_instructor_info.css') }}">
 
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            margin-top: 0;
-            font-size: 24px;
-            color: #333;
-        }
-
-        hr {
-            border: 0;
-            border-top: 1px solid #ccc;
-            margin: 20px 0;
-        }
-
-        p {
-            margin: 10px 0;
-        }
-
-        strong {
-            font-weight: bold;
-        }
-
-        .links {
-            max-width: 600px;
-            margin: 20px auto;
-        }
-
-        .links a {
-            display: block;
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            text-align: center;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-
-        .links a:hover {
-            background-color: #45a049;
-        }
-    </style>
 </head>
 <body>
+
 <div class="container">
-    <h1>Instructor Information</h1>
-    <hr>
-    <div>
+    <h1>Your Information</h1>
+    <div class="instructor_info">
         <p><strong>Instructor ID:</strong> {{ instructor.instructor_id }}</p>
             <p><strong>Name:</strong> {{ instructor.first_name }} {{ instructor.last_name }}</p>
             <p><strong>Date of Birth:</strong> {{ instructor.dob }}</p>
@@ -78,7 +21,6 @@
             <p><strong>Date of Joining:</strong> {{ instructor.doj }}</p>
             <p><strong>Address:</strong> {{ instructor.address }}, {{ instructor.city }}, {{ instructor.state }}, {{ instructor.address_pin }}</p>
             <p><strong>Blood Group: </strong>{{ get_enum_display(instructor.bloodgroup) }}</td>
-        </div>
     </div>
 </div>
 
@@ -86,7 +28,7 @@
     {% if current_user.is_authenticated %}
     <a href="{{ url_for('dashboard.instructor_dashboard') }}">Back</a> 
     {% else %}
-    <p>Go to <a href="{{ url_for('auth.login') }}">Login</a> page.</p>
+    <p><a href="{{ url_for('auth.login') }}">Login</a></p>
     {% endif %}
 </div>
 </body>

@@ -21,7 +21,7 @@ def add_department():
             db.session.add(new_department)
             db.session.commit()
             
-            flash('Student added successfully.', 'success')
+            flash('Department added successfully.', 'success')
             return redirect(url_for("departments.add_department"))
         
         except IntegrityError as e:

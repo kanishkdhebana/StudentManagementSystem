@@ -1,0 +1,89 @@
+
+/* code by helpmecoder */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+}
+
+.wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  min-height: 100vh;
+  height: auto;
+  background: linear-gradient(90deg, #EDAEF9, #81B1FA);
+}
+
+form{
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 50px 30px;
+  position: relative;
+  gap: 40px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 10px 50px;
+  width: 350px;
+}
+
+
+
+h2{
+  text-align: center;
+  margin: 10px 0px 30px 0px;
+}
+
+input::placeholder{
+  padding: 5px;
+  transition: 0.2s linear;
+}
+
+#user_id{
+  border: none;
+  font-size: 15px;
+  background: transparent;
+  border-bottom: 1px solid grey;
+  outline: none;
+}
+
+#user_password{
+  border: none;
+  font-size: 15px;
+  background: transparent;
+  border-bottom: 0.5px solid grey;
+  outline: none;
+}
+
+.login_button{
+  color: black;
+  font-size: 15px;
+  padding: 5px 0px 5px 0px;
+  border-radius: 25px;
+  cursor: pointer;
+  background: transparent;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: none;
+}
+
+
+input{
+  transition: all 0.2s linear;
+  color: rgb(70, 70, 70);
+}
+
+.login_button:hover{
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 10px 50px;
+}
+
+input:focus{
+  scale: 1.05;
+}
+input:hover{
+  scale: 1.05;
+}

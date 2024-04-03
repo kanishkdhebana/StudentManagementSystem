@@ -18,7 +18,7 @@ def add_course():
         credit_hours  = request.form['credit_hours']
         
 
-        new_course = Course(
+        new_course = Course( 
             course_code   = course_code,
             course_name   = course_name,
             instructor_id = instructor_id,

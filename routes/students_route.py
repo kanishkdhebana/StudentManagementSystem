@@ -181,12 +181,54 @@ def view_student_grades(student_id):
     student_grades = (
         db.session.query(Grade, Course.course_name)
         .join(Enrollment, Grade.enrollment_id == Enrollment.enrollment_id)
-        .join(Course, Enrollment.course_id == Course.course_id)  
+        .join(Course, Enrollment.course_code == Course.course_code)  
         .filter(Enrollment.student_id == student_id)
         .all()
     )
 
     return render_template("view_student_grades.html", student_grades = student_grades)
 
+"""
+@students_blueprint.route("/enroll_course", methods=['GET', 'POST'])
+@login_required
+def enroll_course():
+    if current_user.user_type != UserType.student:
+        flash('Only students are allowed to enroll in courses.', 'error')
+        return redirect(url_for('index'))  # Redirect to homepage or appropriate page
+    
+    student_id = current_user.user_id
+    
+    if request.method == 'POST':
+        course_code = request.form['course_code']
+        
+        # Check if the student is already enrolled in the selected course
+        existing_enrollment = Enrollment.query.filter_by(student_id=student_id, course_code=course_code).first()
+        if existing_enrollment:
+            flash('You are already enrolled in this course.', 'error')
+            return redirect(url_for('enrollment.enroll_course'))
+        
+        # Create a new enrollment record
+        new_enrollment = Enrollment(
+            student_id=student_id,
+            course_code=course_code,
+            enrollment_date=datetime.now()  # Current date and time
+        )
+        
+        try:
+            db.session.add(new_enrollment)
+            db.session.commit()
+            flash('Enrollment successful!', 'success')
+            return redirect(url_for('dashboard.student_dashboard'))  # Redirect to student dashboard or appropriate page
+        except IntegrityError:
+            db.session.rollback()
+            flash('An error occurred. Please try again later.', 'error')
+    
+    # Retrieve the list of courses available in the student's department
+    student_department = Student.query.filter_by(student_id=student_id).first().department_id
+    available_courses = Course.query.filter_by(department_id=student_department).all()
+    
+    return render_template("enroll_course.html", available_courses=available_courses)
+
+"""
 
 

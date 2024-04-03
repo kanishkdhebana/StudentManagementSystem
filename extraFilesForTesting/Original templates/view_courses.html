@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Courses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .links {
+            max-width: 200px;
+            margin: auto;
+        }
+        .links a {
+            display: block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .links a:hover {
+            background-color: #45a049;
+        }
+        .logout {
+            background-color: #f44336;
+        }
+        .logout:hover {
+            background-color: #d32f2f;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Courses</h1>
+    <table border="1">
+        <tr>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Instructor ID</th>
+            <th>Department ID</th>
+            <th>Description</th>
+            <th>Credit Hours</th>
+        </tr>
+        {% for course in courses %}
+        <tr>
+            <td>{{ course.course_code }}</td>
+            <td>{{ course.course_name }}</td>
+            <td>{{ course.instructor_id }}</td>
+            <td>{{ course.department_id }}</td>
+            <td>{{ course.description }}</td>
+            <td>{{ course.credit_hours }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="links">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('courses.add_course') }}">Add Course</a>
+            <a href="{{ url_for('dashboard.admin_dashboard') }}">Home</a>
+        {% else %}
+            <p>Go to <a href="{{ url_for('auth.login') }}">Login</a> page.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -4,6 +4,7 @@ from models.instructors import Instructor, db
 from models.users import User, UserType
 from models.students import Student
 from models.enrollments import Enrollment
+from models.grades import Grade
 from models.courses import Course
 from sqlalchemy.exc import IntegrityError
 
@@ -105,9 +106,8 @@ def view_instructors():
 
 
 @instructors_blueprint.route("/view_full_instructor_info/<string:instructor_id>")
-@login_required
+@login_required 
 def view_full_instructor_info(instructor_id):
-    # Retrieve the instructor object from the database
     instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
 
     if not instructor:
@@ -126,7 +126,10 @@ def view_instructor_courses(instructor_id):
         .all()
     )
 
-    return render_template('instructor_dashboard.html', instructor_courses = instructor_courses)
+    instructor = Instructor.query.filter_by(instructor_id=instructor_id).first()
+
+    return render_template('view_instructor_courses.html', instructor = instructor, instructor_courses = instructor_courses)
+
 
 
 @instructors_blueprint.route("/view_enrolled_students/<string:course_code>")
@@ -145,10 +148,35 @@ def view_enrolled_students(course_code):
         course_name = course.course_name
         
     else:
-        # Redirect to an error page or handle the situation as needed
         return render_template('error.html', message = 'Course not found.')
 
-    # Render the template with enrolled students and course name
-    return render_template('enrolled_students.html', enrolled_students = enrolled_students, course_name = course_name, course_code = course_code)
+    return render_template('view_enrolled_students.html', enrolled_students = enrolled_students, course_name = course_name, course_code = course_code)
+
+
+@instructors_blueprint.route("/update_grades", methods=["POST"])
+@login_required
+def update_grades():
+    if current_user.user_type != UserType.instructor:
+        return "Unauthorized", 403
+
+    if request.method == "POST":
+        course_code = request.form.get("course_code")
+        grades = request.form.getlist("grades")
+
+        for student_id, grade in grades.items():
+            student_grade = Grade.query.filter_by(student_id=student_id, course_code=course_code).first()
+            if student_grade:
+                student_grade.grade = grade
+                
+            else:
+                student_grade = Grade(student_id=student_id, course_code=course_code, grade=grade)
+                db.session.add(student_grade)
+
+        db.session.commit()
+        flash("Grades updated successfully.", "success")
+        return redirect(url_for("instructors.view_enrolled_students", course_code=course_code))
+
+    return "Method Not Allowed", 405
+
 
 

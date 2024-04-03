@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll in Course</title>
+    <style>
+        /* Add your custom CSS styles here */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enroll in Course</h1>
+        <hr>
+        <form action="{{ url_for('enrollment.enroll_course') }}" method="POST">
+            <label for="course">Select Course:</label>
+            <select id="course" name="course_code">
+                {% for course in available_courses %}
+                    <option value="{{ course.course_code }}">{{ course.course_name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Enroll</button>
+        </form>
+    </div>
+</body>
+</html>

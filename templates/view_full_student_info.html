@@ -3,88 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Student Information</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            margin-top: 0;
-            font-size: 24px;
-            color: #333;
-        }
-
-        hr {
-            border: 0;
-            border-top: 1px solid #ccc;
-            margin: 20px 0;
-        }
-
-        p {
-            margin: 10px 0;
-        }
-
-        strong {
-            font-weight: bold;
-        }
-
-        .links {
-            max-width: 600px;
-            margin: 20px auto;
-        }
-
-        .links a {
-            display: block;
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            text-align: center;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-
-        .links a:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>View Your Information</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/view_full_student_info.css') }}">
 </head>
 <body>
-<div class="container">
-    <h1>Student Information</h1>
-    <hr>
-    <div>
-        <p><strong>Student ID:</strong> {{ student.student_id }}</p>
-        <p><strong>Name:</strong> {{ student.first_name }} {{ student.middle_name }} {{ student.last_name }}</p>
-        <p><strong>Sex:</strong> {{ student.sex.value if student.sex else None }}</p>
-        <p><strong>Email:</strong> {{ student.email }}</p>
-        <p><strong>Degree:</strong> {{ student.degree_name }}</p>
-        <p><strong>Graduation Level:</strong> {{ student.grad_level }}</p>
-        <p><strong>Address:</strong> {{ student.address }}, {{ student.city }}, {{ student.state }}, {{ student.address_pin }}</p>
-        <p><strong>Father's Name:</strong> {{ student.father_name }}</p>
-        <p><strong>Mother's Name:</strong> {{ student.mother_name }}</p>
-        <p><strong>Date of Birth:</strong> {{ student.dob }}</p>
-        <p><strong>Blood Group:</strong> {{ student.bloodgroup }}</p>
-        <p><strong>Date of Admission:</strong> {{ student.doa }}</p>
-        <p><strong>Father's Occupation:</strong> {{ student.father_occ }}</p>
-        <p><strong>Mother's Occupation:</strong> {{ student.mother_occ }}</p>
-        <p><strong>Student Phone Number:</strong> {{ student.student_phoneno }}</p>
-        <p><strong>Guardian Phone Number:</strong> {{ student.guardian_phoneno }}</p>
+<div class="container"> 
+    <h1>Your Information</h1>
+    <div class="student_info">
+        <p><strong>Student ID:</strong><span>{{ student.student_id }}</span></p>
+        <p><strong>Name:</strong><span>{{ student.first_name }} {{ student.middle_name }} {{ student.last_name }}</span></p>
+        <p><strong>Sex:</strong><span>{{ student.sex.value if student.sex else None }}</span></p>
+        <p><strong>Email:</strong><span>{{ student.email }}</span></p>
+        <p><strong>Degree:</strong><span>{{ student.degree_name }}</span></p>
+        <p><strong>Graduation Level:</strong><span>{{ student.grad_level }}</span></p>
+        <p><strong>Address:</strong><span>{{ student.address }}, {{ student.city }}, {{ student.state }}, {{ student.address_pin }}</span></p>
+        <p><strong>Father's Name:</strong><span>{{ student.father_name }}</span></p>
+        <p><strong>Mother's Name:</strong><span>{{ student.mother_name }}</span></p>
+        <p><strong>Date of Birth:</strong><span>{{ student.dob }}</span></p>
+        <p><strong>Blood Group:</strong><span>{{ student.bloodgroup }}</span></p>
+        <p><strong>Date of Admission:</strong><span>{{ student.doa }}</span></p>
+        <p><strong>Father's Occupation:</strong><span>{{ student.father_occ }}</span></p>
+        <p><strong>Mother's Occupation:</strong><span>{{ student.mother_occ }}</span></p>
+        <p><strong>Student Phone Number:</strong><span>{{ student.student_phoneno }}</span></p>
+        <p><strong>Guardian Phone Number:</strong><span>{{ student.guardian_phoneno }}</span></p>
+
     </div>
 </div>
 

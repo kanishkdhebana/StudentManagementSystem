@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/nitish_new/instructor_dashboard.css') }}">
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="greeting">Welcome {{ instructor.first_name }} {{ instructor.last_name }}</div>
+        <a href="{{ url_for('auth.logout') }}" class="logout"><img src="{{ url_for('static', filename='assets/icons8-logout-48.png') }}" alt="Logout"></a>
+    </div>
+
+    <div class="profile_info">
+            <p><strong>Instructor ID:</strong> {{ instructor.student_id }}</p>
+            <p><strong>Name:</strong> {{ instructor.first_name }} {{ instructor.last_name }}</p>
+            <p><strong>Gender:</strong> {{ instructor.sex.value if instructor.sex else None }}</p>
+            <p><strong>Email:</strong> {{ instructor.email }}</p>
+            <p><strong>Phone No:</strong> {{ instructor.phone_number }}</p>
+            <!-- Add more profile information here as needed -->
+    </div>
+    
+
+        <div class="courses">
+            <h2>Courses</h2>
+            <ul>
+                <!-- {% for course in instructor_courses %} -->
+                <li>
+                    <a href="{{ url_for('instructors.view_enrolled_students', course_code = course.course_code) }}">{{ course.course_name }}</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('instructors.view_enrolled_students', course_code = course.course_code) }}">{{ course.course_name }}</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('instructors.view_enrolled_students', course_code = course.course_code) }}">{{ course.course_name }}</a>
+                </li>
+                <!-- {% endfor %} -->
+            </ul>
+        </div>
+
+
+    <div class="links">
+        <!-- {% if current_user.is_authenticated %} -->
+            <a href="{{ url_for('instructors.view_full_instructor_info', instructor_id = instructor.instructor_id) }}">View Full Info.</a>
+        <!-- {% else %}
+            <p>Go to <a href="{{ url_for('auth.login') }}">Login</a> page.</p>
+        {% endif %}
+    </div> -->
+</body>
+</html>

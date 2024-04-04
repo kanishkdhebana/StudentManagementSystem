@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 28, 2024 at 11:05 AM
+-- Generation Time: Apr 04, 2024 at 08:36 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -36,6 +36,14 @@ CREATE TABLE `courses` (
   `credit_hours` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `courses`
+--
+
+INSERT INTO `courses` (`course_code`, `course_name`, `instructor_id`, `department_id`, `description`, `credit_hours`) VALUES
+('22CST101', 'Cricket', '2010icp1000', '5', 'Nothing', 42),
+('22CST103', 'Soccer', '2010icp1000', '4', 'Nothing Again', 30);
+
 -- --------------------------------------------------------
 
 --
@@ -47,6 +55,17 @@ CREATE TABLE `departments` (
   `department_name` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `departments`
+--
+
+INSERT INTO `departments` (`department_id`, `department_name`) VALUES
+('4', 'Chemical Engineering'),
+('1', 'Civil Engineering'),
+('5', 'Computer Science and Engineering'),
+('2', 'Electrical Engineering'),
+('3', 'Mechanical Engineering');
+
 -- --------------------------------------------------------
 
 --
@@ -55,9 +74,9 @@ CREATE TABLE `departments` (
 
 CREATE TABLE `enrollments` (
   `enrollment_id` int(11) NOT NULL,
-  `student_id` char(11) DEFAULT NULL,
-  `course_code` char(8) DEFAULT NULL,
-  `enrollment_date` date DEFAULT NULL
+  `student_id` char(11) NOT NULL,
+  `course_code` char(8) NOT NULL,
+  `enrollment_date` date DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -68,7 +87,7 @@ CREATE TABLE `enrollments` (
 
 CREATE TABLE `grades` (
   `grade_id` int(11) NOT NULL,
-  `enrollment_id` int(11) DEFAULT NULL,
+  `enrollment_id` int(11) NOT NULL,
   `grade` enum('AA','AB','BB','BC','CC','CD','DD','FF','FP') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -136,7 +155,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `first_name`, `middle_name`, `last_name`, `email`, `degree_name`, `grad_level`, `address`, `city`, `state`, `address_pin`, `father_name`, `mother_name`, `dob`, `bloodgroup`, `doa`, `father_occ`, `mother_occ`, `student_phoneno`, `guardian_phoneno`, `sex`) VALUES
-('2022ucp1111', 'Ayush', 'R', 'Raghav', 'ayushraghav@gmail.com', 'Computer Science and Engineering', 'B_Tech', '12, Nandganv, Nath Ji ki Thadi, Niwaru Road, Jhotwara, Jaipur, Rajasthan', 'Jaipur', 'Rajasthan', 302012, 'A Raghav', 'M ', '2003-01-24', 'A_minus', '2021-07-22', 'Govt. Servant', 'Housewife', 9876543210, 8976543210, 'Male');
+('2022ucp1111', 'Ayush', 'R', 'Raghav', 'ayushraghav@gmail.com', 'Computer Science and Engineering', 'B_Tech', '12, Nandganv, Nath Ji ki Thadi, Niwaru Road, Jhotwara, Jaipur, Rajasthan', 'Jaipur', 'Rajasthan', 302012, 'A Raghav', 'M ', '2003-01-24', 'A_minus', '2021-07-22', 'Govt. Servant', 'Housewife', 999887700, 7725921000, 'Male'),
+('2022ucp1504', 'Rohit', 'R.', 'Jangid', 'rorojangid@gmail.com', 'Computer Science and Engineering', 'B_Tech', 'Nothing ', 'Nothing', 'Nothing', 123234, 'Father of Rohit', 'Mother of Rohit', '2003-04-17', 'AB_plus', '2023-07-25', 'father oc', 'mother oc', 8888000011, 7799331313, 'Male');
 
 -- --------------------------------------------------------
 
@@ -159,7 +179,8 @@ INSERT INTO `users` (`user_id`, `user_type`, `user_password_hash`) VALUES
 ('s1234567890', 'student', 'scrypt:32768:8:1$JWaFVgOPWXHhoGDP$cb96c57a03c79122a0f31798c1b8f9d68d20a8a60ce7f0cd26b36c28c6697b1a5ada71bd869a33ac1f218fab358bb6fab2d61a8f02943353b568bd6357bb3d3a'),
 ('i1234567890', 'instructor', 'scrypt:32768:8:1$To1Xlhp0txJi6Fy1$48cff40a535ff49b091ec5adf8c8eceb61d763e2824094885d5ba12049a4d0948c2aa2574609678f749b136672a0df06f494a4389e9cbf2ae785c9469eb66ffa'),
 ('2022ucp1111', 'student', 'scrypt:32768:8:1$3FQhFKvf8XCLOoh8$0b91c91bb878b83dd76542a4953b1697d2d9c80156cbf7e47d4d671c9b211c77f4963b949f8d03dc7a6b36f9dc2d5fc88565e262c7b0c50cfc45f2eb0c822ea2'),
-('2010icp1000', 'instructor', 'scrypt:32768:8:1$GC8B9bfPnewwfZaV$2d02b2592ac6a3f633443d6bb03e847d99976e34c885a7f712c9e555d7f2d18750cf098a029fbf31056109a84b6c9bb8a5e29dff4f4d16a1793a3a3cd7df3c0e');
+('2010icp1000', 'instructor', 'scrypt:32768:8:1$GC8B9bfPnewwfZaV$2d02b2592ac6a3f633443d6bb03e847d99976e34c885a7f712c9e555d7f2d18750cf098a029fbf31056109a84b6c9bb8a5e29dff4f4d16a1793a3a3cd7df3c0e'),
+('2022ucp1504', 'student', 'scrypt:32768:8:1$7zlLx2Qa4JoHdH0M$bff77b9048a04413b755c865643e642565ec84eb7941d123874c7b26a6ecac6a03209fc502140287c0112cceb704af857507a3e11fd6c316b360e2e97b9a8c97');
 
 --
 -- Indexes for dumped tables

@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Your Information</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/view_full_student_info.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/view_info.css') }}">
 </head>
 <body>
 <div class="container"> 
     <h1>Your Information</h1>
-    <div class="student_info">
+    <div class="info">
         <p><strong>Student ID:</strong><span>{{ student.student_id }}</span></p>
         <p><strong>Name:</strong><span>{{ student.first_name }} {{ student.middle_name }} {{ student.last_name }}</span></p>
         <p><strong>Sex:</strong><span>{{ student.sex.value if student.sex else None }}</span></p>

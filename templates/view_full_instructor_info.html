@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Student Information</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/view_full_instructor_info.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/view_info.css') }}">
 
 </head>
 <body>
 
 <div class="container">
     <h1>Your Information</h1>
-    <div class="instructor_info">
+    <div class="info">
         <p><strong>Instructor ID:</strong> {{ instructor.instructor_id }}</p>
             <p><strong>Name:</strong> {{ instructor.first_name }} {{ instructor.last_name }}</p>
             <p><strong>Date of Birth:</strong> {{ instructor.dob }}</p>
@@ -22,7 +22,7 @@
             <p><strong>Address:</strong> {{ instructor.address }}, {{ instructor.city }}, {{ instructor.state }}, {{ instructor.address_pin }}</p>
             <p><strong>Blood Group: </strong>{{ get_enum_display(instructor.bloodgroup) }}</td>
     </div>
-</div>
+</div> 
 
 <div class="links">
     {% if current_user.is_authenticated %}

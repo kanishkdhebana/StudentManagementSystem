@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Courses</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/view_courses.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/tables.css') }}">
 </head>
 <body>
     <h1>Courses</h1>
+    <div class="container">
+
     <table>
         <thead>
             <tr>
@@ -33,6 +35,7 @@
         </tbody>
         {% endfor %}
     </table>
+    </div>
 
     <div class="links">
         {% if current_user.is_authenticated %}

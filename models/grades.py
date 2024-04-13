@@ -21,3 +21,4 @@ class Grade(db.Model):
 
     def __repr__(self) -> str:
         return f"{self.grade_id} {self.grade}"
+ 

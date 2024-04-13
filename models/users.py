@@ -31,7 +31,7 @@ class User(UserMixin, db.Model):
         # Implement active status logic here
         return True 
 
-    def is_anonymous(self):
+    def is_anonymous(self): 
         # Implement anonymous logic here
         return False 
 

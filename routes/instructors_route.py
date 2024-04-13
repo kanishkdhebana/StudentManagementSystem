@@ -1,21 +1,38 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+"""
+Routes for managing instructors in the application.
+
+This module defines routes for adding, viewing, and managing instructors.
+
+Attributes:
+    instructors_blueprint (flask.Blueprint): Blueprint object for defining instructor routes.
+"""
+
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from models.instructors import Instructor, db
 from models.users import User, UserType
 from models.students import Student
 from models.enrollments import Enrollment
-from models.grades import Grade
+from models.grades import Grade, Grades
 from models.courses import Course
 from sqlalchemy.exc import IntegrityError
 
+# Blueprint object for defining instructor routes
 instructors_blueprint = Blueprint('instructors', __name__)
 
 @instructors_blueprint.route("/add_instructor", methods=['GET', 'POST'])
 @login_required
 def add_instructor():
+    """
+    Route for adding a new instructor.
+
+    This route allows administrators to add a new instructor by submitting a form. If the form is submitted via POST method, it validates the input and adds the new instructor to the database.
+
+    Returns:
+        str: Rendered template for adding an instructor or a redirect to the admin_dashboard route.
+    """
     if current_user.user_type != UserType.admin:
-        flash('You are not authorized to perform this action.', 'error')
-        return redirect(url_for('users.login'))
+        return 'Unauthorized', 403
     
     if request.method == 'POST':
         instructor_id = request.form['instructor_id']
@@ -25,7 +42,7 @@ def add_instructor():
             flash('Instructor already exists', 'error')
             return redirect(url_for('instructors.add_instructor'))
         
-        first_name   = request.form['first_name']
+        first_name  = request.form['first_name']
         last_name    = request.form['last_name']
         sex          = request.form['sex']
         email        = request.form['email']
@@ -52,7 +69,6 @@ def add_instructor():
             bloodgroup    = bloodgroup,
             doj           = doj,
             phone_number  = phone_number,
-    
         ) 
 
         try:
@@ -78,105 +94,196 @@ def add_instructor():
 
 # Define a mapping function for enum values
 def get_enum_display(enum_value):
+    """
+    Map enum values to human-readable strings.
+
+    Args:
+        enum_value (enum.Enum): The enum value to be mapped.
+
+    Returns:
+        str: The human-readable string representation of the enum value.
+    """
     if enum_value is None:
         return None
-
     elif enum_value.__class__.__name__ == 'BloodGroup':
         blood_group_mapping = {
-            'A_plus': 'A+',
-            'A_minus': 'A-',
-            'B_plus': 'B+',
-            'B_minus': 'B-',
-            'AB_plus': 'AB+',
+            'A_plus'  : 'A+',
+            'A_minus' : 'A-',
+            'B_plus'  : 'B+',
+            'B_minus' : 'B-',
+            'AB_plus' : 'AB+',
             'AB_minus': 'AB-',
-            'O_plus': 'O+',
-            'O_minus': 'O-'
+            'O_plus'  : 'O+',
+            'O_minus' : 'O-'
         }
-        
         return blood_group_mapping.get(enum_value.value)
-    
     return str(enum_value).replace('_', ' ')
+
 
 # Pass the mapped values to the template
 @instructors_blueprint.route('/view_instructors')
 @login_required
 def view_instructors():
+    """
+    Route for viewing all instructors.
+
+    This route retrieves all instructors from the database and renders the view_instructors.html template.
+
+    Returns:
+        str: Rendered template for viewing instructors.
+    """
+    
+    if current_user.user_type != UserType.admin:
+        return 'Unauthorized', 403
+    
     instructors = Instructor.query.all()
-    return render_template('view_instructors.html', instructors = instructors, get_enum_display = get_enum_display)
+    return render_template(
+        'view_instructors.html',
+        instructors = instructors,
+        get_enum_display = get_enum_display
+    ) 
 
 
 @instructors_blueprint.route("/view_full_instructor_info/<string:instructor_id>")
 @login_required 
 def view_full_instructor_info(instructor_id):
-    instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
+    """
+    Route for viewing detailed information about an instructor.
+
+    This route retrieves the detailed information about the specified instructor from the database and renders the view_full_instructor_info.html template.
+
+    Args:
+        instructor_id (str): The ID of the instructor to be viewed.
+
+    Returns:
+        str: Rendered template for viewing detailed information about the instructor.
+    """
+    
+    if current_user.user_type != UserType.instructor:
+        return 'Unauthorized', 403
+    
+    instructor = Instructor.query.filter_by(instructor_id=instructor_id).first()
 
     if not instructor:
         flash('Instructor not found.', 'error')
         return redirect(url_for('dashboard.instructor_dashboard'))
 
-    return render_template('view_full_instructor_info.html', instructor = instructor, get_enum_display = get_enum_display)
+    return render_template(
+        'view_full_instructor_info.html',
+        instructor = instructor,
+        get_enum_display = get_enum_display
+    )
 
 
 @instructors_blueprint.route("/view_instructor_courses/<string:instructor_id>")
 @login_required
 def view_instructor_courses(instructor_id):
+    """
+    Route for viewing courses assigned to an instructor.
+
+    This route retrieves the courses assigned to the specified instructor from the database and renders the view_instructor_courses.html template.
+
+    Args:
+        instructor_id (str): The ID of the instructor whose courses are to be viewed.
+
+    Returns:
+        str: Rendered template for viewing courses assigned to the instructor.
+    """
+    
+    if current_user.user_type != UserType.instructor:
+        return 'Unauthorized', 403
+    
     instructor_courses = (
         db.session.query(Course)
         .filter(Course.instructor_id == instructor_id)
         .all()
     )
 
-    instructor = Instructor.query.filter_by(instructor_id=instructor_id).first()
+    instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
 
-    return render_template('view_instructor_courses.html', instructor = instructor, instructor_courses = instructor_courses)
+    return render_template(
+        'view_instructor_courses.html',
+        instructor = instructor,
+        instructor_courses = instructor_courses
+    )
 
 
-
-@instructors_blueprint.route("/view_enrolled_students/<string:course_code>")
+@instructors_blueprint.route("/view_enrolled_students/<string:course_code>", methods = ['GET', 'POST'])
 @login_required
 def view_enrolled_students(course_code):
+    """
+    Route for viewing students enrolled in a course and managing their grades.
+
+    This route allows instructors to view the list of students enrolled in a course, update their grades, and add new grades.
+
+    Args:
+        course_code (str): The code of the course for which enrolled students are to be viewed.
+
+    Returns:
+        str: Rendered template for viewing enrolled students and managing their grades.
+    """
+    
+    if current_user.user_type != UserType.instructor:
+        return 'Unauthorized', 403
+    
+    if request.method == 'POST':
+        student_id = request.form.get('student_id')
+        new_grade = request.form.get('grade')
+
+        if new_grade in [g.value for g in Grades]:
+            enrollment = Enrollment.query.filter_by(
+                student_id=student_id,
+                course_code = course_code
+            ).first()
+            if enrollment:
+                grade = Grade.query.filter_by(enrollment_id = enrollment.enrollment_id).first()
+                if grade:
+                    # Update the grade
+                    grade.grade = new_grade
+                    db.session.commit()
+                    flash('Grade updated successfully.', 'success')
+                else:
+                    grade = Grade(enrollment_id = enrollment.enrollment_id, grade = new_grade)
+                    db.session.add(grade)
+                    db.session.commit()
+                    flash('Grade added successfully.', 'success')
+            else:
+                flash('Enrollment not found for the student in this course.', 'error')
+        else:
+            flash('Invalid grade value.', 'error')
+
+        return redirect(url_for("instructors.view_enrolled_students", course_code = course_code))
+
+    # If it's a GET request
     enrolled_students = (
-        db.session.query(Student.student_id, Student.first_name, Student.last_name)
+        db.session.query(
+            Student.student_id,
+            Student.first_name,
+            Student.last_name,
+            Student.sex,
+            Student.email,
+            Student.degree_name,
+            Student.student_phoneno,
+            Grade.grade
+        )
         .join(Enrollment, Student.student_id == Enrollment.student_id)
+        .join(Grade, Enrollment.enrollment_id == Grade.enrollment_id)
         .filter(Enrollment.course_code == course_code)
         .all()
     )
 
+    grades = Grade.query.all()
     course = Course.query.filter_by(course_code = course_code).first()
-    
+
     if course:
         course_name = course.course_name
-        
     else:
         return render_template('error.html', message = 'Course not found.')
 
-    return render_template('view_enrolled_students.html', enrolled_students = enrolled_students, course_name = course_name, course_code = course_code)
-
-
-@instructors_blueprint.route("/update_grades", methods=["POST"])
-@login_required
-def update_grades():
-    if current_user.user_type != UserType.instructor:
-        return "Unauthorized", 403
-
-    if request.method == "POST":
-        course_code = request.form.get("course_code")
-        grades = request.form.getlist("grades")
-
-        for student_id, grade in grades.items():
-            student_grade = Grade.query.filter_by(student_id=student_id, course_code=course_code).first()
-            if student_grade:
-                student_grade.grade = grade
-                
-            else:
-                student_grade = Grade(student_id=student_id, course_code=course_code, grade=grade)
-                db.session.add(student_grade)
-
-        db.session.commit()
-        flash("Grades updated successfully.", "success")
-        return redirect(url_for("instructors.view_enrolled_students", course_code=course_code))
-
-    return "Method Not Allowed", 405
-
-
-
+    return render_template(
+        'view_enrolled_students.html',
+        enrolled_students = enrolled_students,
+        grades = grades,
+        course_name = course_name,
+        course_code = course_code
+    )

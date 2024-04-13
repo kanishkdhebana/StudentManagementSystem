@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>View Instructor</title>
+    <title>View Instructor</title>   
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style/style.css') }}"
+    />
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='style/tables.css') }}"
@@ -11,45 +15,44 @@
   </head>
   <body>
     <h1>Instructors</h1>
-    <div class="container">
-        <table>
-          <thead>
-            <tr>
-              <th>Instructor ID</th>
-              <th>Name</th> 
-              <th>Gender</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>City</th>
-              <th>State</th>
-              <th>Address PIN</th>
-              <th>Date of Birth</th>
-              <th>Blood Group</th>
-              <th>Date of Joining</th>
-              <th>Phone Number</th>
-            </tr>
-          </thead>
+    <div class="table_container">
+      <table>
+        <thead>
+          <tr>
+            <th>Instructor ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Address PIN</th>
+            <th>Date of Birth</th>
+            <th>Blood Group</th>
+            <th>Date of Joining</th>
+            <th>Phone Number</th>
+          </tr>
+        </thead>
 
-          <tbody>
-
-              {% for instructor in instructors %}
-              <tr>
-                  <td>{{ instructor.instructor_id }}</td>
-                  <td>{{ instructor.first_name }} {{ instructor.last_name }}</td>
-                  <td>{{ instructor.sex.value if instructor.sex else None }}</td>
-                  <td>{{ instructor.email }}</td>
-                  <td>{{ instructor.address }}</td>
-                  <td>{{ instructor.city }}</td>
-                  <td>{{ instructor.state }}</td>
-                  <td>{{ instructor.address_pin }}</td>
-                  <td>{{ instructor.dob }}</td>
-                  <td>{{ get_enum_display(instructor.bloodgroup) }}</td>
-                  <td>{{ instructor.doj }}</td>
-                  <td>{{ instructor.phone_number }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <tbody>
+          {% for instructor in instructors %}
+          <tr>
+            <td>{{ instructor.instructor_id }}</td>
+            <td>{{ instructor.first_name }} {{ instructor.last_name }}</td>
+            <td>{{ instructor.sex.value if instructor.sex else None }}</td>
+            <td>{{ instructor.email }}</td>
+            <td>{{ instructor.address }}</td>
+            <td>{{ instructor.city }}</td>
+            <td>{{ instructor.state }}</td>
+            <td>{{ instructor.address_pin }}</td>
+            <td>{{ instructor.dob }}</td>
+            <td>{{ get_enum_display(instructor.bloodgroup) }}</td>
+            <td>{{ instructor.doj }}</td>
+            <td>{{ instructor.phone_number }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 
     <div class="links">

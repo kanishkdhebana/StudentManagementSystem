@@ -1,14 +1,4 @@
-/*
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-  color: black;
-}
-
-.wrapper{
+.wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,178 +6,55 @@
   width: 100vw;
   min-height: 100vh;
   height: auto;
-  background: linear-gradient(90deg, white, white);
+  background: linear-gradient(90deg, #f4f7f6, #f4f7f6);
 }
 
-form{
+form {
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   padding: 50px 30px;
   position: relative;
   gap: 40px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 10px 50px;
-  width: 350px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 70%;
+  max-width: 500px;
+  background-color: #fff;
 }
 
 
-
-h2{
+h2 {
   text-align: center;
+  color: #333;
   margin: 10px 0px 30px 0px;
 }
 
-input::placeholder{
+input::placeholder {
   padding: 5px;
   transition: 0.2s linear;
 }
 
-#user_id{
-  border: none;
-  font-size: 15px;
-  background: transparent;
-  border-bottom: 1px solid grey;
-  outline: none;
-}
-
-#user_password{
-  border: none;
-  font-size: 15px;
-  background: transparent;
-  border-bottom: 0.5px solid grey;
-  outline: none;
-}
-
-.login_button{
-  color: black;
-  font-size: 15px;
-  padding: 5px 0px 5px 0px;
-  border-radius: 25px;
-  cursor: pointer;
-  background: transparent;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  border: none;
-}
-
-
-input{
-  transition: all 0.2s linear;
-  color: rgb(70, 70, 70);
-
-}
-
-.login_button:hover{
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 10px 50px;
-}
-
-input:focus{
-  scale: 1.05;
-}
-input:hover{
-  scale: 1.05;
-}
-
-*/
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-body {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    background-color: #f4f7f6;
-    font-size: 18px;
-}
-
-.navbar {
-    width: 100%;
-    height: 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 30px;
-    background-color: #fff;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    margin-bottom: 40px;
-}
-
-.greeting {
-    font-size: 28px;
-    font-weight: 600;
-    color: #333;
-}
-
-.logout img {
-    cursor: pointer;
-}
-
-.wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 100vw;
-    min-height: 100vh;
-    height: auto;
-    background: linear-gradient(90deg, #f4f7f6, #f4f7f6);
-}
-
-form {
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    padding: 50px 30px;
-    position: relative;
-    gap: 40px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 70%;
-    max-width: 500px;
-    background-color: #fff;
-}
-
-h2 {
-    text-align: center;
-    color: #333;
-    margin: 10px 0px 30px 0px;
-}
-
-input::placeholder {
-    padding: 5px;
-    transition: 0.2s linear;
-}
-
 #user_id {
-    border: none;
-    font-size: 15px;
-    background: transparent;
-    border-bottom: 1px solid #ccc; /* Grey border by default */
-    outline: none;
+  border: none;
+  font-size: 15px;
+  background: transparent;
+  border-bottom: 1px solid #ccc;
+  outline: none;
 }
 
 #user_password {
-    border: none;
-    font-size: 15px;
-    background: transparent;
-    border-bottom: 1px solid #ccc; /* Grey border by default */
-    outline: none;
+  border: none;
+  font-size: 15px;
+  background: transparent;
+  border-bottom: 1px solid #ccc;
+  outline: none;
 }
 
 #user_id:hover,
 #user_password:hover,
 #ussr_id:focus,
 #user_password:focus {
-    border-bottom: 1px solid #007bff; /* Blue border on hover */
+  border-bottom: 1px solid #007bff;
 }
 
 input {
@@ -195,19 +62,3 @@ input {
   color: #333;
 }
 
-
-.login_button {
-    color: #fff;
-    font-size: 15px;
-    padding: 10px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    background: #007bff;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    border: none;
-}
-
-.login_button:hover {
-  background-color: #0056b3;
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
-}

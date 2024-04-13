@@ -1,3 +1,13 @@
+"""
+Student Management System
+
+This Flask application manages students, instructors, courses, departments, and authentication.
+
+Attributes:
+    app (Flask): The Flask application instance.
+    login_manager (LoginManager): The Flask-Login manager instance.
+"""
+
 from flask import Flask, redirect, url_for
 from flask_login import LoginManager
 from models.users import User, db as user_db
@@ -8,6 +18,7 @@ from routes.auth import auth_blueprint
 from routes.departments_route import departments_blueprint
 from routes.dashboard import dashboard_blueprint
 
+# Initialize the Flask application
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'my_secret_key'
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
@@ -27,6 +38,15 @@ user_db.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
+    """
+    Load a user given the user ID.
+
+    Args:
+        user_id (str): The ID of the user to load.
+
+    Returns:
+        User: The user object corresponding to the user ID.
+    """
     return User.query.get(user_id)
 
 # Register Blueprints
@@ -37,9 +57,14 @@ app.register_blueprint(departments_blueprint)
 app.register_blueprint(dashboard_blueprint)
 app.register_blueprint(instructors_blueprint)
 
-
 @app.route('/')
 def index():
+    """
+    Redirect to the login page.
+
+    Returns:
+        Redirect: Redirects to the login page.
+    """
     return redirect(url_for('auth.login'))
 
 if __name__ == '__main__':

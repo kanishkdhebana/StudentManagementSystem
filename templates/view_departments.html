@@ -1,40 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Department</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/tables.css') }}">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Department</title>   
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style/style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style/tables.css') }}"
+    />
+  </head>
+  <body>
     <h1>Departments</h1>
-    <div class="container">  
-    <table>
+    <div class="table_container">
+      <table>
         <thead>
-            <tr>
-                <th>Department ID</th>
-                <th>Department Name</th>
-            </tr>
+          <tr>
+            <th>Department ID</th>
+            <th>Department Name</th>
+          </tr>
         </thead>
         {% for department in departments %}
 
         <tbody>
-            <tr>
-                <td>{{ department.department_id }}</td>
-                <td>{{ department.department_name }}</td>
-            </tr>
+          <tr>
+            <td>{{ department.department_id }}</td>
+            <td>{{ department.department_name }}</td>
+          </tr>
         </tbody>
         {% endfor %}
-    </table>
+      </table>
     </div>
 
     <div class="links">
-        {% if current_user.is_authenticated %}
-            <a href="{{ url_for('dashboard.admin_dashboard') }}">Home</a>
-            <a href="{{ url_for('departments.add_department') }}">Add Department</a>
-        {% else %}
-            <p>Go to <a href="{{ url_for('auth.login') }}">Login</a> page.</p>
-        {% endif %}
+      {% if current_user.is_authenticated %}
+      <a href="{{ url_for('dashboard.admin_dashboard') }}">Home</a>
+      <a href="{{ url_for('departments.add_department') }}">Add Department</a>
+      {% else %}
+      <p>Go to <a href="{{ url_for('auth.login') }}">Login</a> page.</p>
+      {% endif %}
     </div>
-</body>
+  </body>
 </html>

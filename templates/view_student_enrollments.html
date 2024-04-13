@@ -4,39 +4,42 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Course Enrollments</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/tables.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style/style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style/tables.css') }}"
+    />
   </head>
   <body>
     <h1>Your Enrollments</h1>
-    <div class="container">
-      
-      <div class="enrollments">
-        <table>
-          <thead>
-            <tr>
-              <th>Enrollment ID</th>
-              <th>Course Code</th>
-              <th>Enrollment Date</th>
-              <!-- Add more columns as needed -->
-            </tr>
-          </thead>
-          <tbody>
-            {% for enrollment in student_enrollments %}
-            <tr>
-              <td>{{ enrollment.enrollment_id }}</td>
-              <td>{{ enrollment.course_code }}</td>
-              <td>{{ enrollment.enrollment_date }}</td>
-              <!-- Add more columns as needed -->
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+    <div class="table_container">
+      <table>
+        <thead>
+          <tr>
+            <th>Enrollment ID</th>
+            <th>Course Code</th>
+            <!-- Add more columns as needed -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for enrollment in student_enrollments %}
+          <tr>
+            <td>{{ enrollment.enrollment_id }}</td>
+            <td>{{ enrollment.course_code }}</td>
+            <!-- Add more columns as needed -->
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 
     <div class="links">
       {% if current_user.is_authenticated %}
       <a href="{{ url_for('dashboard.student_dashboard') }}">Back</a>
+      <a href="{{ url_for('students.enroll_course') }}">Enroll in a Course</a>
       {% else %}
       <p>Go to <a href="{{ url_for('auth.login') }}">Login</a> page.</p>
       {% endif %}

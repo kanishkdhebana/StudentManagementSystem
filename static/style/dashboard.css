@@ -1,218 +1,92 @@
-/*
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-}
-
-body {  
-    width: 100vw;
-    min-height: 100vh;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 60px;
-    background: linear-gradient(90deg, white, white)};
-
-    
-    .greeting {
-        user-select: none;
-    }
-    
-    .navbar{
-        width: calc(100% - 60px);
-        height: 70px;
-        display: flex;
-        justify-content: space-between;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 10px 50px;
-        border-radius: 0px 0px 15px 15px;
-        padding: 20px 30px;
-        align-items: center;
-        font-size: 21px;
-        margin-bottom: 35px;
-    }
-
-.logout img {
-    cursor: pointer;
-    transition: all 0.2s linear;
-}
-
-.logout img:hover {
-    scale: 1.05;
-}
-
- 
-.profile_info {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 10px 50px;
-    padding: 30px;
-    border-radius: 15px;
-}
-
-.links p {
-    visibility: hidden;
-    height: 0;
-}
-
-.links {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 10px 50px;
-    padding: 25px 45px;
-    font-size: 17px;
-    border-radius: 10px;
-}
-
-a {
-    text-decoration: none;
-    color: black;
-}
- 
-*/
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box; 
-}
-
-body {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    background-color: #f4f7f6; 
-    font-family: 'Poppins', sans-serif;
-    font-size: 18px; 
-}
-
-.navbar {
-    width: 100%;
-    height: 80px; 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 30px;
-    background-color: #fff; 
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px; 
-    margin-bottom: 40px;
-}
-
-.greeting {
-    font-size: 28px; 
-    font-weight: 600; 
-    color: #333; 
-}
-
-.logout img {
-    cursor: pointer;
-}
-
-.logout img:hover {
-    scale: 1.05;
-}
-
 /* For Student and Instructor */
 
 .box {
-    display: flex;
-    justify-content: space-between;
-    width: 70%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 30px;
-    background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .profile_info {
-    width: 45%;
+  width: 45%;
 }
-
 
 .profile_info p {
-    margin-bottom: 10px;
-}
+  margin-bottom: 10px;
+} 
 
 .links {
-    width: calc(50% - 20px);  
-    padding: 30px;
-    border-radius: 15px;
-    background-color: #fff;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+  width: calc(50% - 20px);
+  padding: 30px;
+  margin: 1%;
+  border-radius: 15px;
+  background-color: #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .links a {
-    display: block;
-    text-decoration: none;
-    outline: none;
-    color: #333;
-    cursor: pointer;
-    padding: 30px; 
-    transition: all 0.3s ease; 
-    border-radius: 15px;
-    background-color: #f9f9f9; 
-    margin-bottom: 8px;
-}
- 
-.links a:hover {
-    transform: translateY(-3px); 
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); 
+  display: block;
+  text-decoration: none;
+  outline: none;
+  color: #333;
+  cursor: pointer;
+  padding: 30px;
+  transition: all 0.3s ease;
+  border-radius: 15px;
+  background-color: #f9f9f9;
+  margin-bottom: 8px;
 }
 
- 
-ul{
-    list-style: none;
+.links a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  color: #007bff;
+}
+
+ul {
+  list-style: none;
 }
 
 /* For admin dashboard */
 
 .admin_box {
-    width: 55%;
-    max-width: 500px; 
-    padding: 60px; 
-    background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin-top: calc(2in - 80px); 
+  width: 55%;
+  max-width: 500px;
+  padding: 60px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: calc(2in - 80px);
 }
 
 .admin_box div {
-    transition: all 0.3s ease; 
-    border-radius: 15px;
-    background-color: #f9f9f9; 
-    margin-bottom: 8px; 
-    cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 15px;
+  background-color: #f9f9f9;
+  margin-bottom: 8px;
+  cursor: pointer;
 }
 
 .admin_box div:hover {
-    transform: translateY(-3px); 
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); 
+  transform: translateY(-3px);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 .admin_box div a {
-    display: block;
-    text-decoration: none;
-    outline: none;
-    color: #333; 
-    padding: 30px;
+  display: block;
+  text-decoration: none;
+  outline: none;
+  color: #333;
+  padding: 30px;
 }
 
 .admin_box div a:hover {
-    color: #007bff; 
+  color: #007bff;
 }

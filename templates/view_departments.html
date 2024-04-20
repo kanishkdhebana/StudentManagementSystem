@@ -1,47 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>View Department</title>   
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style/style.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style/tables.css') }}"
-    />
-  </head>
-  <body>
-    <h1>Departments</h1>
-    <div class="table_container">
-      <table>
-        <thead>
-          <tr>
-            <th>Department ID</th>
-            <th>Department Name</th>
-          </tr>
-        </thead>
-        {% for department in departments %}
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>View Department</title>
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/style.css') }}"
+        />
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/tables.css') }}"
+        />
+    </head>
 
-        <tbody>
-          <tr>
-            <td>{{ department.department_id }}</td>
-            <td>{{ department.department_name }}</td>
-          </tr>
-        </tbody>
-        {% endfor %}
-      </table>
-    </div>
+    <body>
+        <h1>Departments</h1>
+        <div class="table_container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Department ID</th>
+                        <th>Department Name</th>
+                    </tr>
+                </thead>
+                {% for department in departments %}
+                <tbody>
+                    <tr> 
+                        <td style="white-space: nowrap;">
+                            <form id="deleteForm_{{ department.department_id }}" action="{{ url_for('departments.view_departments') }}" method="POST">
+                                <input type="hidden" name="department_id" value="{{ department.department_id }}" />
+                                <button class="update_button" type="button" onclick="confirmDelete('{{ department.department_id }}')">Delete</button>
+                            </form>
+                        </td>
+                        
+                        <script>
+                            function confirmDelete(studentId) {
+                                var confirmation = confirm("Are you sure you want to delete this student?");
+                                if (confirmation) {
+                                    // If confirmed, submit the form
+                                    document.getElementById('deleteForm_' + studentId).submit();
+                                } else {
+                                    // If not confirmed, do nothing
+                                    return false;
+                                }
+                            }
+                        </script>
+                        
+                        <td>{{ department.department_id }}</td>
+                        <td>{{ department.department_name }}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
 
-    <div class="links">
-      {% if current_user.is_authenticated %}
-      <a href="{{ url_for('dashboard.admin_dashboard') }}">Home</a>
-      <a href="{{ url_for('departments.add_department') }}">Add Department</a>
-      {% else %}
-      <p>Go to <a href="{{ url_for('auth.login') }}">Login</a> page.</p>
-      {% endif %}
-    </div>
-  </body>
+            {% if error_message %}
+            <div class="error-message">
+            {{ error_message }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="links">
+            <a href="{{ url_for('dashboard.admin_dashboard') }}">Home</a>
+            <a href="{{ url_for('departments.add_department') }}">Add Department</a>
+        </div>
+    </body>
 </html>

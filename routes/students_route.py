@@ -7,7 +7,7 @@ Attributes:
     students_blueprint (flask.Blueprint): Blueprint object for defining student routes.
 """
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from datetime import datetime
 from models.students import Student, db
@@ -15,6 +15,7 @@ from models.users import User, UserType
 from models.enrollments import Enrollment
 from models.grades import Grade
 from models.courses import Course
+from models.instructors import Instructor
 from models.departments import Department
 from sqlalchemy.exc import IntegrityError
 
@@ -36,10 +37,12 @@ def add_student():
     
     if request.method == 'POST':
         student_id = request.form['student_id']
+        department_id = request.form.get('department_id')
+        if not department_id:
+            return redirect(url_for('students.add_student'))
         
         existing_student = Student.query.filter_by(student_id = student_id).first()
         if existing_student:
-            flash('Student already exists', 'error')
             return redirect(url_for('students.add_student'))
           
         first_name       = request.form['first_name']
@@ -47,7 +50,6 @@ def add_student():
         last_name        = request.form['last_name']
         sex              = request.form['sex']
         email            = request.form['email']
-        degree_name      = request.form['degree_name']
         grad_level       = request.form['grad_level']
         address          = request.form['address']
         city             = request.form['city']
@@ -60,8 +62,8 @@ def add_student():
         doa              = request.form['doa']
         father_occ       = request.form['father_occ']
         mother_occ       = request.form['mother_occ']
-        student_phoneno  = request.form['student_phoneno']
-        guardian_phoneno = request.form['guardian_phoneno']
+        student_phoneno  = int(request.form['student_phoneno'])
+        guardian_phoneno = int(request.form['guardian_phoneno'])
 
         new_student = Student(
             student_id       = student_id,
@@ -70,7 +72,6 @@ def add_student():
             last_name        = last_name,
             sex              = sex,
             email            = email,
-            degree_name      = degree_name,
             grad_level       = grad_level,
             address          = address,
             city             = city,
@@ -84,7 +85,8 @@ def add_student():
             father_occ       = father_occ,
             mother_occ       = mother_occ,
             student_phoneno  = student_phoneno,
-            guardian_phoneno = guardian_phoneno
+            guardian_phoneno = guardian_phoneno,
+            department_id    = department_id
         ) 
 
         try:
@@ -97,16 +99,16 @@ def add_student():
             db.session.add(new_user)
             db.session.commit()
             
-            flash('Student added successfully.', 'success')
             return redirect(url_for("students.add_student"))
         
         except IntegrityError as e:
             db.session.rollback()
             error_message = str(e.orig) if e.orig else "An error occurred. Please try again later."
-            flash(error_message, 'error')
 
-    # If the request method is not POST
-    return render_template("add_student.html")
+    # if not POST
+    departments = Department.query.all()
+    return render_template("add_student.html", departments = departments)
+
 
 
 def get_enum_display(enum_value):
@@ -145,7 +147,7 @@ def get_enum_display(enum_value):
     return str(enum_value).replace('_', ' ')
 
 
-@students_blueprint.route('/view_students')
+@students_blueprint.route('/view_students', methods = ['GET', 'POST'])
 @login_required
 def view_students():
     """
@@ -158,17 +160,34 @@ def view_students():
     """
     if current_user.user_type != UserType.admin:
         return 'Unauthorized', 403
-    
+     
+    if request.method == 'POST':
+        student_id = request.form.get('student_id')
+        Enrollment.query.filter_by(student_id = student_id).delete()
+        student = Student.query.filter_by(student_id = student_id).first()
+        if student:
+            db.session.delete(student)
+            db.session.commit()
+        return redirect(url_for("students.view_students"))
+      
     students = Student.query.all()
+    department_names = {}
+    for student in students:
+        department = Department.query.filter_by(department_id = student.department_id).first()
+        if department:
+            department_names[student.student_id] = department.department_name
+        else:
+            department_names[student.student_id] = "Unknown Department"
+
     
     return render_template(
         'view_students.html',
         students = students,
+        department_names = department_names,
         get_enum_display = get_enum_display
     )
 
 
-""" Edit Student Information """
 @students_blueprint.route("/edit_student_info/<string:student_id>", methods=['GET', 'POST'])
 @login_required
 def edit_student(student_id):
@@ -189,6 +208,10 @@ def edit_student(student_id):
     
     if request.method == 'POST':
         student = Student.query.filter_by(student_id = student_id).first()
+        
+        # Validate phone numbers
+        if not is_valid_phone_number(request.form['student_phoneno']) or not is_valid_phone_number(request.form['guardian_phoneno']):
+            return redirect(url_for('students.edit_student', student_id = student_id))
 
         student.email = request.form['email']
         student.student_phoneno = request.form['student_phoneno']
@@ -196,14 +219,24 @@ def edit_student(student_id):
 
         db.session.commit()
 
-        flash('Student information updated successfully.', 'success')
         return redirect(url_for('dashboard.student_dashboard'))
 
-    student = Student.query.filter_by(student_id=student_id).first()
-    return render_template('edit_student_info.html', student=student)
+    student = Student.query.filter_by(student_id = student_id).first()
+    return render_template('edit_student_info.html', student = student)
 
+def is_valid_phone_number(phone_number):
+    """
+    Check if the phone number consists of exactly 10 digits.
 
-""" View Student Information """
+    Args:
+        phone_number (str): Phone number to validate.
+
+    Returns:
+        bool: True if the phone number consists of exactly 10 digits, False otherwise.
+    """
+    return len(phone_number) == 10 and phone_number.isdigit()
+    
+
 @students_blueprint.route("/view_full_student_info/<string:student_id>")
 @login_required
 def view_full_student_info(student_id):
@@ -223,12 +256,13 @@ def view_full_student_info(student_id):
         return 'Unauthorized', 403
     
     student = Student.query.filter_by(student_id = student_id).first()
-
+    department = Department.query.filter_by(department_id=student.department_id).first()
+    department_name = department.department_name if department else "Unknown Department"
+    
     if not student:
-        flash('Student not found.', 'error')
         return redirect(url_for('dashboard.student_dashboard'))
 
-    return render_template('view_full_student_info.html', student = student)
+    return render_template('view_full_student_info.html', student = student, department_name = department_name)
 
 
 @students_blueprint.route("/view_student_enrollments/<string:student_id>")
@@ -250,8 +284,19 @@ def view_student_enrollments(student_id):
         return 'Unauthorized', 403
     
     student_enrollments = Enrollment.query.filter_by(student_id = student_id).all()
+    enrollment_details = []
     
-    return render_template("view_student_enrollments.html", student_enrollments = student_enrollments)
+    for enrollment in student_enrollments:
+        course = Course.query.filter_by(course_code = enrollment.course_code).first()
+        course_name = course.course_name
+        
+        enrollment_details.append({
+            'course_name': course_name,
+            'course_code': enrollment.course_code,
+            'enrollment_date': enrollment.enrollment_date
+        })    
+    
+    return render_template("view_student_enrollments.html", enrollment_details = enrollment_details)
 
 
 @students_blueprint.route("/view_student_grades/<string:student_id>")
@@ -295,7 +340,7 @@ def enroll_course():
         str: Rendered template for enrolling in a course or a redirect to the student dashboard.
     """
     
-    if current_user.user_type != UserType.student or current_user.user_id != student_id:
+    if current_user.user_type != UserType.student:
         return 'Unauthorized', 403
     
     student_id = current_user.user_id
@@ -308,11 +353,10 @@ def enroll_course():
             course_code = course_code
             ).first()
         if existing_enrollment:
-            flash('You are already enrolled in this course.', 'error')
-            return redirect(url_for('enrollment.enroll_course'))
+            return redirect(url_for('students.enroll_course'))
         
         new_enrollment = Enrollment(
-            student_id = student_id,
+            student_id = student_id,    
             course_code = course_code,
             enrollment_date = datetime.now()  
         )
@@ -320,20 +364,17 @@ def enroll_course():
         try:
             db.session.add(new_enrollment)
             db.session.commit()    
-            flash('Enrollment successful!', 'success')
             return redirect(url_for('dashboard.student_dashboard'))  
+        
         except IntegrityError:
             db.session.rollback()
-            flash('An error occurred. Please try again later.', 'error')
     
-    student_department_name = Student.query.filter_by(student_id = student_id).first().degree_name
+    student_department_id = Student.query.filter_by(student_id = student_id).first().department_id
+    available_courses = Course.query.filter_by(department_id = student_department_id).all()
     
-    department = Department.query.filter_by(department_name = student_department_name).first()
-    if department:
-        department_id = department.department_id
-    
-        available_courses = Course.query.filter_by(department_id = department_id).all()
-    else:
-        available_courses = []
+    for course in available_courses:
+        instructor = Instructor.query.filter_by(instructor_id = course.instructor_id).first()
+        if instructor:
+            course.instructor_name = instructor.first_name + ' ' +  instructor.last_name
     
     return render_template("enroll_in_course.html", available_courses = available_courses)

@@ -7,10 +7,12 @@ Attributes:
     courses_blueprint (flask.Blueprint): Blueprint object for defining course routes.
 """
 
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user
-from models.users import UserType
-from models.courses import Course, db
+from models.users import UserType, db
+from models.courses import Course
+from models.enrollments import Enrollment
+from models.departments import Department
 from sqlalchemy.exc import IntegrityError
 
 # Blueprint object for defining course routes
@@ -31,13 +33,18 @@ def add_course():
     if current_user.user_type != UserType.admin:
         return 'Unauthorized', 403
     
+    departments = Department.query.all()
+    
     if request.method == 'POST': 
         course_code   = request.form['course_code']
         course_name   = request.form['course_name']
         instructor_id = request.form['instructor_id']
-        department_id = request.form['department_id']
+        department_name = request.form['department_name']
         description   = request.form['description']
         credit_hours  = request.form['credit_hours']
+        
+        department = Department.query.filter_by(department_name = department_name).first()
+        department_id = department.department_id if department else None
 
         new_course = Course( 
             course_code   = course_code,
@@ -56,13 +63,13 @@ def add_course():
         except IntegrityError as e:
             db.session.rollback()
             error_message = str(e.orig) if e.orig else "An error occurred. Please try again later."
-            return render_template("error.html", message=error_message)
+            return render_template("error.html", message = error_message)
 
-    # If the request method is not POST, render the form for adding a course
-    return render_template("add_course.html")
+    # If the request method is not POST
+    return render_template("add_course.html", departments = departments)
 
 
-@courses_blueprint.route('/view_courses')
+@courses_blueprint.route('/view_courses', methods = ['GET', 'POST'])
 @login_required
 def view_courses():
     """
@@ -73,8 +80,38 @@ def view_courses():
     Returns:
         str: Rendered template for viewing courses.
     """
+
     if current_user.user_type != UserType.admin:
         return 'Unauthorized', 403
     
+    error_message = session.pop('error_message', None)
+    
+    if request.method == 'POST':
+        course_code = request.form.get('course_code')
+        existing_enrollments = Enrollment.query.filter_by(course_code = course_code).all()
+    
+        if existing_enrollments:
+            error_message = "Cannot delete course because there are existing enrollments."
+            session['error_message'] = error_message
+            
+        else:
+            Enrollment.query.filter_by(course_code=course_code).delete()
+            course = Course.query.filter_by(course_code=course_code).first()
+            if course:
+                db.session.delete(course)
+                db.session.commit()
+            
+            session['error_message'] = None
+            return redirect(url_for("courses.view_courses"))
+    
     courses = Course.query.all()
-    return render_template('view_courses.html', courses = courses)
+    courses_with_department = []
+    for course in courses:
+        department = Department.query.filter_by(department_id = course.department_id).first()
+        department_name = department.department_name if department else "Unknown Department"
+        courses_with_department.append((course, department_name))
+
+    return render_template('view_courses.html',
+                           courses_with_department = courses_with_department,
+                           error_message = error_message
+    )

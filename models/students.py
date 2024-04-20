@@ -1,5 +1,6 @@
 from sqlalchemy import Enum as EnumSQL
 from sqlalchemy import Date
+from sqlalchemy.orm import relationship
 from enum import Enum
 from models.users import db
 
@@ -31,7 +32,7 @@ class Student(db.Model):
     last_name        = db.Column(db.String(45), nullable = False)
     sex              = db.Column(EnumSQL(Sex), nullable = False)
     email            = db.Column(db.String(50), nullable = False)
-    degree_name      = db.Column(db.String(100), nullable = False)
+    #degree_name      = db.Column(db.String(100), nullable = False)
     grad_level       = db.Column(EnumSQL(GradLevel), nullable = False)
     address          = db.Column(db.String(400), nullable = False)
     city             = db.Column(db.String(50), nullable = False)
@@ -46,6 +47,8 @@ class Student(db.Model):
     mother_occ       = db.Column(db.String(100), nullable = False)
     student_phoneno  = db.Column(db.BigInteger, nullable = False)
     guardian_phoneno = db.Column(db.BigInteger, nullable = False)
+    
+    department_id = db.Column(db.String(11), db.ForeignKey('departments.department_id'), nullable=False)
 
     def __repr__(self) -> str:
         return f"{self.first_name} {self.middle_name} {self.last_name}"

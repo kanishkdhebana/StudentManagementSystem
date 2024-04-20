@@ -1,64 +1,64 @@
 .wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100vw;
-  min-height: 100vh;
-  height: auto;
-  background: linear-gradient(90deg, #f4f7f6, #f4f7f6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    min-height: 100vh;
+    height: auto;
+    background: linear-gradient(90deg, #f4f7f6, #f4f7f6);
 }
 
 form {
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  padding: 50px 30px;
-  position: relative;
-  gap: 40px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  width: 70%;
-  max-width: 500px;
-  background-color: #fff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 50px 30px;
+    position: relative;
+    gap: 40px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    max-width: 500px;
+    background-color: #fff;
 }
 
 
 h2 {
-  text-align: center;
-  color: #333;
-  margin: 10px 0px 30px 0px;
+    text-align: center;
+    color: #333;
+    margin: 10px 0px 30px 0px;
 }
 
 input::placeholder {
-  padding: 5px;
-  transition: 0.2s linear;
+    padding: 5px;
+    transition: 0.2s linear;
 }
 
 #user_id {
-  border: none;
-  font-size: 15px;
-  background: transparent;
-  border-bottom: 1px solid #ccc;
-  outline: none;
+    border: none;
+    font-size: 15px;
+    background: transparent;
+    border-bottom: 1px solid #ccc;
+    outline: none;
 }
 
 #user_password {
-  border: none;
-  font-size: 15px;
-  background: transparent;
-  border-bottom: 1px solid #ccc;
-  outline: none;
+    border: none;
+    font-size: 15px;
+    background: transparent;
+    border-bottom: 1px solid #ccc;
+    outline: none;
 }
 
 #user_id:hover,
 #user_password:hover,
 #ussr_id:focus,
 #user_password:focus {
-  border-bottom: 1px solid #007bff;
+    border-bottom: 1px solid #007bff;
 }
 
 input {
-  transition: all 0.2s linear;
-  color: #333;
+    transition: all 0.2s linear;
+    color: #333;
 }
 

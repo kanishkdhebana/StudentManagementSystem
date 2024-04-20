@@ -1,232 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Student</title>   
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style/style.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style/add_edit.css') }}"
-    />
-  </head>
-  <body>
-    <h1>Add New Student</h1>
-    <form method="POST" action="/add_student">
-      <!-- <label for="student_id">Student ID:</label> -->
-      <input
-        type="text"
-        id="student_id"
-        name="student_id"
-        placeholder="Student ID"
-        spellcheck="false"
-        required
-      />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Add Student</title>
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/style.css') }}"
+        />
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/add_edit.css') }}"
+        />
+    </head>
 
-      <!-- <label for="first_name">First Name:</label> -->
-      <input
-        type="text"
-        id="first_name"
-        name="first_name"
-        placeholder="First Name"
-        spellcheck="false"
-        required
-      />
+    <body> 
+        <h1>Add New Student</h1>
+        <form method="POST" action="/add_student">
+            <input
+            type="text"
+            id="student_id"
+            name="student_id"
+            placeholder="Student ID"
+            spellcheck="false"
+            pattern=".{11}" 
+            title="Student ID must be 11 characters"
+            required
+            />
 
-      <!-- <label for="middle_name">Middle Name:</label> -->
-      <input
-        type="text"
-        id="middle_name"
-        name="middle_name"
-        placeholder="Middle Name"
-        spellcheck="false"
-        required
-      />
+            <input
+            type="text"
+            id="first_name"
+            name="first_name"
+            placeholder="First Name"
+            maxlength="45" 
+            title="First Name must be up to 45 characters"
+            spellcheck="false"
+            required
+            />
 
-      <!-- <label for="last_name">Last Name:</label> -->
-      <input
-        type="text"
-        id="last_name"
-        name="last_name"
-        placeholder="Last Name"
-        spellcheck="false"
-        required
-      />
+            <input
+            type="text"
+            id="middle_name"
+            name="middle_name"
+            placeholder="Middle Name"
+            maxlength="45" 
+            title="Middle Name must be up to 45 characters"
+            spellcheck="false"
+            />
 
-      <!-- <label for="sex">Sex:</label> -->
-      <select id="sex" name="sex" required>
-        <option value="" disabled selected>Gender</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
-      </select>
+            <input
+            type="text"
+            id="last_name"
+            name="last_name"
+            placeholder="Last Name"
+            maxlength="45" 
+            title="Last Name must be up to 45 characters"
+            spellcheck="false"
+            required
+            />
 
-      <!-- <label for="email">Email:</label> -->
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Email"
-        spellcheck="false"
-        required
-      />
+            <select id="sex" name="sex" required>
+                <option value="" disabled selected>Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
 
-      <!-- <label for="degree_name">Degree Name:</label> -->
-      <input
-        type="text"
-        id="degree_name"
-        name="degree_name"
-        placeholder="Course"
-        spellcheck="false"
-        required
-      />
+            <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email"
+            maxlength="50" 
+            spellcheck="false"
+            required 
+            />
 
-      <!-- <label for="grad_level">Graduation Level:</label> -->
-      <select id="grad_level" name="grad_level" required>
-        <option value="" disabled selected>Degree</option>
-        <option value="B_Tech">B.Tech</option>
-        <option value="M_Tech">M.Tech</option>
-        <option value="PHD">PhD</option>
-      </select>
+            <select
+                id="department_id"
+                name="department_id"
+                required
+            >
+                <option value="" selected disabled>Select Department</option>
+                {% for department in departments %}
+                <option value="{{ department.department_id }}">{{ department.department_name }}</option>
+                {% endfor %}
+            </select>
 
-      <!-- <label for="address">Address:</label> -->
-      <input
-        type="text"
-        id="address"
-        name="address"
-        placeholder="Address"
-        spellcheck="false"
-        required
-      />
 
-      <!-- <label for="city">City:</label> -->
-      <input
-        type="text"
-        id="city"
-        name="city"
-        placeholder="City"
-        spellcheck="false"
-        required
-      />
+            <select id="grad_level" name="grad_level" required>
+                <option value="" disabled selected>Graduation Level</option>
+                <option value="B_Tech">B.Tech</option>
+                <option value="M_Tech">M.Tech</option>
+                <option value="PHD">PhD</option>
+            </select>
 
-      <!-- <label for="state">State:</label> -->
-      <input
-        type="text"
-        id="state"
-        name="state"
-        placeholder="State"
-        spellcheck="false"
-        required
-      />
+            <input
+            type="text"
+            id="address"
+            name="address"
+            placeholder="Address"
+            maxlength="500" 
+            spellcheck="false"
+            required
+            />
 
-      <!-- <label for="address_pin">Address Pin:</label> -->
-      <input
-        type="text"
-        id="address_pin"
-        name="address_pin"
-        placeholder="PIN"
-        spellcheck="false"
-        required
-      />
+            <input
+            type="text"
+            id="city"
+            name="city"
+            placeholder="City"
+            maxlength="50" 
+            spellcheck="false"
+            required
+            />
 
-      <!-- <label for="father_name">Father's Name:</label> -->
-      <input
-        type="text"
-        id="father_name"
-        name="father_name"
-        placeholder="Father's Name"
-        spellcheck="false"
-        required
-      />
+            <input
+            type="text"
+            id="state"
+            name="state"
+            placeholder="State"
+            maxlength="50" 
+            spellcheck="false"
+            required
+            />
 
-      <!-- <label for="mother_name">Mother's Name:</label> -->
-      <input
-        type="text"
-        id="mother_name"
-        name="mother_name"
-        placeholder="Mother's Name"
-        spellcheck="false"
-        required
-      />
+            <input
+            type="text"
+            id="address_pin"
+            name="address_pin"
+            placeholder="PIN"
+            spellcheck="false"
+            pattern="[0-9]{6}" 
+            title="PIN must be 6 digits"
+            inputmode="numeric"
+            required
+            />
 
-      <label for="dob">Date of Birth:</label>
-      <input
-        type="date"
-        id="dob"
-        name="dob"
-        placeholder="Date Of Birth"
-        required
-      />
+            <input
+            type="text"
+            id="father_name"
+            name="father_name"
+            placeholder="Father's Name"
+            maxlength="100" 
+            title="Mother's Occupation must be up to 100 characters"
+            spellcheck="false"
+            required
+            />
 
-      <select id="bloodgroup" name="bloodgroup" required>
-        <option value="" disabled selected>Select Blood Group</option>
-        <option value="A_plus">A+</option>
-        <option value="A_minus">A-</option>
-        <option value="B_plus">B+</option>
-        <option value="B_minus">B-</option>
-        <option value="AB_plus">AB+</option>
-        <option value="AB_minus">AB-</option>
-        <option value="O_plus">O+</option>
-        <option value="O_minus">O-</option>
-      </select>
+            <input
+            type="text"
+            id="mother_name"
+            name="mother_name"
+            placeholder="Mother's Name"
+            maxlength="100" 
+            title="Mother's Occupation must be up to 100 characters"
+            spellcheck="false"
+            required
+            />
 
-      <label for="doa">Date of Admission:</label>
-      <input
-        type="date"
-        id="doa"
-        name="doa"
-        placeholder="Date Of Admission"
-        required
-      />
+            <label for="dob">Date of Birth:</label>
+            <input
+            type="date"
+            id="dob"
+            name="dob"
+            placeholder="Date Of Birth"
+            required
+            />
 
-      <!-- <label for="father_occ">Father's Occupation:</label> -->
-      <input
-        type="text"
-        id="father_occ"
-        name="father_occ"
-        placeholder="Father's Occupation"
-        required
-      />
+            <select id="bloodgroup" name="bloodgroup" required>
+                <option value="" disabled selected>Select Blood Group</option>
+                <option value="A_plus">A+</option>
+                <option value="A_minus">A-</option>
+                <option value="B_plus">B+</option>
+                <option value="B_minus">B-</option>
+                <option value="AB_plus">AB+</option>
+                <option value="AB_minus">AB-</option>
+                <option value="O_plus">O+</option>
+                <option value="O_minus">O-</option>
+            </select>
 
-      <!-- <label for="mother_occ">Mother's Occupation:</label> -->
-      <input
-        type="text"
-        id="mother_occ"
-        name="mother_occ"
-        placeholder="Mother's Occupation"
-        required
-      />
+            <label for="doa">Date of Admission:</label>
+            <input
+            type="date"
+            id="doa"
+            name="doa"
+            placeholder="Date Of Admission"
+            required
+            />
 
-      <!-- <label for="student_phoneno">Student Phone Number:</label> -->
-      <input
-        type="text"
-        id="student_phoneno"
-        name="student_phoneno"
-        placeholder="Contact Number"
-        required
-      />
+            <input
+            type="text"
+            id="father_occ"
+            name="father_occ"
+            placeholder="Father's Occupation"
+            maxlength="100" 
+            title="Mother's Occupation must be up to 100 characters"
+            required
+            />
 
-      <!-- <label for="guardian_phoneno">Guardian's Phone Number:</label> -->
-      <input
-        type="text"
-        id="guardian_phoneno"
-        name="guardian_phoneno"
-        placeholder="Guardian Contact Number"
-        required
-      />
+            <input
+            type="text"
+            id="mother_occ"
+            name="mother_occ"
+            placeholder="Mother's Occupation"
+            maxlength="100" 
+            title="Mother's Occupation must be up to 100 characters"
+            required
+            />
 
-      <div class="button">
-        <button
-          type="button"
-          onclick="window.location.href='{{ url_for('students.view_students') }}'"
-        >
-          Back
-        </button>
-        <button type="submit">Submit</button>
-      </div>
-    </form>
-  </body>
+            <input
+            type="text"
+            id="student_phoneno"
+            name="student_phoneno"
+            placeholder="Contact Number"
+            pattern="[0-9]{10}" 
+            title="Phone number must be 10 digits"
+            inputmode="numeric"
+            required
+            />
+
+            <input
+            type="text"
+            id="guardian_phoneno"
+            name="guardian_phoneno"
+            placeholder="Guardian Contact Number"
+            pattern="[0-9]{10}" 
+            title="Phone number must be 10 digits"
+            inputmode="numeric"
+            required
+            />
+
+            <div class="button">
+                <button
+                    type="button"
+                    onclick="window.location.href='{{ url_for('students.view_students') }}'"
+                    >
+                    Back
+                </button>
+
+                    <button type="submit">Submit</button>
+            </div>
+        </form>
+    </body>
 </html>

@@ -7,7 +7,7 @@ Attributes:
     dashboard_blueprint (flask.Blueprint): Blueprint object for defining dashboard routes.
 """
 
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_required, current_user
 from models.users import UserType
 from models.students import Student
@@ -52,7 +52,6 @@ def student_dashboard():
     if student:
         return render_template('student_dashboard.html', student = student)
     else:
-        flash('Student data not found', 'error')
         return redirect(url_for('auth.login'))
 
 
@@ -79,5 +78,4 @@ def instructor_dashboard():
             instructor_courses = instructor_courses
         )
     else:
-        flash('Instructor data not found', 'error')
         return redirect(url_for('auth.login'))

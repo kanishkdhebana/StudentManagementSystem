@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 04, 2024 at 08:36 PM
+-- Generation Time: Apr 20, 2024 at 08:24 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -42,7 +42,15 @@ CREATE TABLE `courses` (
 
 INSERT INTO `courses` (`course_code`, `course_name`, `instructor_id`, `department_id`, `description`, `credit_hours`) VALUES
 ('22CST101', 'Cricket', '2010icp1000', '5', 'Nothing', 42),
-('22CST103', 'Soccer', '2010icp1000', '4', 'Nothing Again', 30);
+('22CST233', 'Introduction to Computer Science', '2010icp1000', '5', 'This course provides an introduction to the fundamentals of computer science.', 42),
+('CS201000', 'Data Structures and Algorithms', '2010icp1001', '5', 'This course covers advanced data structures and algorithms.', 42),
+('CS301000', 'Database Management Systems', '2010icp1002', '5', 'This course explores the principles and techniques of database management systems.', 42),
+('CS401000', 'Software Engineering', '2010icp1003', '5', 'This course covers the principles and practices of software engineering.', 42),
+('CS501000', 'Machine Learning', '2010icp1004', '5', 'This course covers the theory and algorithms behind machine learning.', 42),
+('CS601000', 'Artificial Intelligence', '2010icp1005', '5', 'This course explores the principles and techniques of artificial intelligence.', 42),
+('CS701000', 'Computer Networks', '2010icp1006', '5', 'This course introduces the fundamentals of computer networks.', 38),
+('CS801000', 'Operating Systems', '2010icp1007', '5', 'This course introduces the principles and components of operating systems.', 40),
+('CS901000', 'Web Development', '2010icp1008', '5', 'This course covers the principles and techniques of web development.', 38);
 
 -- --------------------------------------------------------
 
@@ -79,6 +87,14 @@ CREATE TABLE `enrollments` (
   `enrollment_date` date DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `enrollments`
+--
+
+INSERT INTO `enrollments` (`enrollment_id`, `student_id`, `course_code`, `enrollment_date`) VALUES
+(1, '2022ucp1111', '22CST101', '2024-04-13'),
+(4, '2022ucp1111', '22CST233', '2024-04-20');
+
 -- --------------------------------------------------------
 
 --
@@ -90,6 +106,13 @@ CREATE TABLE `grades` (
   `enrollment_id` int(11) NOT NULL,
   `grade` enum('AA','AB','BB','BC','CC','CD','DD','FF','FP') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `grades`
+--
+
+INSERT INTO `grades` (`grade_id`, `enrollment_id`, `grade`) VALUES
+(1, 1, 'BC');
 
 -- --------------------------------------------------------
 
@@ -105,7 +128,7 @@ CREATE TABLE `instructors` (
   `sex` enum('Male','Female','Other') DEFAULT NULL,
   `address` text DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `phone_number` varchar(20) DEFAULT NULL,
+  `phone_number` bigint(10) DEFAULT NULL,
   `doj` date DEFAULT NULL,
   `city` varchar(50) NOT NULL,
   `state` varchar(50) NOT NULL,
@@ -118,7 +141,16 @@ CREATE TABLE `instructors` (
 --
 
 INSERT INTO `instructors` (`instructor_id`, `first_name`, `last_name`, `dob`, `sex`, `address`, `email`, `phone_number`, `doj`, `city`, `state`, `address_pin`, `bloodgroup`) VALUES
-('2010icp1000', 'Nitish', 'Kumar', '1986-01-21', 'Male', '3, etc', 'nitish123@gmail.com', '9546729123', '2010-07-23', 'etc', 'etc', 203914, 'AB_plus');
+('2010icp1000', 'Nitish', 'Kumar', '1986-01-21', 'Male', '3, etc', 'nitish123@gmail.com', 8546729123, '2010-07-23', 'etc', 'etc', 203914, 'AB_plus'),
+('2010icp1001', 'Priya', 'Sharma', '1988-05-15', 'Female', '456 Park Avenue, Mumbai', 'priya.sharma@example.com', 9876543210, '2010-09-10', 'Mumbai', 'Maharashtra', 400001, 'B_plus'),
+('2010icp1002', 'Rahul', 'Singh', '1985-09-30', 'Male', '789 Elm Street, Delhi', 'rahul.singh@example.com', 7890123456, '2010-11-05', 'Delhi', 'Delhi', 110001, 'O_plus'),
+('2010icp1003', 'Sunita', 'Patel', '1990-03-12', 'Female', '567 Oak Avenue, Chennai', 'sunita.patel@example.com', 7012345678, '2010-12-20', 'Chennai', 'Tamil Nadu', 600001, 'A_minus'),
+('2010icp1004', 'Amit', 'Gupta', '1987-07-18', 'Male', '890 Pine Street, Kolkata', 'amit.gupta@example.com', 8765432109, '2011-02-15', 'Kolkata', 'West Bengal', 700001, 'B_minus'),
+('2010icp1005', 'Anjali', 'Verma', '1989-11-25', 'Female', '234 Cedar Avenue, Hyderabad', 'anjali.verma@example.com', 9012345678, '2011-04-01', 'Hyderabad', 'Telangana', 500001, 'A_plus'),
+('2010icp1006', 'Rajesh', 'Yadav', '1984-04-08', 'Male', '345 Maple Street, Pune', 'rajesh.yadav@example.com', 8901234567, '2011-06-10', 'Pune', 'Maharashtra', 411001, 'AB_minus'),
+('2010icp1007', 'Pooja', 'Shah', '1983-10-02', 'Female', '678 Birch Avenue, Ahmedabad', 'pooja.shah@example.com', 7654321098, '2011-08-20', 'Ahmedabad', 'Gujarat', 380001, 'O_minus'),
+('2010icp1008', 'Vivek', 'Kumar', '1982-12-17', 'Male', '456 Pine Street, Jaipur', 'vivek.kumar@example.com', 6789012345, '2011-10-30', 'Jaipur', 'Rajasthan', 302001, 'B_plus'),
+('2010icp1009', 'Neha', 'Joshi', '1991-06-28', 'Female', '789 Elm Street, Lucknow', 'neha.joshi@example.com', 6543210987, '2011-12-05', 'Lucknow', 'Uttar Pradesh', 226001, 'A_plus');
 
 -- --------------------------------------------------------
 
@@ -132,7 +164,6 @@ CREATE TABLE `students` (
   `middle_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `degree_name` varchar(100) NOT NULL,
   `grad_level` enum('B_Tech','M_Tech','PHD') NOT NULL,
   `address` text NOT NULL,
   `city` varchar(50) NOT NULL,
@@ -145,18 +176,25 @@ CREATE TABLE `students` (
   `doa` date NOT NULL,
   `father_occ` varchar(100) NOT NULL,
   `mother_occ` varchar(100) NOT NULL,
-  `student_phoneno` bigint(20) NOT NULL,
-  `guardian_phoneno` bigint(20) NOT NULL,
-  `sex` enum('Male','Female','Other') NOT NULL
+  `student_phoneno` bigint(10) NOT NULL,
+  `guardian_phoneno` bigint(10) NOT NULL,
+  `sex` enum('Male','Female','Other') NOT NULL,
+  `department_id` char(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`student_id`, `first_name`, `middle_name`, `last_name`, `email`, `degree_name`, `grad_level`, `address`, `city`, `state`, `address_pin`, `father_name`, `mother_name`, `dob`, `bloodgroup`, `doa`, `father_occ`, `mother_occ`, `student_phoneno`, `guardian_phoneno`, `sex`) VALUES
-('2022ucp1111', 'Ayush', 'R', 'Raghav', 'ayushraghav@gmail.com', 'Computer Science and Engineering', 'B_Tech', '12, Nandganv, Nath Ji ki Thadi, Niwaru Road, Jhotwara, Jaipur, Rajasthan', 'Jaipur', 'Rajasthan', 302012, 'A Raghav', 'M ', '2003-01-24', 'A_minus', '2021-07-22', 'Govt. Servant', 'Housewife', 999887700, 7725921000, 'Male'),
-('2022ucp1504', 'Rohit', 'R.', 'Jangid', 'rorojangid@gmail.com', 'Computer Science and Engineering', 'B_Tech', 'Nothing ', 'Nothing', 'Nothing', 123234, 'Father of Rohit', 'Mother of Rohit', '2003-04-17', 'AB_plus', '2023-07-25', 'father oc', 'mother oc', 8888000011, 7799331313, 'Male');
+INSERT INTO `students` (`student_id`, `first_name`, `middle_name`, `last_name`, `email`, `grad_level`, `address`, `city`, `state`, `address_pin`, `father_name`, `mother_name`, `dob`, `bloodgroup`, `doa`, `father_occ`, `mother_occ`, `student_phoneno`, `guardian_phoneno`, `sex`, `department_id`) VALUES
+('2022ucp1111', 'Ayush', 'R', 'Raghav', 'ayushraghav@gmail.com', 'B_Tech', '12, Nandganv, Nath Ji ki Thadi, Niwaru Road, Jhotwara, Jaipur, Rajasthan', 'Jaipur', 'Rajasthan', 302012, 'A Raghav', 'M ', '2003-01-24', 'A_minus', '2021-07-22', 'Govt. Servant', 'Housewife', 9001155751, 9601755751, 'Male', '5'),
+('2022ucp1112', 'Riya', 'S', 'Singh', 'riyasingh@gmail.com', 'B_Tech', '34, Radha Vihar, Raja Park', 'Mumbai', 'Maharashtra', 400001, 'A Singh', 'K Singh', '2003-03-15', 'B_plus', '2021-07-22', 'Businessman', 'Homemaker', 9002155751, 9602755751, 'Female', '5'),
+('2022ucp1113', 'Rahul', 'M', 'Mehta', 'rahulmehta@gmail.com', 'B_Tech', '56, Shiv Colony, Shyam Nagar', 'Bangalore', 'Karnataka', 560001, 'V Mehta', 'R Mehta', '2002-12-05', 'AB_plus', '2021-07-22', 'Engineer', 'Teacher', 9003155751, 9603755751, 'Male', '5'),
+('2022ucp1114', 'Sneha', 'K', 'Kapoor', 'snehakapoor@gmail.com', 'B_Tech', '78, Raja Park, Ajmer Road', 'Kolkata', 'West Bengal', 700001, 'A Kapoor', 'M Kapoor', '2003-05-20', 'B_minus', '2021-07-22', 'Doctor', 'Nurse', 9004155751, 9604755751, 'Female', '5'),
+('2022ucp1115', 'Vivek', 'P', 'Patel', 'vivekpatel@gmail.com', 'B_Tech', '90, Vaishali Nagar', 'Chennai', 'Tamil Nadu', 600001, 'B Patel', 'D Patel', '2002-08-10', 'O_plus', '2021-07-22', 'Businessman', 'Homemaker', 9005155751, 9605755751, 'Male', '5'),
+('2022ucp1116', 'Priya', 'A', 'Agarwal', 'priyaagarwal@gmail.com', 'B_Tech', '23, Mansarovar, New Sanganer Road', 'Hyderabad', 'Telangana', 500001, 'K Agarwal', 'S Agarwal', '2003-02-28', 'B_plus', '2021-07-22', 'Professor', 'Homemaker', 9006155751, 9606755751, 'Female', '5'),
+('2022ucp1117', 'Aman', 'G', 'Gupta', 'amangupta@gmail.com', 'B_Tech', '45, Malviya Nagar', 'Pune', 'Maharashtra', 411001, 'S Gupta', 'A Gupta', '2002-10-18', 'A_plus', '2021-07-22', 'Engineer', 'Banker', 9007155751, 9607755751, 'Male', '5'),
+('2022ucp1118', 'Anjali', 'J', 'Jain', 'anjalijain@gmail.com', 'B_Tech', '67, Jhotwara', 'Ahmedabad', 'Gujarat', 380001, 'V Jain', 'A Jain', '2003-04-12', 'AB_minus', '2021-07-22', 'Doctor', 'Nurse', 9008155751, 9608755751, 'Female', '5');
 
 -- --------------------------------------------------------
 
@@ -226,7 +264,8 @@ ALTER TABLE `instructors`
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
-  ADD PRIMARY KEY (`student_id`);
+  ADD PRIMARY KEY (`student_id`),
+  ADD KEY `fk_department_id` (`department_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -236,13 +275,13 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `enrollments`
 --
 ALTER TABLE `enrollments`
-  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
-  MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -267,6 +306,12 @@ ALTER TABLE `enrollments`
 --
 ALTER TABLE `grades`
   ADD CONSTRAINT `fk_enrollments` FOREIGN KEY (`enrollment_id`) REFERENCES `enrollments` (`enrollment_id`);
+
+--
+-- Constraints for table `students`
+--
+ALTER TABLE `students`
+  ADD CONSTRAINT `fk_department_id` FOREIGN KEY (`department_id`) REFERENCES `departments` (`department_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

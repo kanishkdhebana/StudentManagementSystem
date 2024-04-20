@@ -1,157 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Instructor</title>   
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style/style.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style/add_edit.css') }}"
-    />
-  </head>
-  <body>
-    <h1>Add New Instructor</h1>
-    <form method="POST" action="/add_instructor">
-      <!-- <label for="instructor_id">Instructor ID:</label> -->
-      <input
-        type="text"
-        id="instructor_id"
-        name="instructor_id"
-        spellcheck="false"
-        placeholder="Instructor ID"
-        required
-      />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Add Instructor</title>
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/style.css') }}"
+        />
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/add_edit.css') }}"
+        />
+    </head>
 
-      <!-- <label for="first_name">First Name:</label> -->
-      <input
-        type="text"
-        id="first_name"
-        name="first_name"
-        spellcheck="false"
-        placeholder="First Name"
-        required
-      />
+    <body>
+        <h1>Add New Instructor</h1>
+        <form method="POST" action="/add_instructor">
+            <input
+            type="text"
+            id="instructor_id"
+            name="instructor_id"
+            spellcheck="false"
+            placeholder="Instructor ID"
+            pattern=".{11}" 
+            title="Instructor ID must be 11 characters"
+            required
+            />
 
-      <!-- <label for="last_name">Last Name:</label> -->
-      <input
-        type="text"
-        id="last_name"
-        name="last_name"
-        spellcheck="false"
-        placeholder="Last Name"
-        required
-      />
+            <input
+            type="text"
+            id="first_name"
+            name="first_name"
+            spellcheck="false"
+            placeholder="First Name"
+            maxlength="50" 
+            title="First Name must be up to 50 characters"
+            required
+            />
 
-      <label for="sex">Gender</label>
-      <select id="sex" name="sex" required> 
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
-      </select>
+            <input
+            type="text"
+            id="last_name"
+            name="last_name"
+            spellcheck="false"
+            placeholder="Last Name"
+            maxlength="50" 
+            title="Last Name must be up to 50 characters"
+            required
+            />
 
-      <!-- <label for="email">Email:</label> -->
-      <input
-        type="email"
-        id="email"
-        name="email"
-        spellcheck="false"
-        placeholder="Email"
-        required
-      />
+            <label for="sex">Gender</label>
+            <select id="sex" name="sex" required> 
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
 
-      <!-- <label for="address">Address:</label> -->
-      <input
-        type="text"
-        id="address"
-        name="address"
-        spellcheck="false"
-        placeholder="Address"
-        required
-      />
+            <input
+            type="email"
+            id="email"
+            name="email"
+            maxlength="50" 
+            spellcheck="false"
+            placeholder="Email"
+            required
+            />
 
-      <!-- <label for="city">City:</label> -->
-      <input
-        type="text"
-        id="city"
-        name="city"
-        spellcheck="false"
-        placeholder="City"
-        required
-      />
+            <input
+            type="text"
+            id="address"
+            name="address"
+            spellcheck="false"
+            placeholder="Address"
+            required
+            />
 
-      <!-- <label for="state">State:</label> -->
-      <input
-        type="text"
-        id="state"
-        name="state"
-        spellcheck="false"
-        placeholder="State"
-        required
-      />
+            <input
+            type="text"
+            id="city"
+            name="city"
+            spellcheck="false"
+            placeholder="City"
+            maxlength="50" 
+            required
+            />
 
-      <!-- <label for="address_pin">Address Pin:</label> -->
-      <input
-        type="text"
-        id="address_pin"
-        name="address_pin"
-        spellcheck="false"
-        placeholder="PIN"
-        required
-      />
+            <input
+            type="text"
+            id="state"
+            name="state"
+            spellcheck="false"
+            placeholder="State"
+            maxlength="50" 
+            required
+            />
 
-      <label for="dob">Date of Birth</label>
-      <input
-        type="date"
-        id="dob"
-        name="dob"
-        placeholder="Date of Birth"
-        required
-      />
+            <input
+            type="text"
+            id="address_pin"
+            name="address_pin"
+            spellcheck="false"
+            placeholder="PIN"
+            pattern="[0-9]{6}" 
+            title="PIN must be 6 digits"
+            inputmode="numeric"
+            required
+            />
 
-      <!-- <label for="bloodgroup">Blood Group:</label> -->
-      <select id="bloodgroup" name="bloodgroup" required>
-        <option value="" disabled selected>Select Blood Group</option>
-        <option value="A_plus">A+</option>
-        <option value="A_minus">A-</option>
-        <option value="B_plus">B+</option>
-        <option value="B_minus">B-</option>
-        <option value="AB_plus">AB+</option>
-        <option value="AB_minus">AB-</option>
-        <option value="O_plus">O+</option>
-        <option value="O_minus">O-</option>
-      </select>
+            <label for="dob">Date of Birth</label>
+            <input
+            type="date"
+            id="dob"
+            name="dob"
+            placeholder="Date of Birth"
+            required
+            />
 
-      <label for="doj">Date of Joining</label>
-      <input
-        type="date"
-        id="doj"
-        name="doj"
-        placeholder="Date of Joining"
-        required
-      />
+            <select id="bloodgroup" name="bloodgroup" required>
+                <option value="" disabled selected>Select Blood Group</option>
+                <option value="A_plus">A+</option>
+                <option value="A_minus">A-</option>
+                <option value="B_plus">B+</option>
+                <option value="B_minus">B-</option>
+                <option value="AB_plus">AB+</option>
+                <option value="AB_minus">AB-</option>
+                <option value="O_plus">O+</option>
+                <option value="O_minus">O-</option>
+            </select>
 
-      <!-- <label for="phone_number">Phone Number:</label> -->
-      <input
-        type="text"
-        id="phone_number"
-        name="phone_number"
-        placeholder="Contact Number"
-        spellcheck="false"
-        required
-      />
-      <div class="button">
-        <button
-          type="button"
-          onclick="window.location.href='{{ url_for('instructors.view_instructors') }}'"
-        >
-          Back
-        </button>
-        <button type="submit">Submit</button>
-      </div>
-    </form>
-  </body>
+            <label for="doj">Date of Joining</label>
+            <input
+            type="date"
+            id="doj"
+            name="doj"
+            placeholder="Date of Joining"
+            required
+            />
+
+            <input
+            type="text"
+            id="phone_number"
+            name="phone_number"
+            placeholder="Contact Number"
+            spellcheck="false"
+            pattern="[0-9]{10}" 
+            title="Phone number must be 10 digits"
+            inputmode="numeric"
+            required
+            />
+
+            <div class="button">
+                <button
+                    type="button"
+                    onclick="window.location.href='{{ url_for('instructors.view_instructors') }}'"
+                    >
+                    Back
+                </button>
+
+                    <button type="submit">Submit</button>
+            </div>
+        </form>
+    </body>
 </html>

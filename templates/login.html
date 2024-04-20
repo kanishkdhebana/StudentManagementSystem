@@ -1,50 +1,48 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Login</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style/style.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style/login.css') }}"
-    />
-  </head>
-  <body>
-    <!-- Flash error messages if any -->
-    <!-- {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %} -->
-    <div class="wrapper">
-      <form method="post" action="{{ url_for('auth.login') }}">
-        <h2>Login</h2>
-        <!-- <label for="user_id" class="userId">User ID:</label> -->
-        <input
-          type="text"
-          id="user_id"
-          name="user_id"
-          placeholder="User ID"
-          spellcheck="false"
-          required
+    <head>
+        <title>Login</title>
+
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/style.css') }}"
         />
-        <!-- <label for="user_password" class="pass">Password:</label> -->
-        <input
-          type="password"
-          id="user_password"
-          name="user_password"
-          placeholder="Password"
-          spellcheck="false"
-          required
+
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/login.css') }}"
         />
-        <button type="submit" class="button">Login</button>
-      </form>
-    </div>
-  </body>
+    </head>
+    <body>
+        <div class="wrapper">
+            <form method="post" action="{{ url_for('auth.login') }}">
+                <h2>Login</h2>
+                <input
+                type="text"
+                id="user_id"
+                name="user_id"
+                placeholder="User ID"
+                spellcheck="false"
+                pattern=".{11}" 
+                title="User ID must be 11 characters"
+                required
+                />
+
+                <input
+                type="password"
+                id="user_password"
+                name="user_password"
+                placeholder="Password"
+                spellcheck="false"
+                required
+                />
+
+                {% if error %}
+                <p class="error">{{ error }}</p>
+                {% endif %}
+
+                <button type="submit" class="button">Login</button>
+            </form>
+        </div>
+    </body>
 </html>

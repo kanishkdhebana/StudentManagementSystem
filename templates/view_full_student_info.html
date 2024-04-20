@@ -1,81 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>View Your Information</title>   
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style/style.css') }}"
-    />
-  </head>
-  <body>
-    <div class="container">
-      <h1>Your Information</h1>
-      <div class="info">
-        <p><strong>Student ID:</strong><span>{{ student.student_id }}</span></p>
-        <p>
-          <strong>Name:</strong
-          ><span
-            >{{ student.first_name }} {{ student.middle_name }} {{
-            student.last_name }}</span
-          >
-        </p>
-        <p>
-          <strong>Sex:</strong
-          ><span>{{ student.sex.value if student.sex else None }}</span>
-        </p>
-        <p><strong>Email:</strong><span>{{ student.email }}</span></p>
-        <p><strong>Degree:</strong><span>{{ student.degree_name }}</span></p>
-        <p>
-          <strong>Graduation Level:</strong
-          ><span>{{ student.grad_level }}</span>
-        </p>
-        <p>
-          <strong>Address:</strong
-          ><span
-            >{{ student.address }}, {{ student.city }}, {{ student.state }}, {{
-            student.address_pin }}</span
-          >
-        </p>
-        <p>
-          <strong>Father's Name:</strong><span>{{ student.father_name }}</span>
-        </p>
-        <p>
-          <strong>Mother's Name:</strong><span>{{ student.mother_name }}</span>
-        </p>
-        <p><strong>Date of Birth:</strong><span>{{ student.dob }}</span></p>
-        <p>
-          <strong>Blood Group:</strong><span>{{ student.bloodgroup }}</span>
-        </p>
-        <p><strong>Date of Admission:</strong><span>{{ student.doa }}</span></p>
-        <p>
-          <strong>Father's Occupation:</strong
-          ><span>{{ student.father_occ }}</span>
-        </p>  
-        <p> 
-          <strong>Mother's Occupation:</strong
-          ><span>{{ student.mother_occ }}</span>
-        </p>
-        <p>
-          <strong>Student Phone Number:</strong
-          ><span>{{ student.student_phoneno }}</span>
-        </p>
-        <p>
-          <strong>Guardian Phone Number:</strong
-          ><span>{{ student.guardian_phoneno }}</span>
-        </p>
-      </div>
-    </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>View Your Information</title>
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/style.css') }}"
+        />
+    </head>
 
-    <div class="links">
-      {% if current_user.is_authenticated %}
-          <button onclick="window.location.href='{{ url_for('dashboard.student_dashboard') }}'">Back</button>
-      {% else %}
-          <button onclick="window.location.href='{{ url_for('auth.login') }}'">Go to Login page</button>
-      {% endif %}
-  </div>
-  
-    </div>
-  </body>
+    <body>
+        <div class="container">
+            <h1>Your Information</h1>
+            <div class="info">
+                <p><strong>Student ID:</strong><span>{{ student.student_id }}</span></p>
+                <p>
+                <strong>Name:</strong
+                ><span
+                    >{{ student.first_name }} {{ student.middle_name }} {{
+                    student.last_name }}</span
+                >
+                </p>
+                    <p>
+                    <strong>Sex:</strong
+                    ><span>{{ student.sex.value if student.sex else None }}</span>
+                    </p>
+                    <p><strong>Email:</strong><span>{{ student.email }}</span></p>
+                    <p><strong>Department:</strong><span>{{ department_name }}</span></p>
+                    <p>
+                    <strong>Graduation Level:</strong
+                    ><span>{{ student.grad_level }}</span>
+                    </p>
+                    <p>
+                    <strong>Address:</strong
+                    ><span
+                        >{{ student.address }}, {{ student.city }}, {{ student.state }}, {{
+                        student.address_pin }}</span
+                    >
+                    </p>
+                        <p>
+                        <strong>Father's Name:</strong><span>{{ student.father_name }}</span>
+                        </p>
+                        <p>
+                        <strong>Mother's Name:</strong><span>{{ student.mother_name }}</span>
+                        </p>
+                        <p><strong>Date of Birth:</strong><span>{{ student.dob }}</span></p>
+                        <p>
+                        <strong>Blood Group:</strong><span>{{ student.bloodgroup }}</span>
+                        </p>
+                        <p><strong>Date of Admission:</strong><span>{{ student.doa }}</span></p>
+                        <p>
+                        <strong>Father's Occupation:</strong
+                        ><span>{{ student.father_occ }}</span>
+                        </p>
+                        <p>
+                        <strong>Mother's Occupation:</strong
+                        ><span>{{ student.mother_occ }}</span>
+                        </p>
+                        <p>
+                        <strong>Student Phone Number:</strong
+                        ><span>{{ student.student_phoneno }}</span>
+                        </p>
+                        <p>
+                        <strong>Guardian Phone Number:</strong
+                        ><span>{{ student.guardian_phoneno }}</span>
+                        </p>
+            </div>
+        </div>
+
+        <div class="links">
+            <button onclick="window.location.href='{{ url_for('dashboard.student_dashboard') }}'">Back</button>
+        </div>
+
+    </body>
 </html>

@@ -7,7 +7,7 @@ Attributes:
     instructors_blueprint (flask.Blueprint): Blueprint object for defining instructor routes.
 """
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from models.instructors import Instructor, db
 from models.users import User, UserType
@@ -15,6 +15,7 @@ from models.students import Student
 from models.enrollments import Enrollment
 from models.grades import Grade, Grades
 from models.courses import Course
+from models.departments import Department
 from sqlalchemy.exc import IntegrityError
 
 # Blueprint object for defining instructor routes
@@ -39,7 +40,6 @@ def add_instructor():
         
         existing_instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
         if existing_instructor:
-            flash('Instructor already exists', 'error')
             return redirect(url_for('instructors.add_instructor'))
         
         first_name  = request.form['first_name']
@@ -81,7 +81,6 @@ def add_instructor():
             db.session.add(new_user)
             db.session.commit()
             
-            flash('Instructor added successfully.', 'success')
             return redirect(url_for("dashboard.admin_dashboard"))
         
         except IntegrityError as e:
@@ -90,6 +89,54 @@ def add_instructor():
             return render_template("error.html", message = error_message)
 
     return render_template("add_instructor.html")
+
+
+@instructors_blueprint.route("/edit_instructor_info/<string:instructor_id>", methods=['GET', 'POST'])
+@login_required
+def edit_instructor(instructor_id):
+    """
+    Route for editing instructor information.
+
+    This route allows instructors to edit their information. If the form is submitted via POST method, it updates the instructor information in the database.
+
+    Args:
+        instructor_id (str): The ID of the instructor to be edited.
+
+    Returns:
+        str: Rendered template for editing instructor information or a redirect to the instructor dashboard.
+    """
+    
+    if current_user.user_type != UserType.instructor or current_user.user_id != instructor_id:
+        return 'Unauthorized', 403
+    
+    if request.method == 'POST':
+        instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
+        
+        # Validate phone numbers
+        if not is_valid_phone_number(request.form['phone_number']):
+            return redirect(url_for('instructors.edit_instructor', instructor_id = instructor_id))
+
+        instructor.email = request.form['email']
+        instructor.phone_number = request.form['phone_number']
+
+        db.session.commit()
+
+        return redirect(url_for('dashboard.instructor_dashboard'))
+
+    instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
+    return render_template('edit_instructor_info.html', instructor = instructor ) 
+
+def is_valid_phone_number(phone_number):
+    """
+    Check if the phone number consists of exactly 10 digits.
+
+    Args:
+        phone_number (str): Phone number to validate.
+
+    Returns:
+        bool: True if the phone number consists of exactly 10 digits, False otherwise.
+    """
+    return len(phone_number) == 10 and phone_number.isdigit()
 
 
 # Define a mapping function for enum values
@@ -121,7 +168,7 @@ def get_enum_display(enum_value):
 
 
 # Pass the mapped values to the template
-@instructors_blueprint.route('/view_instructors')
+@instructors_blueprint.route('/view_instructors', methods = ['GET', 'POST'])
 @login_required
 def view_instructors():
     """
@@ -135,6 +182,15 @@ def view_instructors():
     
     if current_user.user_type != UserType.admin:
         return 'Unauthorized', 403
+    
+    if request.method == 'POST':
+        instructor_id = request.form.get('instructor_id')
+        Enrollment.query.filter_by(instructor_id = instructor_id).delete()
+        instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
+        if instructor:
+            db.session.delete(instructor)
+            db.session.commit()
+        return redirect(url_for("instructors.view_instructors"))
     
     instructors = Instructor.query.all()
     return render_template(
@@ -165,7 +221,6 @@ def view_full_instructor_info(instructor_id):
     instructor = Instructor.query.filter_by(instructor_id=instructor_id).first()
 
     if not instructor:
-        flash('Instructor not found.', 'error')
         return redirect(url_for('dashboard.instructor_dashboard'))
 
     return render_template(
@@ -215,7 +270,7 @@ def view_enrolled_students(course_code):
     Route for viewing students enrolled in a course and managing their grades.
 
     This route allows instructors to view the list of students enrolled in a course, update their grades, and add new grades.
-
+ 
     Args:
         course_code (str): The code of the course for which enrolled students are to be viewed.
 
@@ -241,17 +296,11 @@ def view_enrolled_students(course_code):
                     # Update the grade
                     grade.grade = new_grade
                     db.session.commit()
-                    flash('Grade updated successfully.', 'success')
                 else:
                     grade = Grade(enrollment_id = enrollment.enrollment_id, grade = new_grade)
                     db.session.add(grade)
                     db.session.commit()
-                    flash('Grade added successfully.', 'success')
-            else:
-                flash('Enrollment not found for the student in this course.', 'error')
-        else:
-            flash('Invalid grade value.', 'error')
-
+            
         return redirect(url_for("instructors.view_enrolled_students", course_code = course_code))
 
     # If it's a GET request
@@ -262,12 +311,14 @@ def view_enrolled_students(course_code):
             Student.last_name,
             Student.sex,
             Student.email,
-            Student.degree_name,
+            Student.department_id,
+            Department.department_name,
             Student.student_phoneno,
             Grade.grade
         )
         .join(Enrollment, Student.student_id == Enrollment.student_id)
         .join(Grade, Enrollment.enrollment_id == Grade.enrollment_id)
+        .join(Department, Student.department_id == Department.department_id) 
         .filter(Enrollment.course_code == course_code)
         .all()
     )

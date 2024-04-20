@@ -1,37 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Student Information</title>   
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style/style.css') }}"
-    />
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>View Student Information</title>
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/style.css') }}"
+        />
+    </head>
 
-<div class="container">
-    <h1>Your Information</h1>
-    <div class="info">
-        <p><strong>Instructor ID:</strong> {{ instructor.instructor_id }}</p>
-            <p><strong>Name:</strong> {{ instructor.first_name }} {{ instructor.last_name }}</p>
-            <p><strong>Date of Birth:</strong> {{ instructor.dob }}</p>
-            <p><strong>Sex:</strong> {{ instructor.sex.value if instructor.sex else None }}</p>
-            <p><strong>Email:</strong> {{ instructor.email }}</p>
-            <p><strong>Phone Number:</strong> {{ instructor.phone_number }}</p>
-            <p><strong>Date of Joining:</strong> {{ instructor.doj }}</p>
-           <p><strong>Address:</strong> {{ instructor.address }}, {{ instructor.city }}, {{ instructor.state }}, {{ instructor.address_pin }}</p>
-            <p><strong>Blood Group: </strong>{{ get_enum_display(instructor.bloodgroup) }}</td>
-    </div>
-</div> 
+    <body>
+        <div class="container">
+            <h1>Your Information</h1>
+            <div class="info">
+                <p><strong>Instructor ID:</strong> {{ instructor.instructor_id }}</p>
+                <p><strong>Name:</strong> {{ instructor.first_name }} {{ instructor.last_name }}</p>
+                <p><strong>Date of Birth:</strong> {{ instructor.dob }}</p>
+                <p><strong>Sex:</strong> {{ instructor.sex.value if instructor.sex else None }}</p>
+                <p><strong>Email:</strong> {{ instructor.email }}</p>
+                <p><strong>Phone Number:</strong> {{ instructor.phone_number }}</p>
+                <p><strong>Date of Joining:</strong> {{ instructor.doj }}</p>
+                <p><strong>Address:</strong>{{ instructor.address }}, {{ instructor.city }}, {{ instructor.state }}, {{ instructor.address_pin }}</p>
+                <p><strong>Blood Group: </strong>{{ get_enum_display(instructor.bloodgroup) }}</td>
+            </div>
 
-<div class="links">
-    {% if current_user.is_authenticated %}
-          <button onclick="window.location.href='{{ url_for('dashboard.instructor_dashboard') }}'">Back</button>
-      {% else %}
-          <button onclick="window.location.href='{{ url_for('auth.login') }}'">Login</button>
-      {% endif %}
-</div>
-</body>
+            <div class="links">
+                <button onclick="window.location.href='{{ url_for('dashboard.instructor_dashboard') }}'">Back</button>
+            </div>
+    </body>
 </html>

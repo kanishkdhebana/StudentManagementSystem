@@ -1,70 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Student</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style/style.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style/add_edit.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style/tables.css') }}"
-    />
-  </head>
-  <body>
-    <h1>Available Courses</h1>
-    <div class="table_container">
-      <table>
-        <thead>
-          <tr>
-            <th>Course Code</th>
-            <th>Course Name</th>
-            <th>Instructor ID</th>
-            <th>Department ID</th>
-            <th>Description</th>
-            <th>Credit Hours</th>
-          </tr>
-        </thead>
-        {% for course in available_courses %}
-        <tbody>
-          <tr>
-            <td>{{ course.course_code }}</td>
-            <td>{{ course.course_name }}</td>
-            <td>{{ course.instructor_id }}</td>
-            <td>{{ course.department_id }}</td>
-            <td>{{ course.description }}</td>
-            <td>{{ course.credit_hours }}</td>
-          </tr>
-        </tbody>
-        {% endfor %}
-      </table>
-    </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Add Student</title>
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/style.css') }}"
+        />
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/add_edit.css') }}"
+        />
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/tables.css') }}"
+        />
+    </head>
 
-    <form method="POST" action="/enroll_course">
-      <select id="course" name="course_code" required>
-        <option value="" disabled selected>Select Course</option>
-        {% for course in available_courses %}
-        <option value="{{ course.course_code }}">
-          {{ course.course_name }}
-        </option>
-        {% endfor %}
-      </select>
+    <body>
+        <h1>Available Courses</h1>
+        <div class="table_container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Name</th>
+                        <th>Instructor Name</th>
+                        <th>Instructor ID</th>
+                        <th>Department ID</th>
+                        <th>Description</th>
+                        <th>Credit Hours</th> 
+                    </tr>
+                </thead>
 
-      <div class="button">
-        <button
-          type="button"
-          onclick="window.location.href='{{ url_for('dashboard.student_dashboard') }}'"
-        >
-          Back
-        </button>
-        <button type="submit">Enroll</button>
-      </div>
-    </form>
-  </body>
+                {% for course in available_courses %}
+                <tbody>
+                    <tr>
+                        <td>{{ course.course_code }}</td>
+                        <td>{{ course.course_name }}</td>
+                        <td>{{ course.instructor_name }}</td>
+                        <td>{{ course.instructor_id }}</td>
+                        <td>{{ course.department_id }}</td>
+                        <td>{{ course.description }}</td>
+                        <td>{{ course.credit_hours }}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+
+        <form method="POST" action="/enroll_course" style="margin-bottom: 1%;">
+            <select id="course" name="course_code" required>
+                <option value="" disabled selected>Select Course</option>
+                {% for course in available_courses %}
+                <option value="{{ course.course_code }}">
+                {{ course.course_name }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <div class="button">
+                <button
+                    type="button"
+                    onclick="window.location.href='{{ url_for('dashboard.student_dashboard') }}'"
+                    >
+                    Back
+                </button>
+
+                    <button type="submit">Enroll</button>
+            </div>
+        </form>
+    </body>
 </html>

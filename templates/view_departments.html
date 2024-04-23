@@ -16,50 +16,52 @@
 
     <body>
         <h1>Departments</h1>
-        <div class="table_container">
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Department ID</th>
-                        <th>Department Name</th>
-                    </tr>
-                </thead>
-                {% for department in departments %}
-                <tbody>
-                    <tr> 
-                        <td style="white-space: nowrap;">
-                            <form id="deleteForm_{{ department.department_id }}" action="{{ url_for('departments.view_departments') }}" method="POST">
-                                <input type="hidden" name="department_id" value="{{ department.department_id }}" />
-                                <button class="update_button" type="button" onclick="confirmDelete('{{ department.department_id }}')">Delete</button>
-                            </form>
-                        </td>
-                        
-                        <script>
-                            function confirmDelete(studentId) {
-                                var confirmation = confirm("Are you sure you want to delete this student?");
-                                if (confirmation) {
-                                    // If confirmed, submit the form
-                                    document.getElementById('deleteForm_' + studentId).submit();
-                                } else {
-                                    // If not confirmed, do nothing
-                                    return false;
-                                }
-                            }
-                        </script>
-                        
-                        <td>{{ department.department_id }}</td>
-                        <td>{{ department.department_name }}</td>
-                    </tr>
-                </tbody>
-                {% endfor %}
-            </table>
+        <div class = "dummy_container">
+            <div class="table_container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Department ID</th>
+                            <th>Department Name</th>
+                        </tr>
+                    </thead>
+                    {% for department in departments %}
+                    <tbody>
+                        <tr>
+                            <td style="white-space: nowrap;">
+                                <form id="deleteForm_{{ department.department_id }}" action="{{ url_for('departments.view_departments') }}" method="POST">
+                                    <input type="hidden" name="department_id" value="{{ department.department_id }}" />
+                                    <button class="update_button" type="button" onclick="confirmDelete('{{ department.department_id }}')">Delete</button>
+                                </form>
+                            </td>
 
-            {% if error_message %}
-            <div class="error-message">
-            {{ error_message }}
+                            <script>
+                                function confirmDelete(studentId) {
+                                    var confirmation = confirm("Are you sure you want to delete this student?");
+                                    if (confirmation) {
+                                        // If confirmed, submit the form
+                                        document.getElementById('deleteForm_' + studentId).submit();
+                                    } else {
+                                        // If not confirmed, do nothing
+                                        return false;
+                                    }
+                                }
+                            </script>
+
+                            <td>{{ department.department_id }}</td>
+                            <td>{{ department.department_name }}</td>
+                        </tr>
+                    </tbody>
+                    {% endfor %}
+                </table>
+
+                {% if error_message %}
+                <div class="error-message">
+                    {{ error_message }}
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
         </div>
 
         <div class="links">

@@ -9,6 +9,60 @@ select {
     transition: border-color 0.3s ease;
 }
 
+.dummy_box {
+    width: 42vw;
+    margin-bottom: 1%;
+    max-width: 1400px;
+    flex-grow: 1;
+    justify-content: center;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    height: 87vh;
+    overflow: hidden;
+}
+
+.enrollment_container {
+    width: 100%;
+    max-width: 1400px;
+    border-radius: 7px;
+    border: 1px solid rgb(238, 238, 247);
+    /* box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.1); */
+    text-align: center;
+    overflow:auto;
+    height: 60%;
+    margin-bottom: 3%;
+    scroll-behavior: auto;
+} 
+
+
+.box {
+    width: 99.7%;
+    margin-bottom: 1%;
+    max-width: 1400px;
+    flex-grow: 1;
+    background-color: #fff;
+    border-radius: 20px;
+    border: 1px solid rgb(238, 238, 247);
+    position: relative;
+    height: 92%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 40vw;
+    max-width: 1000px;
+    padding: 30px;
+}
+
+
 option {
     background-color: #b8aff9;
 }
@@ -25,19 +79,15 @@ input:focus {
 }
 
 .button {
+    position: absolute;
+    bottom: 0px; /* Adjust this value as needed */
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: center;
+    padding: 5px;
     gap: 50px;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 40vw;
-    max-width: 1000px;
-    padding: 30px;
-    background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
+
+

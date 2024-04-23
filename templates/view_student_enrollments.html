@@ -14,26 +14,28 @@
         />
     </head>
 
-    <body> 
+    <body>
         <h1>Your Enrollments</h1>
-        <div class="table_container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Course Code</th>
-                        <th>Course Name</th>
-                    </tr>
-                </thead>
+        <div class = "dummy_container">
+            <div class="table_container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Course Code</th>
+                            <th>Course Name</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    {% for enrollment_detail in enrollment_details %}
-                    <tr>
-                        <td>{{ enrollment_detail.course_code }}</td>
-                        <td>{{ enrollment_detail.course_name }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    <tbody>
+                        {% for enrollment_detail in enrollment_details %}
+                        <tr>
+                            <td>{{ enrollment_detail.course_code }}</td>
+                            <td>{{ enrollment_detail.course_name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="links">

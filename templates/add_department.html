@@ -16,29 +16,34 @@
 
     <body>
         <h1>Add New Department</h1>
-        <form method="POST" action="/add_department">
-            <input
-            type="text"
-            id="department_id"
-            name="department_id"
-            placeholder="Department ID"
-            spellcheck="false"
-            pattern=".{11}" 
-            title="Department Id must be 11 characters"
-            required
-            /><br />
- 
-            <input
-            type="text"
-            id="department_name"
-            name="department_name"
-            placeholder="Department Name"
-            spellcheck="false"
-            maxlength="100" 
-            title="Department Name must be up to 100 characters"
-            required 
-            /><br />
+        <div class="dummy_box">
+            <div class="box">
+                <form method="POST" action="/add_department">
+                    <input
+                    type="text"
+                    id="department_id"
+                    name="department_id"
+                    placeholder="Department ID"
+                    spellcheck="false"
+                    pattern=".{11}"
+                    title="Department Id must be 11 characters"
+                    required
+                    /><br />
 
+                    <input
+                    type="text"
+                    id="department_name"
+                    name="department_name"
+                    placeholder="Department Name"
+                    spellcheck="false"
+                    maxlength="100"
+                    title="Department Name must be up to 100 characters"
+                    required
+                    /><br />
+
+                </form>
+
+            </div>
             <div class="button">
                 <button
                     type="button"
@@ -49,6 +54,6 @@
 
                     <button type="submit">Submit</button>
             </div>
-        </form>
+        </div>
     </body>
 </html>

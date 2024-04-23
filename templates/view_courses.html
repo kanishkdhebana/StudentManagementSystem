@@ -15,58 +15,60 @@
     </head>
     <body>
         <h1>Courses</h1>
-        <div class="table_container">
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Course Code</th>
-                        <th>Course Name</th>
-                        <th>Instructor ID</th>
-                        <th>Department</th>
-                        <th>Description</th>
-                        <th>Credit Hours</th>
-                    </tr>
-                </thead>
-                
-                <tbody>
-                    {% for course, department_name in courses_with_department %}
-                    <tr>
-                        <td style="white-space: nowrap;">
-                            <form id="deleteForm_{{ course.course_code }}" action="{{ url_for('courses.view_courses') }}" method="POST">
-                                <input type="hidden" name="course_code" value="{{ course.course_code }}" />
-                                <button class="update_button" type="button" onclick="confirmDelete('{{ course.course_code }}')">Delete</button>
-                            </form>
-                        </td>
-                        
-                        <script>
-                            function confirmDelete(course_code) {
-                                var confirmation = confirm("Are you sure you want to delete this course?");
-                                if (confirmation) {
-                                    document.getElementById('deleteForm_' + course_code).submit();
-                                } else {
-                                    return false;
+        <div class = "dummy_container">
+            <div class="table_container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Course Code</th>
+                            <th>Course Name</th>
+                            <th>Instructor ID</th>
+                            <th>Department</th>
+                            <th>Description</th>
+                            <th>Credit Hours</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for course, department_name in courses_with_department %}
+                        <tr>
+                            <td style="white-space: nowrap;">
+                                <form id="deleteForm_{{ course.course_code }}" action="{{ url_for('courses.view_courses') }}" method="POST">
+                                    <input type="hidden" name="course_code" value="{{ course.course_code }}" />
+                                    <button class="update_button" type="button" onclick="confirmDelete('{{ course.course_code }}')">Delete</button>
+                                </form>
+                            </td>
+
+                            <script>
+                                function confirmDelete(course_code) {
+                                    var confirmation = confirm("Are you sure you want to delete this course?");
+                                    if (confirmation) {
+                                        document.getElementById('deleteForm_' + course_code).submit();
+                                    } else {
+                                        return false;
+                                    }
                                 }
-                            }
-                        </script>
+                            </script>
 
-                        <td>{{ course.course_code }}</td>
-                        <td>{{ course.course_name }}</td>
-                        <td>{{ course.instructor_id }}</td>
-                        <td>{{ department_name }}</td>
-                        <td>{{ course.description }}</td>
-                        <td>{{ course.credit_hours }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                            <td>{{ course.course_code }}</td>
+                            <td>{{ course.course_name }}</td>
+                            <td>{{ course.instructor_id }}</td>
+                            <td>{{ department_name }}</td>
+                            <td>{{ course.description }}</td>
+                            <td>{{ course.credit_hours }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
-            {% if error_message %}
-            <div class="error-message">
-            {{ error_message }}
+                {% if error_message %}
+                <div class="error-message">
+                    {{ error_message }}
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
-            </div>
+        </div>
 
 
         <div class="links">

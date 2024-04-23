@@ -16,42 +16,46 @@
 
     <body>
         <h1>Edit Your Information</h1>
-        <form action="" method="post">
-            <label for="email">Email</label>
-            <input
-            type="email"
-            id="email" 
-            name="email"
-            value="{{ student.email }}"
-            placeholder="Email"
-            maxlength="50" 
-            spellcheck="false"
-            required
-            />
+        <div class="dummy_box">
+            <div class="box">
+                <form action="" method="post">
+                    <label for="email">Email</label>
+                    <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ student.email }}"
+                    placeholder="Email"
+                    maxlength="50"
+                    spellcheck="false"
+                    required
+                    />
 
-            <label for="student_phoneno">Student Phone No</label>
-            <input
-            type="text"
-            id="student_phoneno"
-            name="student_phoneno"
-            value="{{ student.student_phoneno }}"
-            pattern="[0-9]{10}" 
-            title="Phone number must be 10 digits"
-            inputmode="numeric"
-            required
-            />
+                    <label for="student_phoneno">Student Phone No</label>
+                    <input
+                    type="text"
+                    id="student_phoneno"
+                    name="student_phoneno"
+                    value="{{ student.student_phoneno }}"
+                    pattern="[0-9]{10}"
+                    title="Phone number must be 10 digits"
+                    inputmode="numeric"
+                    required
+                    />
 
-            <label for="guardian_phoneno">Gurdian Phone No</label>
-            <input
-            type="text"
-            id="guardian_phoneno"
-            name="guardian_phoneno"
-            value="{{ student.guardian_phoneno }}"
-            pattern="[0-9]{10}" 
-            title="Phone number must be 10 digits"
-            inputmode="numeric"
-            />
+                    <label for="guardian_phoneno">Gurdian Phone No</label>
+                    <input
+                    type="text"
+                    id="guardian_phoneno"
+                    name="guardian_phoneno"
+                    value="{{ student.guardian_phoneno }}"
+                    pattern="[0-9]{10}"
+                    title="Phone number must be 10 digits"
+                    inputmode="numeric"
+                    />
 
+                </form>
+            </div>
             <div class="button">
                 <button
                     type="button"
@@ -62,6 +66,7 @@
 
                     <button type="submit">Save</button>
             </div>
-        </form>
+
+        </div>
     </body>
 </html>

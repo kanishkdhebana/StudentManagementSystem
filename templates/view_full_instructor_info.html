@@ -8,25 +8,32 @@
         rel="stylesheet"
         href="{{ url_for('static', filename='style/style.css') }}"
         />
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style/add_edit.css') }}"
+        />
     </head>
 
     <body>
+        <h1>Your Information</h1>
         <div class="container">
-            <h1>Your Information</h1>
-            <div class="info">
-                <p><strong>Instructor ID:</strong> {{ instructor.instructor_id }}</p>
-                <p><strong>Name:</strong> {{ instructor.first_name }} {{ instructor.last_name }}</p>
-                <p><strong>Date of Birth:</strong> {{ instructor.dob }}</p>
-                <p><strong>Sex:</strong> {{ instructor.sex.value if instructor.sex else None }}</p>
-                <p><strong>Email:</strong> {{ instructor.email }}</p>
-                <p><strong>Phone Number:</strong> {{ instructor.phone_number }}</p>
-                <p><strong>Date of Joining:</strong> {{ instructor.doj }}</p>
-                <p><strong>Address:</strong>{{ instructor.address }}, {{ instructor.city }}, {{ instructor.state }}, {{ instructor.address_pin }}</p>
-                <p><strong>Blood Group: </strong>{{ get_enum_display(instructor.bloodgroup) }}</td>
+            <div class="box">
+                <div class="info">
+                    <p><strong>Instructor ID:</strong> {{ instructor.instructor_id }}</p>
+                    <p><strong>Name:</strong> {{ instructor.first_name }} {{ instructor.last_name }}</p>
+                    <p><strong>Date of Birth:</strong> {{ instructor.dob }}</p>
+                    <p><strong>Sex:</strong> {{ instructor.sex.value if instructor.sex else None }}</p>
+                    <p><strong>Email:</strong> {{ instructor.email }}</p>
+                    <p><strong>Phone Number:</strong> {{ instructor.phone_number }}</p>
+                    <p><strong>Date of Joining:</strong> {{ instructor.doj }}</p>
+                    <p><strong>Address:</strong>{{ instructor.address }}, {{ instructor.city }}, {{ instructor.state }}, {{ instructor.address_pin }}</p>
+                    <p><strong>Blood Group: </strong>{{ get_enum_display(instructor.bloodgroup) }}</td>
+                </div>
             </div>
 
-            <div class="links">
+            <div class="button">
                 <button onclick="window.location.href='{{ url_for('dashboard.instructor_dashboard') }}'">Back</button>
             </div>
+        </div>
     </body>
 </html>

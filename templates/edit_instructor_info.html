@@ -16,31 +16,35 @@
 
     <body>
         <h1>Edit Your Information</h1>
-        <form action="" method="post">
-            <label for="email">Email</label>
-            <input
-            type="email"
-            id="email"
-            name="email"
-            value="{{ instructor.email }}"
-            placeholder="Email"
-            maxlength="50" 
-            spellcheck="false"
-            required
-            />
+        <div class="dummy_box">
+            <div class="box">
+                <form action="" method="post">
+                    <label for="email">Email</label>
+                    <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ instructor.email }}"
+                    placeholder="Email"
+                    maxlength="50"
+                    spellcheck="false"
+                    required
+                    />
 
-            <label for="phone_number">Phone No</label>
-            <input
-            type="text"
-            id="phone_number" 
-            name="phone_number"
-            value="{{ instructor.phone_number }}"
-            pattern="[0-9]{10}" 
-            title="Phone number must be 10 digits"
-            inputmode="numeric"
-            required
-            />
+                    <label for="phone_number">Phone No</label>
+                    <input
+                    type="text"
+                    id="phone_number"
+                    name="phone_number"
+                    value="{{ instructor.phone_number }}"
+                    pattern="[0-9]{10}"
+                    title="Phone number must be 10 digits"
+                    inputmode="numeric"
+                    required
+                    />
 
+                </form>
+            </div>
             <div class="button">
                 <button
                     type="button"
@@ -51,6 +55,6 @@
 
                     <button type="submit">Save</button>
             </div>
-        </form>
+        </div>
     </body>
 </html>

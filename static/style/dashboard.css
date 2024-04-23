@@ -16,6 +16,7 @@
     width: 45%;
     padding-top: 5%;
     padding-bottom: 5%;
+    text-align: left;
 }
 
 .profile_info p {
@@ -38,6 +39,7 @@
     background-color: #fff;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    text-align: center;
 }
 
 .links a {

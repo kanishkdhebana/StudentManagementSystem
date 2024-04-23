@@ -16,75 +16,79 @@
 
     <body>
         <h1>Add New Course</h1>
-        <div class="box">
-            <form method="POST" action="/add_course">
-                <input
-                type="text"
-                placeholder="Course Code"
-                id="course_code"
-                name="course_code"
-                pattern=".{8}" 
-                title="Course Code must be 8 characters"
-                required
-                />
+        <div class="dummy_box">
+            <div class="box">
+                <form method="POST" action="/add_course">
+                    <input
+                    type="text"
+                    placeholder="Course Code"
+                    id="course_code"
+                    name="course_code"
+                    pattern=".{8}"
+                    title="Course Code must be 8 characters"
+                    required
+                    />
 
-                <input
-                type="text"
-                placeholder="Course Name"
-                id="course_name"
-                name="course_name"
-                maxlength="100" 
-                title="Course Name must be up to 100 characters"
-                required
-                />
+                    <input
+                    type="text"
+                    placeholder="Course Name"
+                    id="course_name"
+                    name="course_name"
+                    maxlength="100"
+                    title="Course Name must be up to 100 characters"
+                    required
+                    />
 
-                <input
-                type="text"
-                placeholder="Course Description"
-                id="description"
-                name="description"
-                required
-                />
+                    <input
+                    type="text"
+                    placeholder="Course Description"
+                    id="description"
+                    name="description"
+                    required
+                    />
 
-                <input
-                type="text"
-                placeholder="Instructor ID"
-                id="instructor_id"
-                name="instructor_id"
-                pattern=".{11}" 
-                title="Instructor Id must be 11 characters"
-                required
-                />
+                    <input
+                    type="text"
+                    placeholder="Instructor ID"
+                    id="instructor_id"
+                    name="instructor_id"
+                    pattern=".{11}"
+                    title="Instructor Id must be 11 characters"
+                    required
+                    />
 
-                <select id="department_id" name="department_name" required>
-                    <option value="" disabled selected>Select Department</option>
-                    {% for department in departments %}
-                    <option value="{{ department.department_name }}">{{ department.department_name }}</option>
-                    {% endfor %}
-                </select>
-                
+                    <select id="department_id" name="department_name" required>
+                        <option value="" disabled selected>Select Department</option>
+                        {% for department in departments %}
+                        <option value="{{ department.department_name }}">{{ department.department_name }}</option>
+                        {% endfor %}
+                    </select>
 
-                <input
-                type="text"
-                placeholder="Credit Hours"
-                id="credit_hours"
-                name="credit_hours"
-                pattern="[0-9]{2}" 
-                inputmode="numeric"
-                required
-                />
 
-                <div class="button">
-                    <button
-                        type="button"
-                        onclick="window.location.href='{{ url_for('courses.view_courses') }}'"
-                        >
-                        Back
-                    </button>
+                    <input
+                    type="text"
+                    placeholder="Credit Hours"
+                    id="credit_hours"
+                    name="credit_hours"
+                    pattern="[0-9]{2}"
+                    inputmode="numeric"
+                    required
+                    />
+
+                </form>
+
+            </div>
+            <div class="button">
+                <button
+                    type="button"
+                    onclick="window.location.href='{{ url_for('courses.view_courses') }}'"
+                    >
+                    Back
+                </button>
 
                     <button type="submit">Submit</button>
-                </div>
-            </form>
+            </div>
         </div>
+
     </body>
 </html>

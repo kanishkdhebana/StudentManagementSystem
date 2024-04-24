@@ -4,14 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>View Student Information</title>
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/style.css') }}"
-        />
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/add_edit.css') }}"
-        />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}"/> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/add_edit.css') }}"/>
     </head>
 
     <body>
@@ -32,7 +26,10 @@
             </div>
 
             <div class="button">
-                <button onclick="window.location.href='{{ url_for('dashboard.instructor_dashboard') }}'">Back</button>
+                <button 
+                    onclick="window.location.href='{{ url_for('dashboard.instructor_dashboard') }}'">
+                    Back
+                </button>
             </div>
         </div>
     </body>

@@ -4,14 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Student Profile</title>
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/style.css') }}"
-        />
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/dashboard.css') }}"
-        />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}"/> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/dashboard.css') }}"/>
     </head>
 
     <body>
@@ -21,21 +15,21 @@
                 ><img
                 src="{{ url_for('static', filename='assets/icons8-logout-48.png') }}"
                 alt="Logout"
-                /></a>
+                />
+            </a>
         </div>
 
         <div class="box">
             <div class="links">
                 <div class="profile_info">
                     <p><strong>Student ID:</strong> {{ student.student_id }}</p>
-                    <p>
-                    <strong>Name:</strong> {{ student.first_name }} {{ student.middle_name
-                    }} {{ student.last_name }}
+                    
+                    <p><strong>Name:</strong>
+                        {{ student.first_name }} {{ student.middle_name
+                        }} {{ student.last_name }}
                     </p>
-                    <p>
-                    <strong>Gender:</strong> {{ student.sex.value if student.sex else None
-                    }}
-                    </p>
+
+                    <p><strong>Gender:</strong> {{ student.sex.value if student.sex else None}}</p>
                     <p><strong>Email:</strong> {{ student.email }}</p>
                     <p><strong>Phone No:</strong> {{ student.student_phoneno }}</p>
                 </div>  
@@ -44,20 +38,23 @@
             <div class="links">
                 <a
                     href="{{ url_for('students.view_full_student_info', student_id = student.student_id) }}"
-                    >View Full Info.</a
-                >
+                    >View Full Info.
+                </a>
+
                 <a
                     href="{{ url_for('students.view_student_enrollments', student_id = student.student_id) }}"
-                    >View Enrollments</a
-                >
+                    >View Enrollments
+                </a>
+
                 <a
                     href="{{ url_for('students.view_student_grades', student_id = student.student_id) }}"
-                    >View Grades</a
-                >
+                    >View Grades
+                </a>
+
                 <a
                     href="{{ url_for('students.edit_student', student_id = student.student_id) }}"
-                    >Edit Information</a
-                >
+                    >Edit Information
+                </a>
             </div>
         </div>
     </body>

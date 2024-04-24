@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 20, 2024 at 08:24 PM
+-- Generation Time: Apr 24, 2024 at 11:14 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -93,7 +93,9 @@ CREATE TABLE `enrollments` (
 
 INSERT INTO `enrollments` (`enrollment_id`, `student_id`, `course_code`, `enrollment_date`) VALUES
 (1, '2022ucp1111', '22CST101', '2024-04-13'),
-(4, '2022ucp1111', '22CST233', '2024-04-20');
+(4, '2022ucp1111', '22CST233', '2024-04-20'),
+(5, '2022ucp1111', 'CS601000', '2024-04-24'),
+(6, '2022ucp1111', 'CS701000', '2024-04-24');
 
 -- --------------------------------------------------------
 
@@ -112,7 +114,8 @@ CREATE TABLE `grades` (
 --
 
 INSERT INTO `grades` (`grade_id`, `enrollment_id`, `grade`) VALUES
-(1, 1, 'BC');
+(1, 1, 'BC'),
+(2, 4, 'CC');
 
 -- --------------------------------------------------------
 
@@ -187,6 +190,7 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `first_name`, `middle_name`, `last_name`, `email`, `grad_level`, `address`, `city`, `state`, `address_pin`, `father_name`, `mother_name`, `dob`, `bloodgroup`, `doa`, `father_occ`, `mother_occ`, `student_phoneno`, `guardian_phoneno`, `sex`, `department_id`) VALUES
+('2022ucp1000', 'Kanishk', 'd', 'Dhebana', 'dhebanakanishk@gmail.com', 'B_Tech', 'a', 'a', 'a', 123456, 'F', 'M', '2003-03-11', 'AB_minus', '2022-04-03', 'FO', 'MO', 9873246745, 8035234092, 'Male', '5'),
 ('2022ucp1111', 'Ayush', 'R', 'Raghav', 'ayushraghav@gmail.com', 'B_Tech', '12, Nandganv, Nath Ji ki Thadi, Niwaru Road, Jhotwara, Jaipur, Rajasthan', 'Jaipur', 'Rajasthan', 302012, 'A Raghav', 'M ', '2003-01-24', 'A_minus', '2021-07-22', 'Govt. Servant', 'Housewife', 9001155751, 9601755751, 'Male', '5'),
 ('2022ucp1112', 'Riya', 'S', 'Singh', 'riyasingh@gmail.com', 'B_Tech', '34, Radha Vihar, Raja Park', 'Mumbai', 'Maharashtra', 400001, 'A Singh', 'K Singh', '2003-03-15', 'B_plus', '2021-07-22', 'Businessman', 'Homemaker', 9002155751, 9602755751, 'Female', '5'),
 ('2022ucp1113', 'Rahul', 'M', 'Mehta', 'rahulmehta@gmail.com', 'B_Tech', '56, Shiv Colony, Shyam Nagar', 'Bangalore', 'Karnataka', 560001, 'V Mehta', 'R Mehta', '2002-12-05', 'AB_plus', '2021-07-22', 'Engineer', 'Teacher', 9003155751, 9603755751, 'Male', '5'),
@@ -194,7 +198,17 @@ INSERT INTO `students` (`student_id`, `first_name`, `middle_name`, `last_name`, 
 ('2022ucp1115', 'Vivek', 'P', 'Patel', 'vivekpatel@gmail.com', 'B_Tech', '90, Vaishali Nagar', 'Chennai', 'Tamil Nadu', 600001, 'B Patel', 'D Patel', '2002-08-10', 'O_plus', '2021-07-22', 'Businessman', 'Homemaker', 9005155751, 9605755751, 'Male', '5'),
 ('2022ucp1116', 'Priya', 'A', 'Agarwal', 'priyaagarwal@gmail.com', 'B_Tech', '23, Mansarovar, New Sanganer Road', 'Hyderabad', 'Telangana', 500001, 'K Agarwal', 'S Agarwal', '2003-02-28', 'B_plus', '2021-07-22', 'Professor', 'Homemaker', 9006155751, 9606755751, 'Female', '5'),
 ('2022ucp1117', 'Aman', 'G', 'Gupta', 'amangupta@gmail.com', 'B_Tech', '45, Malviya Nagar', 'Pune', 'Maharashtra', 411001, 'S Gupta', 'A Gupta', '2002-10-18', 'A_plus', '2021-07-22', 'Engineer', 'Banker', 9007155751, 9607755751, 'Male', '5'),
-('2022ucp1118', 'Anjali', 'J', 'Jain', 'anjalijain@gmail.com', 'B_Tech', '67, Jhotwara', 'Ahmedabad', 'Gujarat', 380001, 'V Jain', 'A Jain', '2003-04-12', 'AB_minus', '2021-07-22', 'Doctor', 'Nurse', 9008155751, 9608755751, 'Female', '5');
+('2022ucp1118', 'Anjali', 'J', 'Jain', 'anjalijain@gmail.com', 'B_Tech', '67, Jhotwara', 'Ahmedabad', 'Gujarat', 380001, 'V Jain', 'A Jain', '2003-04-12', 'AB_minus', '2021-07-22', 'Doctor', 'Nurse', 9008155751, 9608755751, 'Female', '5'),
+('2022ucp1126', 'Kunal', 'S', 'Shah', 'kunalshah@gmail.com', 'B_Tech', '17, Vasant Vihar', 'New Delhi', 'Delhi', 110057, 'R Shah', 'N Shah', '2003-08-09', 'O_plus', '2021-07-22', 'Engineer', 'Homemaker', 9016155751, 9616755751, 'Male', '5'),
+('2022ucp1127', 'Pooja', 'A', 'Agrawal', 'poojaagrawal@gmail.com', 'B_Tech', '25, Ashok Nagar', 'Indore', 'Madhya Pradesh', 452001, 'S Agrawal', 'R Agrawal', '2002-11-20', 'B_minus', '2021-07-22', 'Architect', 'Teacher', 9017155751, 9617755751, 'Female', '5'),
+('2022ucp1128', 'Rahul', 'K', 'Khatri', 'rahulkhatri@gmail.com', 'B_Tech', '9, Shivaji Nagar', 'Nagpur', 'Maharashtra', 440001, 'A Khatri', 'K Khatri', '2003-04-15', 'AB_plus', '2021-07-22', 'Doctor', 'Nurse', 9018155751, 9618755751, 'Male', '5'),
+('2022ucp1129', 'Neha', 'B', 'Bansal', 'nehabansal@gmail.com', 'B_Tech', '43, Civil Lines', 'Allahabad', 'Uttar Pradesh', 211001, 'R Bansal', 'S Bansal', '2002-09-12', 'A_plus', '2021-07-22', 'Entrepreneur', 'Homemaker', 9019155751, 9619755751, 'Female', '5'),
+('2022ucp1130', 'Amit', 'G', 'Gupta', 'amitgupta@gmail.com', 'B_Tech', '56, Gokul Nagar', 'Ahmedabad', 'Gujarat', 380001, 'S Gupta', 'A Gupta', '2003-01-30', 'B_plus', '2021-07-22', 'Software Developer', 'Homemaker', 9020155751, 9620755751, 'Male', '5'),
+('2022ucp1131', 'Priya', 'M', 'Mehra', 'priyamehra@gmail.com', 'B_Tech', '37, Nehru Nagar', 'Pune', 'Maharashtra', 411001, 'K Mehra', 'P Mehra', '2002-06-27', 'O_minus', '2021-07-22', 'Software Engineer', 'Teacher', 9021155751, 9621755751, 'Female', '5'),
+('2022ucp1132', 'Rajesh', 'S', 'Sharma', 'rajeshsharma@gmail.com', 'B_Tech', '78, Malviya Nagar', 'Jaipur', 'Rajasthan', 302018, 'A Sharma', 'R Sharma', '2003-03-08', 'A_minus', '2021-07-22', 'Engineer', 'Homemaker', 9022155751, 9622755751, 'Male', '5'),
+('2022ucp1133', 'Anjali', 'R', 'Rastogi', 'anjalirastogi@gmail.com', 'B_Tech', '15, Gomti Nagar', 'Lucknow', 'Uttar Pradesh', 226010, 'K Rastogi', 'S Rastogi', '2002-12-10', 'AB_plus', '2021-07-22', 'Doctor', 'Nurse', 9023155751, 9623755751, 'Female', '5'),
+('2022ucp1134', 'Aryan', 'M', 'Malhotra', 'aryanmalhotra@gmail.com', 'B_Tech', '32, Vijay Nagar', 'Ghaziabad', 'Uttar Pradesh', 201001, 'R Malhotra', 'M Malhotra', '2003-05-22', 'B_minus', '2021-07-22', 'Entrepreneur', 'Homemaker', 9024155751, 9624755751, 'Male', '5'),
+('2022ucp1135', 'Shreya', 'P', 'Pandey', 'shreyapandey@gmail.com', 'B_Tech', '24, Vikas Nagar', 'Kanpur', 'Uttar Pradesh', 208001, 'A Pandey', 'R Pandey', '2002-07-19', 'A_plus', '2021-07-22', 'Software Developer', 'Homemaker', 9025155751, 9625755751, 'Female', '5');
 
 -- --------------------------------------------------------
 
@@ -214,11 +228,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `user_type`, `user_password_hash`) VALUES
 ('12345678901', 'admin', 'scrypt:32768:8:1$E55KMZTGGyy5LJh3$db3c92f4a13ed82bb319ba4c74ad3d64b60b65d6f6152479ef44124fb5617b29663789aa0d1c4dae44263e88b1ac0a616f66fa1f6cfdc5acd4c928742c271083'),
-('s1234567890', 'student', 'scrypt:32768:8:1$JWaFVgOPWXHhoGDP$cb96c57a03c79122a0f31798c1b8f9d68d20a8a60ce7f0cd26b36c28c6697b1a5ada71bd869a33ac1f218fab358bb6fab2d61a8f02943353b568bd6357bb3d3a'),
-('i1234567890', 'instructor', 'scrypt:32768:8:1$To1Xlhp0txJi6Fy1$48cff40a535ff49b091ec5adf8c8eceb61d763e2824094885d5ba12049a4d0948c2aa2574609678f749b136672a0df06f494a4389e9cbf2ae785c9469eb66ffa'),
 ('2022ucp1111', 'student', 'scrypt:32768:8:1$3FQhFKvf8XCLOoh8$0b91c91bb878b83dd76542a4953b1697d2d9c80156cbf7e47d4d671c9b211c77f4963b949f8d03dc7a6b36f9dc2d5fc88565e262c7b0c50cfc45f2eb0c822ea2'),
 ('2010icp1000', 'instructor', 'scrypt:32768:8:1$GC8B9bfPnewwfZaV$2d02b2592ac6a3f633443d6bb03e847d99976e34c885a7f712c9e555d7f2d18750cf098a029fbf31056109a84b6c9bb8a5e29dff4f4d16a1793a3a3cd7df3c0e'),
-('2022ucp1504', 'student', 'scrypt:32768:8:1$7zlLx2Qa4JoHdH0M$bff77b9048a04413b755c865643e642565ec84eb7941d123874c7b26a6ecac6a03209fc502140287c0112cceb704af857507a3e11fd6c316b360e2e97b9a8c97');
+('2022ucp1000', 'student', 'scrypt:32768:8:1$lZwlhLHj1kfghYs3$f56720b34610ddfb7811c7c70bdfbdb5f1aa9bfab3135632c778927bcf96690ea628ad3ae61d0f5aff19a95500dbaf4950da191bdf0272bf2e745d023d6dcf04');
 
 --
 -- Indexes for dumped tables
@@ -275,13 +287,13 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `enrollments`
 --
 ALTER TABLE `enrollments`
-  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `enrollment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
-  MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

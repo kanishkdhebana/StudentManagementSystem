@@ -27,12 +27,12 @@ body {
     text-align: center;
     overflow:auto;
     height: 78vh;
+    overscroll-behavior: none;
     scroll-behavior: auto;
 } 
 
 table {
     width: 100%;
-    
     background-color: #fff;
     border-radius: 20px;
     /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); */
@@ -43,9 +43,9 @@ table {
 
 thead {
     position: sticky;
-    scroll-behavior: auto;
     top: 0;
     z-index: 1;
+    overscroll-behavior-y: none;
 }
 
 

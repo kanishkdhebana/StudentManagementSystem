@@ -163,11 +163,19 @@ def view_students():
      
     if request.method == 'POST':
         student_id = request.form.get('student_id')
-        Enrollment.query.filter_by(student_id = student_id).delete()
-        student = Student.query.filter_by(student_id = student_id).first()
-        if student:
-            db.session.delete(student)
-            db.session.commit()
+        
+        try:
+            with db.session.begin_nested():     
+                student = Student.query.filter_by(student_id = student_id).first()
+                if student:
+                    Enrollment.query.filter_by(student_id = student_id).delete()
+                    User.query.filter_by(user_id = student_id).delete()
+                    db.session.delete(student)
+                    db.session.commit()
+                    
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            
         return redirect(url_for("students.view_students"))
       
     students = Student.query.all()
@@ -287,14 +295,31 @@ def view_student_enrollments(student_id):
     enrollment_details = []
     
     for enrollment in student_enrollments:
-        course = Course.query.filter_by(course_code = enrollment.course_code).first()
-        course_name = course.course_name
-        
-        enrollment_details.append({
-            'course_name': course_name,
-            'course_code': enrollment.course_code,
-            'enrollment_date': enrollment.enrollment_date
-        })    
+        joined_data = db.session.query(
+            Enrollment,
+            Course,
+            Instructor
+        ).join(
+            Course,
+            Enrollment.course_code == Course.course_code
+        ).join(
+            Instructor,
+            Course.instructor_id == Instructor.instructor_id
+        ).filter(
+            Enrollment.student_id == student_id,
+            Enrollment.course_code == enrollment.course_code
+        ).first()
+
+        if joined_data:
+            course_name = joined_data.Course.course_name
+            instructor_name = joined_data.Instructor.first_name + ' ' + joined_data.Instructor.last_name
+
+            enrollment_details.append({
+                'course_name': course_name,
+                'instructor_name': instructor_name,
+                'course_code': enrollment.course_code,
+                'enrollment_date': enrollment.enrollment_date
+            })
     
     return render_template("view_student_enrollments.html", enrollment_details = enrollment_details)
 

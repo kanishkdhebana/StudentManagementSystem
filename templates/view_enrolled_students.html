@@ -1,90 +1,72 @@
 <!DOCTYPE html>
-                {% else %}
-                <p>Go to <a href="{{ url_for('auth.login') }}">Login</a> page.</p>
-                {% else %}
-                <p>Go to <a href="{{ url_for('auth.login') }}">Login</a> page.</p>
-                {% endif %}
-                % else %}
-                <p>Go to <a href="{{ url_for('auth.login') }}">Login</a> page.</p>
-                {% endif %}
-                % else %}
-                <p>Go to <a href="{{ url_for('auth.login') }}">Login</a> page.</p>
-                {% endif %}
-                {% endif %}
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Enrolled Students</title>
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/style.css') }}"
-        >
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/tables.css') }}"
-        >
+        <title>Enrolled Students</title> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}"> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/tables.css') }}">
     </head>
 
-        <body>
-            <h1>Enrolled Students</h1>
-            <div class = "dummy_container">
-                <div class="table_container">
-                    <h2>{{ course_name }} | {{ course_code }}</h2>
-                    <div class="students">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Student ID</th>
-                                    <th>Name</th>
-                                    <th>Gender</th>
-                                    <th>Email</th>
-                                    <th>Department</th>
-                                    <th>Phone Number</th>
-                                    <th>Grade</th>
-                                    <th>Update</th>
-                                </tr>
-                            </thead>
+    <body>
+        <h1>Enrolled Students</h1>
+        <div class = "dummy_container">
+            <div class="table_container">
+                <h2>{{ course_name }} | {{ course_code }}</h2>
+                <div class="students">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>Phone Number</th>
+                                <th>Grade</th>
+                                <th>Update</th>
+                            </tr>
+                        </thead>
 
-                            <tbody>
-                                {% for student in enrolled_students %}
-                                <tr>
-                                    <td>{{ student.student_id }}</td>
-                                    <td>{{ student.first_name }} {{ student.middle_name }} {{ student.last_name }}</td>
-                                    <td>{{ student.sex.value if student.sex else None }}</td>
-                                    <td>{{ student.email }}</td>
-                                    <td>{{ student.department_name }}</td>
-                                    <td>{{ student.student_phoneno }}</td>
-                                    <td>{{ student.grade.name }}</td>
-                                    <td style="white-space: nowrap;">
-                                        <form action="{{ url_for('instructors.view_enrolled_students', course_code = course_code) }}" method="POST">
-                                            <input type="hidden" name="student_id" value="{{ student.student_id }}" />
-                                            <input type="hidden" name="course_code" value="{{ course_code }}" />
-                                            <select class="grade_dropdown" name="grade">
-                                                <option value="AA" {% if student.grade == 'AA' %} selected {% endif %}>AA</option>
-                                                <option value="AB" {% if student.grade == 'AB' %} selected {% endif %}>AB</option>
-                                                <option value="BB" {% if student.grade == 'BB' %} selected {% endif %}>BB</option>
-                                                <option value="BC" {% if student.grade == 'BC' %} selected {% endif %}>BC</option>
-                                                <option value="CC" {% if student.grade == 'CC' %} selected {% endif %}>CC</option>
-                                                <option value="CD" {% if student.grade == 'CD' %} selected {% endif %}>CD</option>
-                                                <option value="DD" {% if student.grade == 'DD' %} selected {% endif %}>DD</option>
-                                                <option value="FF" {% if student.grade == 'FF' %} selected {% endif %}>FF</option>
-                                                <option value="FP" {% if student.grade == 'FP' %} selected {% endif %}>FP</option>
-                                            </select>
+                        <tbody>
+                            {% for student in enrolled_students %}
+                            <tr>
+                                <td>{{ student.student_id }}</td>
+                                <td>{{ student.first_name }} {{ student.middle_name }} {{ student.last_name }}</td>
+                                <td>{{ student.sex.value if student.sex else None }}</td>
+                                <td>{{ student.email }}</td>
+                                <td>{{ student.department_name }}</td>
+                                <td>{{ student.student_phoneno }}</td>
+                                <td>{{ student.grade.name }}</td>
+                                <td style="white-space: nowrap;">
+                                    <form action="{{ url_for('instructors.view_enrolled_students', course_code = course_code) }}" method="POST">
+                                        <input type="hidden" name="student_id" value="{{ student.student_id }}" />
+                                        <input type="hidden" name="course_code" value="{{ course_code }}" />
+                                        <select class="grade_dropdown" name="grade">
+                                            <option value="AA" {% if student.grade == 'AA' %} selected {% endif %}>AA</option>
+                                            <option value="AB" {% if student.grade == 'AB' %} selected {% endif %}>AB</option>
+                                            <option value="BB" {% if student.grade == 'BB' %} selected {% endif %}>BB</option>
+                                            <option value="BC" {% if student.grade == 'BC' %} selected {% endif %}>BC</option>
+                                            <option value="CC" {% if student.grade == 'CC' %} selected {% endif %}>CC</option>
+                                            <option value="CD" {% if student.grade == 'CD' %} selected {% endif %}>CD</option>
+                                            <option value="DD" {% if student.grade == 'DD' %} selected {% endif %}>DD</option>
+                                            <option value="FF" {% if student.grade == 'FF' %} selected {% endif %}>FF</option>
+                                            <option value="FP" {% if student.grade == 'FP' %} selected {% endif %}>FP</option>
+                                        </select>
 
-                                            <button class="update_button" type="submit">Update</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                        <button class="update_button" type="submit">Update</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
+        </div>
 
-            <div class="links">
-                <a href="{{ url_for('dashboard.instructor_dashboard') }}">Home</a>
-            </div>
-        </body>
+        <div class="links">
+            <a href="{{ url_for('dashboard.instructor_dashboard') }}">Home</a>
+        </div>
+    </body>
 </html>

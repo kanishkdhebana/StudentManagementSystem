@@ -4,14 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Student Course Enrollments</title>
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/style.css') }}"
-        />
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/tables.css') }}"
-        />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}"/> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/tables.css') }}"/>
     </head>
 
     <body>
@@ -21,16 +15,19 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Course Code</th>
                             <th>Course Name</th>
+                            <th>Course Code</th>
+                            <th>Instructor</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         {% for enrollment_detail in enrollment_details %}
                         <tr>
-                            <td>{{ enrollment_detail.course_code }}</td>
                             <td>{{ enrollment_detail.course_name }}</td>
+                            <td>{{ enrollment_detail.course_code }}</td>
+                            <td>{{ enrollment_detail.instructor_name }}</td>
+
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -44,3 +41,4 @@
         </div>
     </body>
 </html>
+ 

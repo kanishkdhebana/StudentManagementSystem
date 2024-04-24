@@ -4,14 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>View Instructor</title>
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/style.css') }}"
-        />
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/tables.css') }}"
-        />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}"/> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/tables.css') }}"/>
     </head>
 
     <body>
@@ -51,10 +45,8 @@
                                 function confirmDelete(instructorID) {
                                     var confirmation = confirm("Are you sure you want to delete this instructor?");
                                     if (confirmation) {
-                                        // If confirmed, submit the form
                                         document.getElementById('deleteForm_' + instructorID).submit();
                                     } else {
-                                        // If not confirmed, do nothing
                                         return false;
                                     }
                                 }

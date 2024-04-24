@@ -4,14 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Instructor Profile</title>
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/style.css') }}"
-        />
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/dashboard.css') }}"
-        />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}"/> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/dashboard.css') }}"/>
     </head>
 
     <body>
@@ -24,7 +18,8 @@
                 ><img
                 src="{{url_for('static', filename='assets/icons8-logout-48.png')}}"
                 alt="Logout"
-                /></a> 
+                />
+            </a> 
         </div>
 
         <div class="box">
@@ -39,6 +34,7 @@
             </div>
 
             <div class="links">
+                <h2 style="text-align: center; margin-top: -8%; margin-bottom: 5%; font-size:28px">Profile Options</h2>
                 <a
                     href="{{ url_for('instructors.view_full_instructor_info',
                     instructor_id = instructor.instructor_id) }}"
@@ -51,15 +47,15 @@
             </div>
 
             <div class="links">
-                <h2 style="text-align: center">Courses</h2>
+                <h3 style="text-align: center; margin-top: -8%; margin-bottom: 5%; font-size:28px">Courses</h2>
                 <ul>
                     {% for course in instructor_courses %}
                     <li>
                         <a
                             href="{{ url_for('instructors.view_enrolled_students',
                             course_code = course.course_code) }}"
-                            >{{ course.course_name }}</a
-                        >
+                            >{{ course.course_name }}
+                        </a>
                     </li>
                     {% endfor %}
                 </ul>

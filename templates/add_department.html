@@ -4,14 +4,9 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Add Department</title>
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/style.css') }}"
-        />
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/add_edit.css') }}"
-        />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/add_edit.css') }}"/>
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     </head>
 
     <body>
@@ -40,10 +35,11 @@
                     title="Department Name must be up to 100 characters"
                     required
                     /><br />
-
+                    
+                    <button type="submit" id="hidden_submit" style="display: none;"></button>
                 </form>
-
             </div>
+
             <div class="button">
                 <button
                     type="button"
@@ -52,7 +48,7 @@
                     Back
                 </button>
 
-                    <button type="submit">Submit</button>
+                <button type="submit" id="visible_submit">Submit</button>
             </div>
         </div>
     </body>

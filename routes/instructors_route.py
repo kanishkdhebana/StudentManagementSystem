@@ -317,7 +317,7 @@ def view_enrolled_students(course_code):
             Grade.grade
         )
         .join(Enrollment, Student.student_id == Enrollment.student_id)
-        .join(Grade, Enrollment.enrollment_id == Grade.enrollment_id)
+        .outerjoin(Grade, Enrollment.enrollment_id == Grade.enrollment_id)
         .join(Department, Student.department_id == Department.department_id) 
         .filter(Enrollment.course_code == course_code)
         .all()

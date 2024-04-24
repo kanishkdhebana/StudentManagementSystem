@@ -4,41 +4,36 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>View Grades</title>
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/style.css') }}"
-        />
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/tables.css') }}"
-        />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}"/> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/tables.css') }}"/>
     </head>
 
     <body>
         <h1>Student Grades</h1>
         <div class = "dummy_container">
-        <div class="table_container">
-            <div class="grades">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Course Code</th>
-                            <th>Course Name</th>
-                            <th>Grade</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for grade, course_name, course_code in student_grades %}
-                        <tr>
-                            <td>{{ course_code }}</td>
-                            <td>{{ course_name }}</td>
-                            <td>{{ grade.grade.name }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div class="table_container">
+                <div class="grades">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Course Code</th>
+                                <th>Course Name</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                            {% for grade, course_name, course_code in student_grades %}
+                            <tr>
+                                <td>{{ course_code }}</td>
+                                <td>{{ course_name }}</td>
+                                <td>{{ grade.grade.name }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
         </div>
 
         <div class="links">

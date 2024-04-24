@@ -4,19 +4,14 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Admin Dashboard</title>
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/style.css') }}"
-        />
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style/dashboard.css') }}"
-        />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}"/> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/dashboard.css') }}"/>
     </head>
 
     <body>
         <div class="navbar">
             <div class="greeting">Welcome Admin</div>
+            
             <a href="{{ url_for('auth.logout') }}" class="logout"
                 ><img
                 src="{{ url_for('static', filename='assets/icons8-logout-48.png') }}"

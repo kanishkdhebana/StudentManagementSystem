@@ -7,7 +7,7 @@ Attributes:
     instructors_blueprint (flask.Blueprint): Blueprint object for defining instructor routes.
 """
 
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user
 from models.instructors import Instructor, db
 from models.users import User, UserType
@@ -17,6 +17,8 @@ from models.grades import Grade, Grades
 from models.courses import Course
 from models.departments import Department
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import asc
+
 
 # Blueprint object for defining instructor routes
 instructors_blueprint = Blueprint('instructors', __name__)
@@ -185,12 +187,24 @@ def view_instructors():
     
     if request.method == 'POST':
         instructor_id = request.form.get('instructor_id')
-        Enrollment.query.filter_by(instructor_id = instructor_id).delete()
-        instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
-        if instructor:
-            db.session.delete(instructor)
-            db.session.commit()
-        return redirect(url_for("instructors.view_instructors"))
+        
+        try:
+            with db.session.begin_nested():     
+                associated_courses = Course.query.filter_by(instructor_id = instructor_id).all()
+                if (associated_courses): 
+                    for course in associated_courses:
+                        course.instructor_id = None
+                    db.session.commit()
+                    
+                instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
+                if instructor:
+                    db.session.delete(instructor)
+                    db.session.commit() 
+                    
+                return redirect(url_for("instructors.view_instructors"))
+            
+        except SQLAlchemyError as e:
+            db.session.rollback()
     
     instructors = Instructor.query.all()
     return render_template(

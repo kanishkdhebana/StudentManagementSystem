@@ -11,7 +11,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f4f7f6;
+    /* background-color: #f4f7f6; */
+    background-color: #f8f8f8;
     font-family: "Poppins", sans-serif;
     font-size: 18px;
     justify-content: center;
@@ -111,7 +112,7 @@ button:hover {
 
 .update_button {
     padding: 7px 7px;
-    background-color: #007bff;
+    /* background-color: #007bff; */
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -129,6 +130,26 @@ button:hover {
 .update_button:active {
     /* background-color: #004080; */
     background-color: #b11111;
+}
+
+
+.assign_button     {
+    padding: 7px 7px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 5px;
+    margin-left: 2%;
+}
+
+.assign_button    :hover {
+    background-color: #0056b3;
+}
+
+.assign_button    :active {
+    background-color: #004080;
 }
 
 .grade_dropdown {

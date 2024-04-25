@@ -6,7 +6,8 @@
     width: 100vw;
     min-height: 100vh;
     height: auto;
-    background: linear-gradient(90deg, #f4f7f6, #f4f7f6);
+    /* background-color: #f4f7f6; */
+    background-color: #f8f8f8;
 }
 
 form {

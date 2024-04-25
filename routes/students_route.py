@@ -14,7 +14,7 @@ from models.students import Student, db
 from models.users import User, UserType
 from models.enrollments import Enrollment
 from models.grades import Grade
-from models.courses import Course
+from models.courses import Course 
 from models.instructors import Instructor
 from models.departments import Department
 from sqlalchemy.exc import IntegrityError
@@ -376,7 +376,8 @@ def enroll_course():
         existing_enrollment = Enrollment.query.filter_by(
             student_id = student_id,
             course_code = course_code
-            ).first()
+        ).first()
+        
         if existing_enrollment:
             return redirect(url_for('students.enroll_course'))
         

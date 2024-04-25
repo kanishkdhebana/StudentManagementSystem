@@ -11,8 +11,9 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from flask_login import login_required, current_user
 from models.users import UserType, db
 from models.courses import Course
-from models.enrollments import Enrollment
+from models.enrollments import Enrollment 
 from models.departments import Department
+from models.instructors import Instructor
 from sqlalchemy.exc import IntegrityError
 
 # Blueprint object for defining course routes
@@ -84,7 +85,7 @@ def view_courses():
     if current_user.user_type != UserType.admin:
         return 'Unauthorized', 403
     
-    error_message = session.pop('error_message', None)
+    error_message = None
     
     if request.method == 'POST':
         course_code = request.form.get('course_code')
@@ -95,7 +96,6 @@ def view_courses():
             session['error_message'] = error_message
             
         else:
-            Enrollment.query.filter_by(course_code=course_code).delete()
             course = Course.query.filter_by(course_code=course_code).first()
             if course:
                 db.session.delete(course)
@@ -104,14 +104,46 @@ def view_courses():
             session['error_message'] = None
             return redirect(url_for("courses.view_courses"))
     
-    courses = Course.query.all()
+    available_instructors = Instructor.query.all()
     courses_with_department = []
+    courses = Course.query.all()
+    
     for course in courses:
         department = Department.query.filter_by(department_id = course.department_id).first()
         department_name = department.department_name if department else "Unknown Department"
         courses_with_department.append((course, department_name))
 
-    return render_template('view_courses.html',
-                           courses_with_department = courses_with_department,
-                           error_message = error_message
+    return render_template(
+        'view_courses.html',
+        courses_with_department = courses_with_department,
+        available_instructors = available_instructors,
+        error_message = error_message
     )
+    
+    
+@courses_blueprint.route('/assign_instructor', methods=['POST'])
+@login_required
+def assign_instructor():
+    """
+    Route for assigning an instructor to a course.
+
+    This route handles the form submission for assigning an instructor to a course.
+    It updates the instructor assigned to the course in the database.
+
+    Returns:
+        str: Redirects to the view_courses route after assigning the instructor.
+    """
+    if current_user.user_type != UserType.admin:
+        return 'Unauthorized', 403
+    
+    if request.method == 'POST':
+        course_code = request.form.get('course_code')
+        instructor_id = request.form.get('instructor_id')
+
+        course = Course.query.filter_by(course_code = course_code).first()
+
+        if course:
+            course.instructor_id = instructor_id
+            db.session.commit()
+            
+    return redirect(url_for("courses.view_courses"))

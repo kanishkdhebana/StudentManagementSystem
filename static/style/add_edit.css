@@ -9,13 +9,22 @@ select {
     transition: border-color 0.3s ease;
 }
 
-input:invalid {
+input:invalid:not(:focus):not(:placeholder-shown) {
     border-color: red;
 }
 
-input:invalid + span.error-message {
+input:invalid:not(:focus):not(:placeholder-shown) + span.error-message {
     color: red;
 }
+
+input:focus {
+    border-color: #007bff;
+}
+
+input:not(:invalid):not(:focus) {
+    border-color: #ccc; 
+}
+
 
 
 .dummy_box {
@@ -76,10 +85,7 @@ option {
     background-color: #b8aff9;
 }
 
-input:hover,
-input:focus {
-    border-color: #007bff;
-}
+
 
 .label {
     margin-bottom: -23px;

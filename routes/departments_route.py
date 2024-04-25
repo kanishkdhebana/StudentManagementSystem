@@ -17,7 +17,6 @@ from models.courses import Course
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import asc
 
-# Blueprint object for defining department routes
 departments_blueprint = Blueprint('departments', __name__)
 
 @departments_blueprint.route("/add_department", methods=['GET', 'POST'])
@@ -58,7 +57,6 @@ def add_department():
             error_message = str(e.orig) if e.orig else "An error occurred. Please try again later."
             return render_template("error.html", message = error_message)
 
-    # If the request method is not POST
     return render_template("add_department.html")
 
 
@@ -86,7 +84,7 @@ def view_departments():
         if associated_students or associated_courses:
             error_message = "Cannot delete department because there are associated students or courses."
             session['error_message'] = error_message
-            
+             
         else:
             Enrollment.query.filter_by(department_id = department_id).delete()
             department = Department.query.filter_by(department_id=department_id).first()

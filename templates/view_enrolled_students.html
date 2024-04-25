@@ -24,7 +24,7 @@
                                 <th>Department</th>
                                 <th>Phone Number</th>
                                 <th>Grade</th>
-                                <th>Update</th>
+                                <th>Assign Grade</th>
                             </tr>
                         </thead>
 
@@ -39,7 +39,7 @@
                                 <td>{{ student.student_phoneno }}</td>
                                 <td>{{ student.grade.name }}</td>
                                 <td style="white-space: nowrap;">
-                                    <form action="{{ url_for('instructors.view_enrolled_students', course_code = course_code) }}" method="POST">
+                                   <form action="{{ url_for('instructors.view_enrolled_students', course_code = course_code) }}" method="POST">
                                         <input type="hidden" name="student_id" value="{{ student.student_id }}" />
                                         <input type="hidden" name="course_code" value="{{ course_code }}" />
                                         <select class="grade_dropdown" name="grade">
@@ -54,7 +54,7 @@
                                             <option value="FP" {% if student.grade == 'FP' %} selected {% endif %}>FP</option>
                                         </select>
 
-                                        <button class="update_button" type="submit">Update</button>
+                                        <button class="assign_button" type="submit">Assign</button>
                                     </form>
                                 </td>
                             </tr>

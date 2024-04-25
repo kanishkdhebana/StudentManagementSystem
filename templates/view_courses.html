@@ -15,6 +15,7 @@
                     <thead>
                         <tr>
                             <th></th>
+                            <th>Assign Instructor</th>
                             <th>Course Code</th>
                             <th>Course Name</th>
                             <th>Instructor ID</th>
@@ -44,6 +45,20 @@
                                     }
                                 }
                             </script>
+
+                            <td style="white-space: nowrap;">
+                                <form action="{{ url_for('courses.assign_instructor') }}" method="POST">
+                                    <input type="hidden" name="course_code" value="{{ course.course_code }}" />
+                                    <select class="instructor_dropdown" name="instructor_id">
+                                        {% for instructor in available_instructors %}
+                                            <option value="{{ instructor.instructor_id }}">{{ instructor.instructor_id }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button class="assign_button" type="submit">Assign</button>
+                                </form>
+                            </td>
+                                                    
+                            
 
                             <td>{{ course.course_code }}</td>
                             <td>{{ course.course_name }}</td>

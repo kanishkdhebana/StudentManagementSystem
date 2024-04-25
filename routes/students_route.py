@@ -110,7 +110,6 @@ def add_student():
     return render_template("add_student.html", departments = departments)
 
 
-
 def get_enum_display(enum_value):
     """
     Map enum values to human-readable strings.
@@ -130,6 +129,7 @@ def get_enum_display(enum_value):
             'PHD'   : 'PhD'
         }
         return grad_level_mapping.get(enum_value.value)
+    
     elif enum_value.__class__.__name__ == 'BloodGroup':
         blood_group_mapping = {
             'A_plus'  : 'A+',
@@ -230,7 +230,10 @@ def edit_student(student_id):
         return redirect(url_for('dashboard.student_dashboard'))
 
     student = Student.query.filter_by(student_id = student_id).first()
-    return render_template('edit_student_info.html', student = student)
+    return render_template(
+        'edit_student_info.html',
+        student = student,
+    )
 
 def is_valid_phone_number(phone_number):
     """
@@ -270,7 +273,12 @@ def view_full_student_info(student_id):
     if not student:
         return redirect(url_for('dashboard.student_dashboard'))
 
-    return render_template('view_full_student_info.html', student = student, department_name = department_name)
+    return render_template(
+        'view_full_student_info.html',
+        student = student,
+        department_name = department_name,
+        get_enum_display = get_enum_display
+    )
 
 
 @students_blueprint.route("/view_student_enrollments/<string:student_id>")

@@ -86,7 +86,6 @@ def view_departments():
             session['error_message'] = error_message
              
         else:
-            Enrollment.query.filter_by(department_id = department_id).delete()
             department = Department.query.filter_by(department_id=department_id).first()
             if department:
                 db.session.delete(department)

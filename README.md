@@ -31,6 +31,7 @@ This project is a web-based Student Management System developed using Flask, HTM
         pip install flask
         pip install flask-login
         pip install SQLAlchemy
+        pip install mysqlclient
         ```
 
 3. Set up the database:

@@ -18,7 +18,7 @@ This project is a web-based Student Management System developed using Flask, HTM
 - JavaScript: Programming language for frontend interactivity
 - SQLAlchemy: Python SQL toolkit and Object-Relational Mapping (ORM) library
 
-## Installation
+## Project Set-up
 
 1. Clone the repository:
 

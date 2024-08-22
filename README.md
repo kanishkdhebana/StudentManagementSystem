@@ -21,8 +21,9 @@ This project is a web-based Student Management System developed using Flask, HTM
 ## Project Set-up
 
 1. Clone the repository:
-
+   ```bash
     git clone https://github.com/kanishkdhebana/StudentManagementSystem
+   ```
 
 2. Install dependencies: 
     - First create a python virtual environment

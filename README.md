@@ -28,6 +28,7 @@ This project is a web-based Student Management System developed using Flask, HTM
     - First create a python virtual environment
     - After activating the virtual environment
         ```bash
+        pip install pymysql
         pip install flask
         pip install flask-login
         pip install SQLAlchemy

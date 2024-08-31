@@ -1,4 +1,4 @@
-#!/Users/kanishkdhebana/Documents/CODE/DBIS_Project/Student_Management_System/virtualEnv/bin/python3.12
+#!/Users/kanishkdhebana/Developer/DBIS_Project/Student_Management_System/virtualEnv/bin/python3.12
 # -*- coding: utf-8 -*-
 import re
 import sys

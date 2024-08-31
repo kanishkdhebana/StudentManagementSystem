@@ -9,6 +9,7 @@ Attributes:
 """
 
 from flask import Flask, redirect, url_for
+import pymysql
 from flask_login import LoginManager
 from models.users import User, db as user_db
 from routes.students_route import students_blueprint
@@ -18,6 +19,8 @@ from routes.auth import auth_blueprint
 from routes.departments_route import departments_blueprint
 from routes.dashboard import dashboard_blueprint
 
+pymysql.install_as_MySQLdb()
+
 # Initialize the Flask application
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'my_secret_key'
@@ -25,7 +28,7 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 
 # Configure SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/StudentManagementSystem?unix_socket=/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/StudentManagementSystem?unix_socket=/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize Flask-Login

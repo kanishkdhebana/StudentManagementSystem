@@ -1,0 +1,30 @@
+services:
+  web:
+    build: .
+    container_name: student_management_system_app
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - SECRET_KEY=my_secret_key 
+      - DATABASE_HOST=db 
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=1324
+      - DATABASE_NAME=studentmanagementsystem
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10.4
+    container_name: student_management_system_database_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1324
+      MYSQL_DATABASE: studentmanagementsystem
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./app/SQL/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    
+volumes:
+  mysql_data: {}

@@ -8,7 +8,7 @@ class Sex(Enum):
     Male = 'Male'
     Female = 'Female'
     Other = 'Other'
-
+ 
 class GradLevel(Enum):
     B_Tech = 'B_Tech'
     M_Tech = 'M_Tech'

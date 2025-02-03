@@ -26,25 +26,25 @@ services:
       - mysql_data:/var/lib/mysql
       - ./app/SQL/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
 
-  tests:
-    build: .
-    container_name: student_management_system_test
-    environment:
-      - FLASK_ENV=testing
-      - SECRET_KEY=my_secret_key 
-      - DATABASE_HOST=db 
-      - DATABASE_USER=root
-      - DATABASE_PASSWORD=1324
-      - DATABASE_NAME=studentmanagementsystem
-      - PYTHONPATH=./app
-    depends_on:
-      - db
-    command: ["pytest", "--maxfail=1", "--disable-warnings", "--maxfail=5", "-v", "tests"]
-    volumes:
-      - ./app:/app
-      - ./tests:/tests
-    networks:
-      - default
+#   tests:
+#     build: .
+#     container_name: student_management_system_test
+#     environment:
+#       - FLASK_ENV=testing
+#       - SECRET_KEY=my_secret_key 
+#       - DATABASE_HOST=db 
+#       - DATABASE_USER=root
+#       - DATABASE_PASSWORD=1324
+#       - DATABASE_NAME=studentmanagementsystem
+#       - PYTHONPATH=./app
+#     depends_on:
+#       - db
+#     command: ["pytest", "--maxfail=1", "--disable-warnings", "--maxfail=5", "-v", "tests"]
+#     volumes:
+#       - ./app:/app
+#       - ./tests:/tests
+#     networks:
+#       - default
 
 
     

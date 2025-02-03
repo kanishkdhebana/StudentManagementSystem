@@ -9,12 +9,10 @@ Attributes:
 
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user
-from models.users import UserType, db
+from models.users import UserType
 from models.courses import Course
-from models.enrollments import Enrollment 
 from models.departments import Department
 from models.instructors import Instructor
-from sqlalchemy.exc import IntegrityError
 
 # Blueprint object for defining course routes
 courses_blueprint = Blueprint('courses', __name__)
@@ -47,24 +45,20 @@ def add_course():
         department = Department.query.filter_by(department_name = department_name).first()
         department_id = department.department_id if department else None
 
-        new_course = Course( 
-            course_code   = course_code,
-            course_name   = course_name,
-            instructor_id = instructor_id,
-            department_id = department_id,
-            description   = description,
-            credit_hours  = credit_hours
+        success, error_message = Course.add_course( 
+            course_code,
+            course_name,
+            instructor_id,
+            department_id,
+            description,
+            credit_hours
         ) 
 
-        try:
-            db.session.add(new_course)
-            db.session.commit()
+        if success:
             return redirect(url_for("courses.add_course"))
         
-        except IntegrityError as e:
-            db.session.rollback()
-            error_message = str(e.orig) if e.orig else "An error occurred. Please try again later."
-            return render_template("error.html", message = error_message)
+        else:
+            return render_template("error.html", message=error_message)
 
     # If the request method is not POST
     return render_template("add_course.html", departments = departments)
@@ -89,20 +83,15 @@ def view_courses():
     
     if request.method == 'POST':
         course_code = request.form.get('course_code')
-        existing_enrollments = Enrollment.query.filter_by(course_code = course_code).all()
-    
-        if existing_enrollments:
-            error_message = "Cannot delete course because there are existing enrollments."
-            session['error_message'] = error_message
-            
-        else:
-            course = Course.query.filter_by(course_code=course_code).first()
-            if course:
-                db.session.delete(course)
-                db.session.commit()
-            
-            session['error_message'] = None
-            return redirect(url_for("courses.view_courses"))
+        course = Course.query.filter_by(course_code=course_code).first()
+        
+        if course:
+            if not course.delete():
+                error_message = "Cannot delete course because there are existing enrollments."
+                session['error_message'] = error_message
+            else:
+                session['error_message'] = None
+                return redirect(url_for("courses.view_courses"))
     
     available_instructors = Instructor.query.all()
     courses_with_department = []
@@ -143,7 +132,6 @@ def assign_instructor():
         course = Course.query.filter_by(course_code = course_code).first()
 
         if course:
-            course.instructor_id = instructor_id
-            db.session.commit()
+            course.assign_instructor(instructor_id)
             
     return redirect(url_for("courses.view_courses"))

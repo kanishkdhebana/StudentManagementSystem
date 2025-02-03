@@ -1,8 +1,10 @@
 from sqlalchemy import Enum as EnumSQL
 from sqlalchemy import Date
-from sqlalchemy.orm import relationship
 from enum import Enum
+from datetime import datetime
 from models.users import db
+from models.users import User, UserType
+from models.enrollments import Enrollment
 
 class Sex(Enum):
     Male = 'Male'
@@ -54,3 +56,98 @@ class Student(db.Model):
         return f"{self.first_name} {self.middle_name} {self.last_name}"
     
 
+    @classmethod
+    def add_student(cls, student_data):
+        existing_student = cls.query.filter_by(student_id=student_data['student_id']).first()
+        if existing_student:
+            return None
+
+        new_student = Student(
+            student_id = student_data['student_id'],
+            first_name = student_data['first_name'],
+            middle_name = student_data['middle_name'],
+            last_name = student_data['last_name'],
+            sex = student_data['sex'],
+            email = student_data['email'],
+            grad_level = student_data['grad_level'],
+            address = student_data['address'],
+            city = student_data['city'],
+            state = student_data['state'],
+            address_pin = student_data['address_pin'],
+            father_name = student_data['father_name'],
+            mother_name = student_data['mother_name'],
+            dob = student_data['dob'],
+            bloodgroup = student_data['bloodgroup'],
+            doa = student_data['doa'],
+            father_occ = student_data['father_occ'],
+            mother_occ = student_data['mother_occ'],
+            student_phoneno = student_data['student_phoneno'],
+            guardian_phoneno = student_data['guardian_phoneno'],
+            department_id = student_data['department_id']
+        )
+
+        # Create user for the student
+        user_password = f"{student_data['first_name'].lower()}{student_data['dob'].replace('-', '')}"
+        new_user = User(user_id=student_data['student_id'], user_type = UserType.student)
+        new_user.set_password(user_password)
+
+        try:
+            db.session.add(new_student)
+            db.session.add(new_user)
+            db.session.commit()
+            return new_student
+        
+        except IntegrityError:
+            db.session.rollback()
+            return None
+        
+    
+    @classmethod
+    def delete_student(cls, student_id):
+        student = cls.query.filter_by(student_id=student_id).first()
+        if student:
+            # Delete associated enrollments
+            Enrollment.query.filter_by(student_id=student_id).delete()
+
+            # Delete associated user
+            User.query.filter_by(user_id=student_id).delete()
+
+            # Delete the student
+            db.session.delete(student)
+            db.session.commit()
+            return True
+        return False
+    
+    
+    def update_student_info(self, student_data):
+        self.email = student_data['email']
+        self.student_phoneno = student_data['student_phoneno']
+        self.guardian_phoneno = student_data['guardian_phoneno']
+
+        db.session.commit()
+        
+        
+    @classmethod
+    def enroll_in_course(cls, student_id, course_code):
+        
+        existing_enrollment = Enrollment.query.filter_by(
+            student_id = student_id,
+            course_code = course_code
+        ).first()
+        
+        if existing_enrollment:
+            return False
+        
+        new_enrollment = Enrollment(
+            student_id=student_id,
+            course_code=course_code,
+            enrollment_date = datetime.now()
+        )
+
+        try:
+            db.session.add(new_enrollment)
+            db.session.commit()
+            return True
+        except IntegrityError:
+            db.session.rollback()
+            return False

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user
 from models.users import User
 from models.users import UserType
 
@@ -20,6 +20,16 @@ def login():
         Renders the 'login.html' template with error message if login fails,
         otherwise redirects to the appropriate dashboard.
     """
+    
+    if current_user.is_authenticated:
+        if current_user.user_type == UserType.admin:
+            return redirect(url_for('dashboard.admin_dashboard'))
+        
+        elif current_user.user_type == UserType.student:
+            return redirect(url_for('dashboard.student_dashboard'))
+        
+        elif current_user.user_type == UserType.instructor:
+            return redirect(url_for('dashboard.instructor_dashboard'))
     
     error = None
     if request.method == 'POST':

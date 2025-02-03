@@ -10,3 +10,4 @@ class Enrollment(db.Model):
 
     def __repr__(self) -> str:
         return f"{self.enrollment_id} {self.student_id} {self.enrollment_date}"
+ 

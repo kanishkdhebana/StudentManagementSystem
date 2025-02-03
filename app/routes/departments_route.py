@@ -10,11 +10,7 @@ Attributes:
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user
 from models.users import UserType
-from models.departments import Department, db
-from models.enrollments import Enrollment
-from models.students import Student
-from models.courses import Course
-from sqlalchemy.exc import IntegrityError
+from models.departments import Department
 from sqlalchemy import asc
 
 departments_blueprint = Blueprint('departments', __name__)
@@ -37,25 +33,14 @@ def add_department():
         department_id = request.form['department_id']
         department_name = request.form['department_name']
         
-        existing_department = Department.query.filter_by(department_id = department_id).first()
-        if existing_department:
-            return redirect(url_for('departments.add_department'))
+        result = Department.create(department_id, department_name)
         
-        new_department = Department(
-            department_id = department_id,
-            department_name = department_name,
-        ) 
-
-        try:
-            db.session.add(new_department)
-            db.session.commit()
-            
-            return redirect(url_for("departments.add_department"))
+        if "successfully" in result:
+            flash(result, 'success')
+        else:
+            flash(result, 'error')
         
-        except IntegrityError as e:
-            db.session.rollback() 
-            error_message = str(e.orig) if e.orig else "An error occurred. Please try again later."
-            return render_template("error.html", message = error_message)
+        return redirect(url_for("departments.add_department"))
 
     return render_template("add_department.html")
 
@@ -78,21 +63,15 @@ def view_departments():
     error_message = None
     if request.method == 'POST':
         department_id = request.form.get('department_id')
-        associated_students = Student.query.filter_by(department_id = department_id).all()
-        associated_courses = Course.query.filter_by(department_id = department_id).all()
-
-        if associated_students or associated_courses:
-            error_message = "Cannot delete department because there are associated students or courses."
-            session['error_message'] = error_message
-             
+        
+        result = Department.delete_department(department_id)
+        
+        if "successfully" in result:
+            flash(result, 'success')
         else:
-            department = Department.query.filter_by(department_id=department_id).first()
-            if department:
-                db.session.delete(department)
-                db.session.commit()
-                
-            session.pop('error_message', None)
-            return redirect(url_for("departments.view_departments"))
+            flash(result, 'error')
+        
+        return redirect(url_for("departments.view_departments"))
         
     departments = Department.query.order_by(asc(Department.department_id)).all()
     return render_template(

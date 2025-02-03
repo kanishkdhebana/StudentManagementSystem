@@ -7,17 +7,16 @@ Attributes:
     instructors_blueprint (flask.Blueprint): Blueprint object for defining instructor routes.
 """
 
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from models.instructors import Instructor, db
-from models.users import User, UserType
+from models.users import UserType
 from models.students import Student
 from models.enrollments import Enrollment
 from models.grades import Grade, Grades
 from models.courses import Course
 from models.departments import Department
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import asc
 
 
 # Blueprint object for defining instructor routes
@@ -38,57 +37,36 @@ def add_instructor():
         return 'Unauthorized', 403
     
     if request.method == 'POST':
-        instructor_id = request.form['instructor_id']
-        
-        existing_instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
-        if existing_instructor:
-            return redirect(url_for('instructors.add_instructor'))
-        
-        first_name  = request.form['first_name']
-        last_name    = request.form['last_name']
-        sex          = request.form['sex']
-        email        = request.form['email']
-        address      = request.form['address']
-        city         = request.form['city']
-        state        = request.form['state']
-        address_pin  = int(request.form['address_pin'])
-        dob          = request.form['dob']
-        bloodgroup   = request.form['bloodgroup'] 
-        doj          = request.form['doj']
-        phone_number = request.form['phone_number']
-
-        new_instructor = Instructor(
-            instructor_id = instructor_id,
-            first_name    = first_name,
-            last_name     = last_name,
-            sex           = sex,
-            email         = email,
-            address       = address,
-            city          = city,
-            state         = state,
-            address_pin   = address_pin,
-            dob           = dob,
-            bloodgroup    = bloodgroup,
-            doj           = doj,
-            phone_number  = phone_number,
-        ) 
+        instructor_data = {
+            'instructor_id': request.form['instructor_id'],
+            'first_name': request.form['first_name'],
+            'last_name': request.form['last_name'],
+            'sex': request.form['sex'],
+            'email': request.form['email'],
+            'address': request.form['address'],
+            'city': request.form['city'],
+            'state': request.form['state'],
+            'address_pin': int(request.form['address_pin']),
+            'dob': request.form['dob'],
+            'bloodgroup': request.form['bloodgroup'],
+            'doj': request.form['doj'],
+            'phone_number': request.form['phone_number'],
+        }
 
         try:
-            db.session.add(new_instructor)
-            db.session.commit()
-            
-            user_password = f"{request.form['first_name'].lower()}{request.form['dob'].replace('-', '')}"
-            new_user = User(user_id = instructor_id, user_type = UserType.instructor)
-            new_user.set_password(user_password)
-            db.session.add(new_user)
-            db.session.commit()
-            
+            new_instructor = Instructor.create_instructor(instructor_data)
+
             return redirect(url_for("dashboard.admin_dashboard"))
         
+        except ValueError as e:
+            error_message = str(e)
+            return render_template("error.html", message = error_message)
+
         except IntegrityError as e:
             db.session.rollback()
             error_message = str(e.orig) if e.orig else "An error occurred. Please try again later."
             return render_template("error.html", message = error_message)
+
 
     return render_template("add_instructor.html")
 
@@ -111,34 +89,20 @@ def edit_instructor(instructor_id):
     if current_user.user_type != UserType.instructor or current_user.user_id != instructor_id:
         return 'Unauthorized', 403
     
-    if request.method == 'POST':
-        instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
-        
-        # Validate phone numbers
-        if not is_valid_phone_number(request.form['phone_number']):
-            return redirect(url_for('instructors.edit_instructor', instructor_id = instructor_id))
-
-        instructor.email = request.form['email']
-        instructor.phone_number = request.form['phone_number']
-
-        db.session.commit()
-
-        return redirect(url_for('dashboard.instructor_dashboard'))
-
     instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
+    
+    if request.method == 'POST':
+        email = request.form['email']
+        phone_number = request.form['phone_number']
+
+        try:
+            Instructor.update_instructor_info(instructor_id, email, phone_number)
+            return redirect(url_for('dashboard.instructor_dashboard'))
+        
+        except ValueError as e:
+            return render_template('edit_instructor_info.html', instructor=instructor, error=str(e))
+
     return render_template('edit_instructor_info.html', instructor = instructor ) 
-
-def is_valid_phone_number(phone_number):
-    """
-    Check if the phone number consists of exactly 10 digits.
-
-    Args:
-        phone_number (str): Phone number to validate.
-
-    Returns:
-        bool: True if the phone number consists of exactly 10 digits, False otherwise.
-    """
-    return len(phone_number) == 10 and phone_number.isdigit()
 
 
 # Define a mapping function for enum values
@@ -189,22 +153,25 @@ def view_instructors():
         instructor_id = request.form.get('instructor_id')
         
         try:
-            with db.session.begin_nested():     
-                associated_courses = Course.query.filter_by(instructor_id = instructor_id).all()
-                if (associated_courses): 
-                    for course in associated_courses:
-                        course.instructor_id = None
-                    db.session.commit()
-                    
-                instructor = Instructor.query.filter_by(instructor_id = instructor_id).first()
-                if instructor:
-                    db.session.delete(instructor)
-                    db.session.commit() 
-                    
-                return redirect(url_for("instructors.view_instructors"))
+            # Call the model method to delete the instructor
+            Instructor.delete_instructor(instructor_id)
+            
+            return redirect(url_for("instructors.view_instructors"))
+        
+        except ValueError as e:
+            return render_template('view_instructors.html', 
+                                   instructors = Instructor.query.all(), 
+                                   error = str(e),
+                                   get_enum_display = get_enum_display)
             
         except SQLAlchemyError as e:
+            # General database error
             db.session.rollback()
+            return render_template('view_instructors.html', 
+                                   instructors=Instructor.query.all(),
+                                   error="An error occurred while processing your request.",
+                                   get_enum_display = get_enum_display)
+
     
     instructors = Instructor.query.all()
     return render_template(
@@ -299,22 +266,21 @@ def view_enrolled_students(course_code):
         student_id = request.form.get('student_id')
         new_grade = request.form.get('grade')
 
-        if new_grade in [g.value for g in Grades]:
-            enrollment = Enrollment.query.filter_by(
-                student_id=student_id,
-                course_code = course_code
-            ).first()
-            if enrollment:
-                grade = Grade.query.filter_by(enrollment_id = enrollment.enrollment_id).first()
-                if grade:
-                    # Update the grade
-                    grade.grade = new_grade
-                    db.session.commit()
-                else:
-                    grade = Grade(enrollment_id = enrollment.enrollment_id, grade = new_grade)
-                    db.session.add(grade)
-                    db.session.commit()
+        # Check if the grade is valid
+        if new_grade not in [g.value for g in Grades]:
+            return 'Invalid grade', 400
+
+        # Find the enrollment and update or add the grade
+        enrollment = Enrollment.query.filter_by(student_id = student_id, course_code = course_code).first()
+        
+        if enrollment:
+            success = Grade.update_or_add_grade(enrollment.enrollment_id, new_grade)
+            if not success:
+                return 'Failed to update grade', 500
             
+        else:
+            return 'Enrollment not found', 404
+
         return redirect(url_for("instructors.view_enrolled_students", course_code = course_code))
 
     # If it's a GET request

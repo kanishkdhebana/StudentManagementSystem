@@ -9,15 +9,13 @@ Attributes:
 
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
-from datetime import datetime
 from models.students import Student, db
-from models.users import User, UserType
+from models.users import UserType
 from models.enrollments import Enrollment
 from models.grades import Grade
 from models.courses import Course 
 from models.instructors import Instructor
 from models.departments import Department
-from sqlalchemy.exc import IntegrityError
 
 students_blueprint = Blueprint('students', __name__)
 
@@ -31,79 +29,41 @@ def add_student():
 
     Returns:
         str: Rendered template for adding a student or a redirect to the student dashboard.
-    """
+    """ 
     if current_user.user_type != UserType.admin:
         return 'Unauthorized', 403
     
     if request.method == 'POST':
-        student_id = request.form['student_id']
-        department_id = request.form.get('department_id')
-        if not department_id:
-            return redirect(url_for('students.add_student'))
-        
-        existing_student = Student.query.filter_by(student_id = student_id).first()
-        if existing_student:
-            return redirect(url_for('students.add_student'))
-          
-        first_name       = request.form['first_name']
-        middle_name      = request.form['middle_name']
-        last_name        = request.form['last_name']
-        sex              = request.form['sex']
-        email            = request.form['email']
-        grad_level       = request.form['grad_level']
-        address          = request.form['address']
-        city             = request.form['city']
-        state            = request.form['state']
-        address_pin      = int(request.form['address_pin'])
-        father_name      = request.form['father_name']
-        mother_name      = request.form['mother_name']
-        dob              = request.form['dob']
-        bloodgroup       = request.form['bloodgroup'] 
-        doa              = request.form['doa']
-        father_occ       = request.form['father_occ']
-        mother_occ       = request.form['mother_occ']
-        student_phoneno  = int(request.form['student_phoneno'])
-        guardian_phoneno = int(request.form['guardian_phoneno'])
+        student_data = {
+            'student_id': request.form['student_id'],
+            'department_id': request.form.get('department_id'),
+            'first_name': request.form['first_name'],
+            'middle_name': request.form['middle_name'],
+            'last_name': request.form['last_name'],
+            'sex': request.form['sex'],
+            'email': request.form['email'],
+            'grad_level': request.form['grad_level'],
+            'address': request.form['address'],
+            'city': request.form['city'],
+            'state': request.form['state'],
+            'address_pin': int(request.form['address_pin']),
+            'father_name': request.form['father_name'],
+            'mother_name': request.form['mother_name'],
+            'dob': request.form['dob'],
+            'bloodgroup': request.form['bloodgroup'],
+            'doa': request.form['doa'],
+            'father_occ': request.form['father_occ'],
+            'mother_occ': request.form['mother_occ'],
+            'student_phoneno': int(request.form['student_phoneno']),
+            'guardian_phoneno': int(request.form['guardian_phoneno'])
+        }
 
-        new_student = Student(
-            student_id       = student_id,
-            first_name       = first_name,
-            middle_name      = middle_name,
-            last_name        = last_name,
-            sex              = sex,
-            email            = email,
-            grad_level       = grad_level,
-            address          = address,
-            city             = city,
-            state            = state,
-            address_pin      = address_pin,
-            father_name      = father_name,
-            mother_name      = mother_name,
-            dob              = dob,
-            bloodgroup       = bloodgroup,
-            doa              = doa,
-            father_occ       = father_occ,
-            mother_occ       = mother_occ,
-            student_phoneno  = student_phoneno,
-            guardian_phoneno = guardian_phoneno,
-            department_id    = department_id
-        ) 
+        new_student = Student.add_student(student_data)
 
-        try:
-            db.session.add(new_student) 
-            db.session.commit()
-            
-            user_password = f"{request.form['first_name'].lower()}{request.form['dob'].replace('-', '')}"
-            new_user = User(user_id = student_id, user_type = UserType.student)
-            new_user.set_password(user_password)
-            db.session.add(new_user)
-            db.session.commit()
-            
-            return redirect(url_for("students.add_student"))
-        
-        except IntegrityError as e:
-            db.session.rollback()
-            error_message = str(e.orig) if e.orig else "An error occurred. Please try again later."
+        if new_student is None:
+            return redirect(url_for('students.add_student'))
+
+        return redirect(url_for("students.add_student"))
 
     # if not POST
     departments = Department.query.all()
@@ -164,19 +124,12 @@ def view_students():
     if request.method == 'POST':
         student_id = request.form.get('student_id')
         
-        try:
-            with db.session.begin_nested():     
-                student = Student.query.filter_by(student_id = student_id).first()
-                if student:
-                    Enrollment.query.filter_by(student_id = student_id).delete()
-                    User.query.filter_by(user_id = student_id).delete()
-                    db.session.delete(student)
-                    db.session.commit()
-                    
-        except SQLAlchemyError as e:
-            db.session.rollback()
-            
-        return redirect(url_for("students.view_students"))
+        if Student.delete_student(student_id):
+            return redirect(url_for("students.view_students"))
+        
+        else:
+            return 'Student not found', 404
+
       
     students = Student.query.all()
     department_names = {}
@@ -215,17 +168,19 @@ def edit_student(student_id):
         return 'Unauthorized', 403
     
     if request.method == 'POST':
-        student = Student.query.filter_by(student_id = student_id).first()
-        
+        student = Student.query.filter_by(student_id=student_id).first()
+
         # Validate phone numbers
         if not is_valid_phone_number(request.form['student_phoneno']) or not is_valid_phone_number(request.form['guardian_phoneno']):
-            return redirect(url_for('students.edit_student', student_id = student_id))
+            return redirect(url_for('students.edit_student', student_id=student_id))
 
-        student.email = request.form['email']
-        student.student_phoneno = request.form['student_phoneno']
-        student.guardian_phoneno = request.form['guardian_phoneno']
+        student_data = {
+            'email': request.form['email'],
+            'student_phoneno': request.form['student_phoneno'],
+            'guardian_phoneno': request.form['guardian_phoneno']
+        }
 
-        db.session.commit()
+        student.update_student_info(student_data)
 
         return redirect(url_for('dashboard.student_dashboard'))
 
@@ -381,27 +336,10 @@ def enroll_course():
     if request.method == 'POST':
         course_code = request.form['course_code']
         
-        existing_enrollment = Enrollment.query.filter_by(
-            student_id = student_id,
-            course_code = course_code
-        ).first()
-        
-        if existing_enrollment:
+        if not Student.enroll_in_course(student_id, course_code):
             return redirect(url_for('students.enroll_course'))
         
-        new_enrollment = Enrollment(
-            student_id = student_id,    
-            course_code = course_code,
-            enrollment_date = datetime.now()  
-        )
-        
-        try:
-            db.session.add(new_enrollment)
-            db.session.commit()    
-            return redirect(url_for('dashboard.student_dashboard'))  
-        
-        except IntegrityError:
-            db.session.rollback()
+        return redirect(url_for('dashboard.student_dashboard'))  
     
     student_department_id = Student.query.filter_by(student_id = student_id).first().department_id
     available_courses = Course.query.filter_by(department_id = student_department_id).all()
@@ -412,3 +350,4 @@ def enroll_course():
             course.instructor_name = instructor.first_name + ' ' +  instructor.last_name
     
     return render_template("enroll_in_course.html", available_courses = available_courses)
+    

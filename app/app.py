@@ -30,9 +30,9 @@ app.config['SESSION_COOKIE_SECURE'] = True
 
 # Configure SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.getenv('DATABASE_USER', 'root')}:" \
-                                        f"{os.getenv('DATABASE_PASSWORD', '1324')}@" \
-                                        f"{os.getenv('DATABASE_HOST', 'db')}/" \
-                                        f"{os.getenv('DATABASE_NAME', 'studentmanagementsystem')}"
+                                        f"{os.getenv('DATABASE_PASSWORD', '1234')}@" \
+                                        f"{os.getenv('DATABASE_HOST', 'host')}/" \
+                                        f"{os.getenv('DATABASE_NAME', 'database')}"
 
 # 'mysql+pymysql://root:@localhost/StudentManagementSystem?unix_socket=/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -77,4 +77,5 @@ def index():
     return redirect(url_for('auth.login'))
 
 if __name__ == '__main__':
-    app.run(debug = True, host='0.0.0.0')
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug = True, host='0.0.0.0', port = port)

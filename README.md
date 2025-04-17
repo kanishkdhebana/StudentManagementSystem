@@ -19,7 +19,7 @@ This project is a web-based Student Management System developed using Flask, HTM
 - SQLAlchemy: Python SQL toolkit and Object-Relational Mapping (ORM) library.
 - Docker: For containerizing the application for easy deployment.
 
-## Project Set-up
+## Project Set-up on Localhost
 
 1. Clone the repository:
    ```bash

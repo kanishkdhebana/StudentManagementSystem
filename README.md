@@ -1,58 +1,63 @@
 # Student Management System
 
-This project is a web-based Student Management System developed using Flask, HTML, CSS, and JavaScript. It allows administrators to manage student information such as enrollment, grades, and personal details.
+This project is a web-based **Student Management System** that lets users manage student information, courses, and grades. It's built with **Flask** for the backend and **HTML, CSS, and JavaScript** for the frontend.
 
-## Features
+---
 
-- Student Management: Add, view, edit, and delete student records.
-- Course Management: View enrolled students in courses and manage their grades.
-- Role-Based Access Control: Authentication and authorization system with distinct roles for admins, students, and instructors.
-- Dashboards: Separate dashboard views for administrators, students, and instructors.
-- Responsive Design: Accessible and functional across devices of various screen sizes.
+## What It Does
+
+* **Student Records:** Easily add, view, change, and remove student details.
+* **Course & Grade Management:** View students enrolled in courses and update their grades.
+* **User Roles:** Different levels of access for administrators, students, and instructors.
+* **Custom Views:** Separate dashboards for each user type.
+
+---
 
 ## Technologies Used
 
-- Flask: Python web framework for backend development.
-- HTML: Markup language for structuring web pages.
-- CSS: Stylesheet language for styling web pages.
-- JavaScript: For front-end interactivity.
-- SQLAlchemy: Python SQL toolkit and Object-Relational Mapping (ORM) library.
-- Docker: For containerizing the application for easy deployment.
+* **Flask:** A Python tool for building the web server.
+* **HTML:** For structuring the web pages.
+* **CSS:** For styling how the web pages look.
+* **JavaScript:** For interactive elements on the web pages.
+* **SQLAlchemy:** A Python library that helps the Flask app talk to the database.
+* **Docker:** Used to package the application and its database, making it easy to run.
 
-## Project Set-up on Localhost
+---
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/kanishkdhebana/StudentManagementSystem
-   cd StudentManagementSystem
-   ```
+## How to Set It Up (Localhost)
 
-2. Install Docker (if not already installed):
+Follow these steps to get the system running on your computer:
 
-   - For macOS and Windows, download Docker Desktop.
-   - On Linux:
-   
-   ```bash
-   sudo apt update
-   sudo apt install docker.io docker-compose
+1.  **Get the Code:**
+    ```bash
+    git clone https://github.com/kanishkdhebana1/StudentManagementSystem
+    cd StudentManagementSystem
+    ```
 
-   ```
+2.  **Install Docker:**
+    * **macOS and Windows:** Download and install Docker Desktop.
+    * **Linux:**
+        ```bash
+        sudo apt update
+        sudo apt install docker.io docker-compose
+        ```
 
-3. Run the application:
+3.  **Run the Application:**
     ```bash
     docker-compose up --build
     ```
+    This command will build and start the system using Docker. It sets up the Flask server and a MariaDB database, connecting them automatically.
 
-    This command will build and start the application in Docker containers. The backend Flask server and the database (MariaDB) will be containerized and networked for seamless integration.
+4.  **Access the System:**
+    * Open your web browser and go to: `http://localhost:5000`
+    * Log in with your credentials to see your dashboard.
 
-4. Access the application:
+---
 
-   - Open a web browser and go to http://localhost:5000.
-   - Log in with your credentials to access your dashboard.
+## How to Use It
 
-## Usage
+Once you log in, your dashboard will change based on your role:
 
-Once logged in, use the platform to manage student records, view dashboard statistics, and navigate between different functionalities based on your role:
-- Admin: Manage students, instructors, courses, and other settings.
-- Instructor: View and update student grades, track progress, and communicate with students.
-- Student: Register for courses, view grades, and update personal information.
+* **Admin:** Manage all students, instructors, courses, and system settings.
+* **Instructor:** View and update student grades, track progress, and communicate with students.
+* **Student:** Sign up for courses, check your grades, and update your personal information.

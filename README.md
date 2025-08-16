@@ -1,26 +1,53 @@
 # Student Management System
 
-This project is a web-based **Student Management System** that lets users manage student information, courses, and grades. It's built with **Flask** for the backend and **HTML, CSS, and JavaScript** for the frontend.
+A web-based Student Management System built with Flask and MariaDB. The system supports three roles (Admin, Instructor, Student) with separate dashboards and permissions.  
+
+The project runs locally using Docker Compose, and has also been tested in a cloud deployment on AWS (EC2 + RDS + Nginx) to validate scalability and performance.
 
 ---
 
-## What It Does
+## Features
 
-* **Student Records:** Easily add, view, change, and remove student details.
-* **Course & Grade Management:** View students enrolled in courses and update their grades.
-* **User Roles:** Different levels of access for administrators, students, and instructors.
-* **Custom Views:** Separate dashboards for each user type.
+- **Role-Based Access Control** — Admin, Instructor, and Student dashboards  
+- **Student Records** — Add, view, update, and delete student details  
+- **Course & Grade Management** — Enrollments and grade tracking  
+- **Custom Views** — Dashboards tailored to each user role  
+- **Dockerized Deployment** — Run locally with Docker Compose, optionally deploy to AWS
+
+## Architecture
+
+```mermaid
+graph TD
+    User([User]) -->|HTTP :80| Nginx80["NGINX (Port 80)"]
+    Nginx80 -->|301 Redirect| Nginx443["NGINX (Port 443, SSL Termination)"]
+    User([User]) -->|HTTPS :443| Nginx443
+
+    %% Reverse Proxy
+    Nginx443 -->|Forward :5001| FlaskApp["Flask App (Gunicorn, Docker, EC2)"]
+
+    %% DB Communication
+    FlaskApp -->|SQL Queries| RDS["AWS RDS (MariaDB)"]
+
+    %% Styling
+    style User fill:#4C78A8,stroke:#2C3E50,color:#fff
+    style Nginx80 fill:#8E44AD,stroke:#5B2C6F,color:#fff
+    style Nginx443 fill:#8E44AD,stroke:#5B2C6F,color:#fff
+    style FlaskApp fill:#F39C12,stroke:#B9770E,color:#fff
+    style RDS fill:#1ABC9C,stroke:#117864,color:#fff
+
+
+```
 
 ---
 
-## Technologies Used
+## Technologies
 
-* **Flask:** A Python tool for building the web server.
-* **HTML:** For structuring the web pages.
-* **CSS:** For styling how the web pages look.
-* **JavaScript:** For interactive elements on the web pages.
-* **SQLAlchemy:** A Python library that helps the Flask app talk to the database.
-* **Docker:** Used to package the application and its database, making it easy to run.
+- **Flask** — Backend framework  
+- **MariaDB** — Database (local via Docker, or RDS in AWS deployment)  
+- **Docker & Docker Compose** — Containerization and orchestration  
+- **Nginx** — Reverse proxy (used in AWS deployment)  
+- **SQLAlchemy** — ORM for database access  
+- **Locust & Gunicorn** — Load testing and production server testing  
 
 ---
 
@@ -53,6 +80,18 @@ Follow these steps to get the system running on your computer:
     * Log in with your credentials to see your dashboard.
 
 ---
+
+## Cloud Deployment (Optional, Tested)
+
+Although not hosted live due to cost, this system has been deployed and tested on AWS with:
+
+- EC2 for containerized app hosting
+
+- RDS (MariaDB) for managed database
+
+- Nginx as a reverse proxy
+
+- Locust load testing showing stable performance up to ~100 concurrent users on t2.micro
 
 ## How to Use It
 

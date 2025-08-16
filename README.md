@@ -2,7 +2,7 @@
 
 A web-based Student Management System built with Flask and MariaDB. The system supports three roles (Admin, Instructor, Student) with separate dashboards and permissions.  
 
-The project runs locally using Docker Compose, and has also been tested in a cloud deployment on AWS (EC2 + RDS + Nginx) to validate scalability and performance.
+The system has been tested in a production-like setup on AWS (EC2 + RDS + Nginx). While not currently hosted to avoid costs, the deployment was validated with load testing (~100 concurrent users on t2.micro).
 
 ---
 

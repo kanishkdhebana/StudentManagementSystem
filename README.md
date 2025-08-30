@@ -33,9 +33,9 @@ The system has been tested in a production-like setup on AWS (EC2 + RDS + Nginx)
 }%%
 graph TD
     %% Node Definitions (with trailing spaces for padding)
-    User([User ]) -->|HTTP : 80 &nbsp;| Nginx80["NGINX (Port 80) &nbsp;"]
+    User([User&nbsp;]) -->|HTTP : 80 &nbsp;| Nginx80["NGINX (Port 80) &nbsp;"]
     Nginx80 -->|301 Redirect &nbsp;| Nginx443["NGINX (Port 443, SSL Termination) &nbsp;"]
-    User -->|HTTPS : 443 &nbsp;| Nginx443
+    User  -->|HTTPS : 443 &nbsp;| Nginx443
 
     %% Reverse Proxy Link
     Nginx443 -->|Forward : 5001 &nbsp;| FlaskApp["Flask App (Gunicorn, Docker, EC2) &nbsp;"]

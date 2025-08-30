@@ -17,24 +17,43 @@ The system has been tested in a production-like setup on AWS (EC2 + RDS + Nginx)
 ## Architecture
 
 ```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'background': '#1a1b26',
+      'primaryColor': '#1a1b26',
+      'primaryTextColor': '#a9b1d6',
+      'primaryBorderColor': '#414868',
+      'lineColor': '#414868',
+      'fontFamily': 'sans-serif',
+      'fontSize': '16px'
+    }
+  }
+}%%
 graph TD
-    User([User]) -->|HTTP :80| Nginx80["NGINX (Port 80)"]
-    Nginx80 -->|301 Redirect| Nginx443["NGINX (Port 443, SSL Termination)"]
-    User([User]) -->|HTTPS :443| Nginx443
+    %% Node Definitions (with trailing spaces for padding)
+    User([User ]) -->|HTTP : 80 &nbsp;| Nginx80["NGINX (Port 80) &nbsp;"]
+    Nginx80 -->|301 Redirect &nbsp;| Nginx443["NGINX (Port 443, SSL Termination) &nbsp;"]
+    User -->|HTTPS : 443 &nbsp;| Nginx443
 
-    %% Reverse Proxy
-    Nginx443 -->|Forward :5001| FlaskApp["Flask App (Gunicorn, Docker, EC2)"]
+    %% Reverse Proxy Link
+    Nginx443 -->|Forward : 5001 &nbsp;| FlaskApp["Flask App (Gunicorn, Docker, EC2) &nbsp;"]
 
-    %% DB Communication
-    FlaskApp -->|SQL Queries| RDS["AWS RDS (MariaDB)"]
+    %% DB Communication Link
+    FlaskApp -->|SQL Queries &nbsp;| RDS["AWS RDS (MariaDB) &nbsp; &nbsp;"]
 
-    %% Styling
-    style User fill:#4C78A8,stroke:#2C3E50,color:#fff
-    style Nginx80 fill:#8E44AD,stroke:#5B2C6F,color:#fff
-    style Nginx443 fill:#8E44AD,stroke:#5B2C6F,color:#fff
-    style FlaskApp fill:#F39C12,stroke:#B9770E,color:#fff
-    style RDS fill:#1ABC9C,stroke:#117864,color:#fff
+    %% Styling with Classes for a handcrafted, dark-theme look
+    classDef user fill:#7aa2f7,stroke:#293b58,stroke-width:2px,color:#0e0e11
+    classDef proxy fill:#bb9af7,stroke:#4b3d63,stroke-width:2px,color:#0e0e11
+    classDef application fill:#e0af68,stroke:#5e482b,stroke-width:2px,color:#0e0e11
+    classDef database fill:#73daca,stroke:#315c55,stroke-width:2px,color:#0e0e11
 
+    %% Apply Classes to Nodes
+    class User user
+    class Nginx80,Nginx443 proxy
+    class FlaskApp application
+    class RDS database
 
 ```
 

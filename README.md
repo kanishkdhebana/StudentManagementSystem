@@ -1,58 +1,121 @@
 # Student Management System
 
-This project is a web-based Student Management System developed using Flask, HTML, CSS, and JavaScript. It allows administrators to manage student information such as enrollment, grades, and personal details.
+A web-based Student Management System built with Flask and MariaDB. The system supports three roles (Admin, Instructor, Student) with separate dashboards and permissions.  
+
+The system has been tested in a production-like setup on AWS (EC2 + RDS + Nginx). While not currently hosted to avoid costs, the deployment was validated with load testing (~100 concurrent users on t2.micro).
+
+---
 
 ## Features
 
-- Student Management: Add, view, edit, and delete student records.
-- Course Management: View enrolled students in courses and manage their grades.
-- Role-Based Access Control: Authentication and authorization system with distinct roles for admins, students, and instructors.
-- Dashboards: Separate dashboard views for administrators, students, and instructors.
-- Responsive Design: Accessible and functional across devices of various screen sizes.
+- **Role-Based Access Control** — Admin, Instructor, and Student dashboards  
+- **Student Records** — Add, view, update, and delete student details  
+- **Course & Grade Management** — Enrollments and grade tracking  
+- **Custom Views** — Dashboards tailored to each user role  
+- **Dockerized Deployment** — Run locally with Docker Compose, optionally deploy to AWS
 
-## Technologies Used
+## Architecture
 
-- Flask: Python web framework for backend development.
-- HTML: Markup language for structuring web pages.
-- CSS: Stylesheet language for styling web pages.
-- JavaScript: For front-end interactivity.
-- SQLAlchemy: Python SQL toolkit and Object-Relational Mapping (ORM) library.
-- Docker: For containerizing the application for easy deployment.
+```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'background': '#1a1b26',
+      'primaryColor': '#1a1b26',
+      'primaryTextColor': '#a9b1d6',
+      'primaryBorderColor': '#414868',
+      'lineColor': '#414868',
+      'fontFamily': 'sans-serif',
+      'fontSize': '16px'
+    }
+  }
+}%%
+graph TD
+    %% Node Definitions (with trailing spaces for padding)
+    User([User&nbsp;]) -->|HTTP : 80 &nbsp;| Nginx80["NGINX (Port 80) &nbsp;"]
+    Nginx80 -->|301 Redirect &nbsp;| Nginx443["NGINX (Port 443, SSL Termination) &nbsp;"]
+    User  -->|HTTPS : 443 &nbsp;| Nginx443
 
-## Project Set-up on Localhost
+    %% Reverse Proxy Link
+    Nginx443 -->|Forward : 5001 &nbsp;| FlaskApp["Flask App (Gunicorn, Docker, EC2) &nbsp;"]
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/kanishkdhebana/StudentManagementSystem
-   cd StudentManagementSystem
-   ```
+    %% DB Communication Link
+    FlaskApp -->|SQL Queries &nbsp;| RDS["AWS RDS (MariaDB) &nbsp; &nbsp;"]
 
-2. Install Docker (if not already installed):
+    %% Styling with Classes for a handcrafted, dark-theme look
+    classDef user fill:#7aa2f7,stroke:#293b58,stroke-width:2px,color:#0e0e11
+    classDef proxy fill:#bb9af7,stroke:#4b3d63,stroke-width:2px,color:#0e0e11
+    classDef application fill:#e0af68,stroke:#5e482b,stroke-width:2px,color:#0e0e11
+    classDef database fill:#73daca,stroke:#315c55,stroke-width:2px,color:#0e0e11
 
-   - For macOS and Windows, download Docker Desktop.
-   - On Linux:
-   
-   ```bash
-   sudo apt update
-   sudo apt install docker.io docker-compose
+    %% Apply Classes to Nodes
+    class User user
+    class Nginx80,Nginx443 proxy
+    class FlaskApp application
+    class RDS database
 
-   ```
+```
 
-3. Run the application:
+---
+
+## Technologies
+
+- **Flask** — Backend framework  
+- **MariaDB** — Database (local via Docker, or RDS in AWS deployment)  
+- **Docker & Docker Compose** — Containerization and orchestration  
+- **Nginx** — Reverse proxy (used in AWS deployment)  
+- **SQLAlchemy** — ORM for database access  
+- **Locust & Gunicorn** — Load testing and production server testing  
+
+---
+
+## How to Set It Up (Localhost)
+
+Follow these steps to get the system running on your computer:
+
+1.  **Get the Code:**
+    ```bash
+    git clone https://github.com/kanishkdhebana1/StudentManagementSystem
+    cd StudentManagementSystem
+    ```
+
+2.  **Install Docker:**
+    * **macOS and Windows:** Download and install Docker Desktop.
+    * **Linux:**
+        ```bash
+        sudo apt update
+        sudo apt install docker.io docker-compose
+        ```
+
+3.  **Run the Application:**
     ```bash
     docker-compose up --build
     ```
+    This command will build and start the system using Docker. It sets up the Flask server and a MariaDB database, connecting them automatically.
 
-    This command will build and start the application in Docker containers. The backend Flask server and the database (MariaDB) will be containerized and networked for seamless integration.
+4.  **Access the System:**
+    * Open your web browser and go to: `http://localhost:5000`
+    * Log in with your credentials to see your dashboard.
 
-4. Access the application:
+---
 
-   - Open a web browser and go to http://localhost:5000.
-   - Log in with your credentials to access your dashboard.
+## Cloud Deployment (Optional, Tested)
 
-## Usage
+Although not hosted live due to cost, this system has been deployed and tested on AWS with:
 
-Once logged in, use the platform to manage student records, view dashboard statistics, and navigate between different functionalities based on your role:
-- Admin: Manage students, instructors, courses, and other settings.
-- Instructor: View and update student grades, track progress, and communicate with students.
-- Student: Register for courses, view grades, and update personal information.
+- EC2 for containerized app hosting
+
+- RDS (MariaDB) for managed database
+
+- Nginx as a reverse proxy
+
+- Locust load testing showing stable performance up to ~100 concurrent users on t2.micro
+
+## How to Use It
+
+Once you log in, your dashboard will change based on your role:
+
+* **Admin:** Manage all students, instructors, courses, and system settings.
+* **Instructor:** View and update student grades, track progress, and communicate with students.
+* **Student:** Sign up for courses, check your grades, and update your personal information.

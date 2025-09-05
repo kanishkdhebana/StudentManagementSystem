@@ -9,10 +9,10 @@ Attributes:
 
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_required, current_user
-from models.users import UserType
-from models.students import Student
-from models.instructors import Instructor
-from models.courses import Course
+from app.models.users import UserType
+from app.models.students import Student
+from app.models.instructors import Instructor
+from app.models.courses import Course
 
 # Blueprint object for defining dashboard routes
 dashboard_blueprint = Blueprint('dashboard', __name__)

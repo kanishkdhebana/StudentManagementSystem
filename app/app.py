@@ -12,13 +12,13 @@ from flask import Flask, redirect, url_for
 import os
 import pymysql
 from flask_login import LoginManager
-from models.users import User, db as user_db
-from routes.students_route import students_blueprint
-from routes.instructors_route import instructors_blueprint
-from routes.courses_route import courses_blueprint
-from routes.auth import auth_blueprint
-from routes.departments_route import departments_blueprint
-from routes.dashboard import dashboard_blueprint
+from app.models.users import User, db as user_db
+from app.routes.students_route import students_blueprint
+from app.routes.instructors_route import instructors_blueprint
+from app.routes.courses_route import courses_blueprint
+from app.routes.auth import auth_blueprint
+from app.routes.departments_route import departments_blueprint
+from app.routes.dashboard import dashboard_blueprint
 
 pymysql.install_as_MySQLdb()
 
@@ -30,9 +30,9 @@ app.config['SESSION_COOKIE_SECURE'] = True
 
 # Configure SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.getenv('DATABASE_USER', 'root')}:" \
-                                        f"{os.getenv('DATABASE_PASSWORD', '1234')}@" \
+                                        f"{os.getenv('DATABASE_PASSWORD', '1324')}@" \
                                         f"{os.getenv('DATABASE_HOST', 'host')}/" \
-                                        f"{os.getenv('DATABASE_NAME', 'database')}"
+                                        f"{os.getenv('DATABASE_NAME', 'studentmanagementsystem')}"
 
 # 'mysql+pymysql://root:@localhost/StudentManagementSystem?unix_socket=/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -77,5 +77,5 @@ def index():
     return redirect(url_for('auth.login'))
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 5001))
     app.run(debug = True, host='0.0.0.0', port = port)

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_user, logout_user, current_user
-from models.users import User
-from models.users import UserType
+from app.models.users import User
+from app.models.users import UserType
 
 # Creating a Blueprint named 'auth' for authentication related routes
 auth_blueprint = Blueprint('auth', __name__)

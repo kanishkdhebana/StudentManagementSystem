@@ -9,13 +9,13 @@ Attributes:
 
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
-from models.students import Student, db
-from models.users import UserType
-from models.enrollments import Enrollment
-from models.grades import Grade
-from models.courses import Course 
-from models.instructors import Instructor
-from models.departments import Department
+from app.models.students import Student, db
+from app.models.users import UserType
+from app.models.enrollments import Enrollment
+from app.models.grades import Grade
+from app.models.courses import Course 
+from app.models.instructors import Instructor
+from app.models.departments import Department
 
 students_blueprint = Blueprint('students', __name__)
 

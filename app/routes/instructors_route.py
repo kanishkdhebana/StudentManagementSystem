@@ -9,13 +9,13 @@ Attributes:
 
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
-from models.instructors import Instructor, db
-from models.users import UserType
-from models.students import Student
-from models.enrollments import Enrollment
-from models.grades import Grade, Grades
-from models.courses import Course
-from models.departments import Department
+from app.models.instructors import Instructor, db
+from app.models.users import UserType
+from app.models.students import Student
+from app.models.enrollments import Enrollment
+from app.models.grades import Grade, Grades
+from app.models.courses import Course
+from app.models.departments import Department
 from sqlalchemy.exc import IntegrityError
 
 

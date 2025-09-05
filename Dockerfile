@@ -8,7 +8,9 @@ RUN pip install gunicorn
 
 COPY . .
 
-EXPOSE 5000
+ENV PYTHONPATH=/app
+EXPOSE 5001
 
-CMD ["python3", "./app/app.py"]
+# CMD ["python3", "./app/app.py"]
+CMD ["gunicorn", "app.app:app", "-b", "0.0.0.0:5001"]
 

@@ -9,10 +9,10 @@ Attributes:
 
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user
-from models.users import UserType
-from models.courses import Course
-from models.departments import Department
-from models.instructors import Instructor
+from app.models.users import UserType
+from app.models.courses import Course
+from app.models.departments import Department
+from app.models.instructors import Instructor
 
 # Blueprint object for defining course routes
 courses_blueprint = Blueprint('courses', __name__)

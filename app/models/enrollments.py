@@ -1,5 +1,5 @@
 from sqlalchemy import Date
-from models.users import db
+from app.models.users import db
 
 class Enrollment(db.Model):
     __tablename__ = 'enrollments'

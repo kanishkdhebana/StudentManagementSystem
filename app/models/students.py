@@ -2,9 +2,9 @@ from sqlalchemy import Enum as EnumSQL
 from sqlalchemy import Date
 from enum import Enum
 from datetime import datetime
-from models.users import db
-from models.users import User, UserType
-from models.enrollments import Enrollment
+from app.models.users import db
+from app.models.users import User, UserType
+from app.models.enrollments import Enrollment
 
 class Sex(Enum):
     Male = 'Male'

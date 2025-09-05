@@ -1,5 +1,5 @@
-from models.users import db
-from models.enrollments import Enrollment
+from app.models.users import db
+from app.models.enrollments import Enrollment
 from sqlalchemy.exc import IntegrityError
 
 class Course(db.Model):

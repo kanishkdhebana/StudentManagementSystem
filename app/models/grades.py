@@ -1,6 +1,6 @@
 from sqlalchemy import Enum as EnumSQL
 from enum import Enum
-from models.users import db
+from app.models.users import db
 
 class Grades(Enum):
     AA = "AA"

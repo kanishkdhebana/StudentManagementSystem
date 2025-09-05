@@ -3,7 +3,7 @@ services:
     build: .
     container_name: student_management_system_app
     ports:
-      - "5000:5000"
+      - "5001:5001"
     environment:
       - FLASK_ENV=development
       - SECRET_KEY=my_secret_key

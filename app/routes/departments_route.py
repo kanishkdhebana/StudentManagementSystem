@@ -9,8 +9,8 @@ Attributes:
 
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user
-from models.users import UserType
-from models.departments import Department
+from app.models.users import UserType
+from app.models.departments import Department
 from sqlalchemy import asc
 
 departments_blueprint = Blueprint('departments', __name__)

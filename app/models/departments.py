@@ -1,5 +1,5 @@
-from models.users import db
-from models.students import Student
+from app.models.users import db
+from app.models.students import Student
 from sqlalchemy.exc import IntegrityError
 
 class Department(db.Model):

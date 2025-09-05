@@ -12,5 +12,5 @@ ENV PYTHONPATH=/app
 EXPOSE 5001
 
 # CMD ["python3", "./app/app.py"]
-CMD ["gunicorn", "app.app:app", "-b", "0.0.0.0:5001"]
+CMD ["gunicorn", "app.app:app", "-b", "0.0.0.0:5001", "--workers 2", "--threads 2", "worker-class gevent", "--preload", "--timeout 60"]
 

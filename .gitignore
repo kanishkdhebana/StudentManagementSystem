@@ -2,3 +2,4 @@
 studentmanagementsystem_ec2.pem
 __pycache__
 global-bundle.pem
+nginx_config
